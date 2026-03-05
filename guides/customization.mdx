@@ -1,0 +1,587 @@
+---
+title: Customization
+description: Personalize Reflect AI with custom themes, prompts, and styling
+icon: palette
+---
+
+Reflect AI is designed to be flexible and personal. Customize the appearance, writing prompts, and styling to create a journaling environment that feels uniquely yours.
+
+## Theme Customization
+
+### Switching Themes
+
+Reflect AI includes built-in light and dark themes.
+
+<Steps>
+  <Step title="Locate Theme Toggle">
+    Find the theme toggle button in the top-right corner of the main header (moon/sun icon).
+  </Step>
+
+  <Step title="Click to Switch">
+    Click the button to toggle between light and dark modes.
+  </Step>
+
+  <Step title="Automatic Save">
+    Your preference is automatically saved to `localStorage` and persists between sessions.
+  </Step>
+</Steps>
+
+**Light Theme Features:**
+- Clean, minimal white backgrounds
+- High contrast for daytime reading
+- Subtle shadows and borders
+- Soft accent colors
+
+**Dark Theme Features:**
+- Easy on the eyes for evening journaling
+- Deep blacks and grays
+- Reduced eye strain in low light
+- Accent colors optimized for dark backgrounds
+
+<Tip>
+  The theme toggle uses smooth transitions. If transitions feel jarring, they disable briefly during the switch for a cleaner experience.
+</Tip>
+
+---
+
+### Custom CSS Styling
+
+For advanced customization, you can edit the `static/styles.css` file directly.
+
+**Location:** `/static/styles.css`
+
+#### Customizing Colors
+
+Reflect AI uses CSS custom properties (variables) for easy color changes. Edit the `:root` section for light theme and `body.dark-theme` for dark theme.
+
+**Light theme variables:**
+
+```css
+:root {
+  /* Backgrounds */
+  --bg-primary: #fafafa;      /* Main background */
+  --bg-secondary: #ffffff;    /* Cards and panels */
+  --bg-tertiary: #f5f5f5;     /* Subtle backgrounds */
+  --bg-hover: #efefef;        /* Hover states */
+  
+  /* Text colors */
+  --text-primary: #1a1a1a;    /* Main text */
+  --text-secondary: #525252;  /* Muted text */
+  --text-muted: #a3a3a3;      /* Labels and hints */
+  
+  /* Accent colors */
+  --accent: #2563eb;          /* Primary blue */
+  --accent-light: #dbeafe;    /* Light blue backgrounds */
+  --accent-hover: #1d4ed8;    /* Darker blue for hover */
+  
+  /* Status colors */
+  --success: #16a34a;         /* Green for positive states */
+  --success-light: #dcfce7;
+  --danger: #dc2626;          /* Red for delete/warning */
+  --danger-light: #fee2e2;
+  
+  /* Borders */
+  --border: #e5e5e5;
+  --border-focus: #2563eb;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.05);
+  
+  /* Border radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition: 0.15s ease;
+}
+```
+
+**Example: Purple accent theme**
+
+```css
+:root {
+  --accent: #8b5cf6;          /* Purple */
+  --accent-light: #ede9fe;    /* Light purple */
+  --accent-hover: #7c3aed;    /* Darker purple */
+  --border-focus: #8b5cf6;
+}
+```
+
+**Example: Warmer color scheme**
+
+```css
+:root {
+  --bg-primary: #fef6f0;      /* Warm off-white */
+  --bg-secondary: #fffaf5;    /* Cream */
+  --accent: #ea580c;          /* Orange */
+  --accent-light: #ffedd5;
+  --accent-hover: #c2410c;
+}
+```
+
+<Tip>
+  Change only the variables in `:root` and `body.dark-theme`. The rest of the CSS references these variables, so your changes will apply throughout the app.
+</Tip>
+
+---
+
+#### Customizing Fonts
+
+Change the font family for the entire app:
+
+**In the `body` selector (around line 68):**
+
+```css
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  /* ... */
+}
+```
+
+**Example: Use a specific font**
+
+```css
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+```
+
+**Example: Serif font for a classic look**
+
+```css
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+```
+
+**For journal entry text specifically:**
+
+```css
+.writing-panel textarea {
+  font-family: 'Georgia', serif;  /* Serif for writing */
+  font-size: 1.125rem;            /* Slightly larger */
+  line-height: 1.8;               /* More spacing */
+}
+```
+
+<Note>
+  If using a custom font, make sure to either use a web-safe font or include a web font via `@import` or `<link>` in the HTML.
+</Note>
+
+---
+
+#### Customizing Spacing and Sizes
+
+**Increase calendar cell size:**
+
+```css
+.day-cell {
+  min-height: 80px;  /* Default: 64px */
+  padding: 12px;     /* Default: 8px */
+}
+```
+
+**Larger text area for writing:**
+
+```css
+.writing-panel textarea {
+  min-height: 500px;  /* Default: 400px */
+  font-size: 1.125rem;  /* Larger text */
+}
+```
+
+**Wider content area:**
+
+```css
+.browse-container {
+  max-width: 1400px;  /* Default: 1200px */
+}
+
+.editor-container {
+  max-width: 1400px;  /* Default: 1200px */
+}
+```
+
+---
+
+#### Example: Minimal Dark Theme
+
+For a more minimal, distraction-free dark theme:
+
+```css
+body.dark-theme {
+  --bg-primary: #0a0a0a;       /* True black */
+  --bg-secondary: #1a1a1a;     /* Dark gray */
+  --bg-tertiary: #262626;      /* Lighter gray */
+  --bg-hover: #333333;
+  
+  --text-primary: #e5e5e5;     /* Slightly muted white */
+  --text-secondary: #a3a3a3;
+  --text-muted: #666666;
+  
+  --accent: #6366f1;           /* Softer blue */
+  --border: #262626;           /* Subtle borders */
+  
+  --shadow-sm: none;           /* Remove shadows */
+  --shadow-md: none;
+  --shadow-lg: none;
+}
+```
+
+---
+
+## Customizing Writing Prompts
+
+The writing prompts at the top of the editor can be customized to match your journaling style.
+
+**Location:** `static/app.js` (lines 5-11)
+
+**Default prompts:**
+
+```javascript
+const PROMPTS = {
+  free: { placeholder: 'Begin writing... Let your thoughts flow freely.' },
+  gratitude: { placeholder: 'Today I\'m grateful for...\n\n1. \n2. \n3. ' },
+  reflection: { placeholder: 'Today\'s highlights:\n\nWhat went well:\n\nWhat I learned:' },
+  goals: { placeholder: 'My intentions:\n\n1. \n2. \n3. ' },
+  emotions: { placeholder: 'Right now I\'m feeling...\n\nThis connects to...' }
+};
+```
+
+### Adding a New Prompt
+
+<Steps>
+  <Step title="Edit app.js">
+    Open `static/app.js` in a text editor.
+  </Step>
+
+  <Step title="Add Prompt Object">
+    Add a new entry to the `PROMPTS` object:
+    
+    ```javascript
+    const PROMPTS = {
+      free: { placeholder: 'Begin writing...' },
+      gratitude: { placeholder: 'Today I\'m grateful for...' },
+      reflection: { placeholder: 'Today\'s highlights...' },
+      goals: { placeholder: 'My intentions...' },
+      emotions: { placeholder: 'Right now I\'m feeling...' },
+      // Add your custom prompt:
+      achievements: { placeholder: 'Today I accomplished:\n\n1. \n2. \n3. ' }
+    };
+    ```
+  </Step>
+
+  <Step title="Add Button in HTML">
+    Open `index.html` and find the prompts section (around line 80). Add a button:
+    
+    ```html
+    <button class="prompt-chip" data-prompt="free">Free</button>
+    <button class="prompt-chip" data-prompt="gratitude">Gratitude</button>
+    <button class="prompt-chip" data-prompt="reflection">Reflection</button>
+    <button class="prompt-chip" data-prompt="goals">Goals</button>
+    <button class="prompt-chip" data-prompt="emotions">Emotions</button>
+    <!-- Add your custom button: -->
+    <button class="prompt-chip" data-prompt="achievements">Achievements</button>
+    ```
+  </Step>
+
+  <Step title="Save and Refresh">
+    Save both files and refresh Reflect AI. Your new prompt will appear in the editor.
+  </Step>
+</Steps>
+
+### Customizing Existing Prompts
+
+**Example: More structured gratitude prompt**
+
+```javascript
+gratitude: { 
+  placeholder: 'Three good things from today:\n\n1. \n   Why it mattered: \n\n2. \n   Why it mattered: \n\n3. \n   Why it mattered: ' 
+}
+```
+
+**Example: Work-focused reflection**
+
+```javascript
+work: { 
+  placeholder: 'Work Log:\n\nTasks completed:\n\nChallenges:\n\nLearnings:\n\nTomorrow\'s priorities:' 
+}
+```
+
+**Example: Fitness journal**
+
+```javascript
+fitness: { 
+  placeholder: 'Workout Log:\n\nExercise:\nDuration:\nHow I felt:\nNotes:' 
+}
+```
+
+<Tip>
+  Use `\n` for line breaks in the placeholder text. Double backslashes (`\\n`) in the JavaScript become single line breaks in the rendered text.
+</Tip>
+
+---
+
+## Customizing the Loader Screen
+
+The loading screen can be personalized with different quotes and branding.
+
+**Location:** `static/app.js` (lines 13-17)
+
+**Default fallback quotes:**
+
+```javascript
+const FALLBACK_QUOTES = [
+  { text: 'In stillness, we find clarity.', sub: 'Take a breath.' },
+  { text: 'Every thought has value.', sub: 'Your reflections matter.' },
+  { text: 'Growth happens in quiet moments.', sub: 'Each entry is progress.' }
+];
+```
+
+### Adding Custom Quotes
+
+```javascript
+const FALLBACK_QUOTES = [
+  { text: 'The unexamined life is not worth living.', sub: 'Socrates' },
+  { text: 'Journal writing is a voyage to the interior.', sub: 'Christina Baldwin' },
+  { text: 'Writing is the painting of the voice.', sub: 'Voltaire' },
+  { text: 'Your story matters.', sub: 'Keep writing.' }
+];
+```
+
+One quote will be randomly selected when the app loads (only if AI greetings fail or aren't configured).
+
+---
+
+## Advanced: Custom Mood Emojis
+
+If you want to use different emoji for mood indicators:
+
+**Location:** `static/app.js` (line 19)
+
+**Default mood emoji:**
+
+```javascript
+const MOOD_EMOJIS = { 
+  very_positive: '😊', 
+  positive: '🙂', 
+  neutral: '😌', 
+  negative: '😔', 
+  very_negative: '😢' 
+};
+```
+
+**Example: Alternative emoji set**
+
+```javascript
+const MOOD_EMOJIS = { 
+  very_positive: '🌟', 
+  positive: '✨', 
+  neutral: '💭', 
+  negative: '🌧️', 
+  very_negative: '⛈️' 
+};
+```
+
+**Example: Nature-themed emoji**
+
+```javascript
+const MOOD_EMOJIS = { 
+  very_positive: '🌻', 
+  positive: '🌱', 
+  neutral: '🍃', 
+  negative: '🍂', 
+  very_negative: '🥀' 
+};
+```
+
+<Note>
+  Emoji changes apply to both the calendar view and editor mood display. Make sure chosen emoji render correctly on your operating system.
+</Note>
+
+---
+
+## Layout Customization
+
+### Hiding Elements
+
+You can hide UI elements you don't use by adding CSS.
+
+**Hide the weather card:**
+
+```css
+.weather-card {
+  display: none !important;
+}
+```
+
+**Hide the weekly goal section:**
+
+```css
+.weekly-goal {
+  display: none !important;
+}
+```
+
+**Hide the badges section:**
+
+```css
+.badges-section {
+  display: none !important;
+}
+```
+
+**Simplify the calendar (remove preview text):**
+
+```css
+.day-cell .preview {
+  display: none;
+}
+```
+
+---
+
+### Reordering Sidebar Elements
+
+To change the order of elements in the sidebar, edit `index.html` and move the HTML blocks.
+
+**Example: Move weather card to the top**
+
+1. Find the `.weather-card` div (around line 50)
+2. Cut the entire section
+3. Paste it before the `.streak-card` section
+
+Save and refresh—the weather card now appears first.
+
+---
+
+## Exporting Custom Configurations
+
+After customizing Reflect AI, you may want to preserve your changes:
+
+<Steps>
+  <Step title="Back Up Modified Files">
+    Create copies of files you've edited:
+    - `static/styles.css`
+    - `static/app.js`
+    - `index.html` (if modified)
+  </Step>
+
+  <Step title="Document Changes">
+    Create a `CUSTOMIZATION.md` file documenting your changes:
+    ```markdown
+    # My Reflect AI Customizations
+    
+    ## Colors
+    - Accent: Purple (#8b5cf6)
+    - Background: Warm cream (#fef6f0)
+    
+    ## Prompts
+    - Added "Achievements" prompt
+    - Modified gratitude format
+    
+    ## CSS
+    - Increased calendar cell size
+    - Hidden weather card
+    ```
+  </Step>
+
+  <Step title="Store in Version Control">
+    Consider using Git to track your customizations:
+    ```bash
+    git init
+    git add static/styles.css static/app.js
+    git commit -m "My custom theme and prompts"
+    ```
+  </Step>
+</Steps>
+
+<Warning>
+  When updating Reflect AI to a new version, your custom files may be overwritten. Always keep backups of your customizations.
+</Warning>
+
+---
+
+## Troubleshooting Customizations
+
+<AccordionGroup>
+  <Accordion title="Changes aren't appearing">
+    **Try:**
+    1. Hard refresh the browser (Ctrl+Shift+R or Cmd+Shift+R)
+    2. Clear browser cache
+    3. Check browser console for JavaScript errors (F12)
+    4. Ensure you saved the file
+    5. Restart the Reflect AI server
+  </Accordion>
+
+  <Accordion title="CSS changes broke the layout">
+    **Fix:**
+    1. Restore the original `styles.css` from a backup
+    2. Validate your CSS syntax
+    3. Apply changes incrementally and test
+    4. Check browser console for CSS errors
+    5. Ensure you didn't accidentally delete closing braces `}`
+  </Accordion>
+
+  <Accordion title="JavaScript errors after editing prompts">
+    **Common issues:**
+    - Missing comma after an object property
+    - Unescaped quotes (use `\'` for single quotes in strings)
+    - Missing closing braces `}` or brackets `]`
+    
+    **Fix:**
+    1. Open browser console (F12) to see the error
+    2. Validate your JavaScript syntax
+    3. Restore original `app.js` if needed
+  </Accordion>
+
+  <Accordion title="Theme toggle stopped working">
+    If the theme toggle breaks after customization:
+    1. Check that both `:root` and `body.dark-theme` have matching variable names
+    2. Ensure no syntax errors in CSS
+    3. Clear `localStorage` in browser console: `localStorage.clear()`
+    4. Refresh the app
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Customization Ideas
+
+<CardGroup cols={2}>
+  <Card title="Minimalist Mode" icon="sparkles">
+    Remove all stats, badges, and weather. Just calendar + editor.
+  </Card>
+  <Card title="Focus Mode" icon="eye">
+    Increase editor text size, hide sidebar during writing.
+  </Card>
+  <Card title="Gratitude Journal" icon="heart">
+    Set gratitude as default prompt, use warm colors.
+  </Card>
+  <Card title="Developer Journal" icon="code">
+    Add code-focused prompts, use monospace fonts.
+  </Card>
+  <Card title="Fitness Log" icon="dumbbell">
+    Custom prompts for workouts, health tracking.
+  </Card>
+  <Card title="Dream Journal" icon="moon">
+    Purple/blue theme, prompts for dream details.
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Export & Backup" icon="download" href="/guides/export-import">
+    Protect your customizations and data
+  </Card>
+  <Card title="Development" icon="code" href="/development">
+    Learn about Reflect AI's architecture for deeper modifications
+  </Card>
+</CardGroup>

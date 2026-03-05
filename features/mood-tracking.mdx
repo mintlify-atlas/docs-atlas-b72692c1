@@ -1,0 +1,282 @@
+---
+title: 'Mood Tracking'
+description: 'Automatic sentiment analysis helps you understand your emotional patterns over time'
+icon: 'face-smile'
+---
+
+## How Mood Tracking Works
+
+Reflect AI automatically analyzes the emotional tone of your journal entries using **VADER sentiment analysis**. Every time you save an entry, the app evaluates your writing and assigns a mood score—no manual input required.
+
+### Sentiment Analysis Technology
+
+Reflect AI uses **VADER** (Valence Aware Dictionary and sEntiment Reasoner), a lexicon and rule-based sentiment analysis tool specifically designed for social media and informal text:
+
+- Analyzes your writing style, word choice, and context
+- Understands intensity modifiers ("very happy" vs "happy")
+- Recognizes negations ("not bad" is positive)
+- Detects emphasis through punctuation and capitalization
+
+<Info>
+VADER runs locally on your device—your journal text is never sent to external APIs for sentiment analysis.
+</Info>
+
+## Understanding Your Mood Score
+
+Each entry receives a **compound sentiment score** ranging from -1 to +1:
+
+<CardGroup cols={3}>
+  <Card title="😄 Very Positive" icon="face-laugh-beam">
+    Score: +0.5 to +1.0
+    
+    Joyful, enthusiastic, excited tone
+  </Card>
+  <Card title="🙂 Positive" icon="face-smile">
+    Score: +0.2 to +0.5
+    
+    Content, optimistic, pleasant mood
+  </Card>
+  <Card title="😐 Neutral" icon="face-meh">
+    Score: -0.2 to +0.2
+    
+    Balanced, matter-of-fact tone
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+  <Card title="😔 Negative" icon="face-frown">
+    Score: -0.5 to -0.2
+    
+    Reflective, challenging, difficult day
+  </Card>
+  <Card title="😢 Very Negative" icon="face-sad-tear">
+    Score: -1.0 to -0.5
+    
+    Processing tough emotions, struggling
+  </Card>
+</CardGroup>
+
+## Mood Display
+
+### In the Calendar View
+
+Your mood is visualized throughout the app:
+
+- **Calendar Grid**: Each entry shows its mood emoji
+- **Hover Preview**: See mood label when hovering over calendar days
+- **Color Coding**: Entries are subtly highlighted based on emotional tone
+
+### In the Editor
+
+After saving an entry:
+- The mood emoji and label appear in the editor header
+- Only saved entries show mood (not while actively editing)
+- Mood updates automatically when you edit and re-save
+
+<Tip>
+Mood indicators help you quickly identify patterns—notice when you write your most positive entries or spot challenging periods that deserve attention.
+</Tip>
+
+## Empathetic Responses
+
+When you save an entry, Reflect AI responds with context-appropriate encouragement:
+
+**For positive moods**:
+- "What a wonderful day! Your positivity shines through your words."
+- "It sounds like things are going well. Keep nurturing those good moments."
+
+**For neutral moods**:
+- "Thank you for reflecting today. Every entry helps you understand yourself better."
+
+**For challenging moods**:
+- "It seems like today had some challenges. Remember, it's okay to have difficult days."
+- "I hear that today was tough. Writing about it is a brave step. Be gentle with yourself."
+
+These responses validate your experience without judgment.
+
+## Viewing Mood History
+
+### Calendar Overview
+
+Your monthly calendar becomes a visual mood map:
+- Scan the month to see emotional patterns
+- Identify your best days at a glance
+- Notice when challenging periods occurred
+
+### Insights Dashboard
+
+Navigate to **Insights** to see comprehensive mood analytics:
+
+**Mood Trend Chart**
+- Line graph showing your compound scores over time
+- Visualize whether your mood is improving, stable, or declining
+- Points are color-coded: green (positive), gray (neutral), red (negative)
+
+**Mood Distribution**
+- Doughnut chart showing the percentage breakdown of your moods
+- Quickly see your emotional balance over the selected time period
+- Understand your baseline emotional state
+
+<Frame>
+  <img src="/images/mood-distribution-example.png" alt="Mood distribution chart showing emotional balance" />
+</Frame>
+
+## Mood Trends and Patterns
+
+### Trajectory Analysis
+
+Reflect AI analyzes whether your mood is:
+
+- **Improving** ↗️: Recent entries are more positive than earlier ones
+- **Steady** →: Your emotional tone is consistent
+- **Shifting** ↘️: Recent entries show more challenges
+
+This trend analysis appears in:
+- Your Insights dashboard summary
+- Monthly reflection AI summaries
+- Weekly insights reports
+
+### Day-of-Week Patterns
+
+The app identifies which days you typically feel best:
+
+```
+"You tend to feel best on Saturdays"
+"Mondays are more challenging for you"
+```
+
+This insight helps you:
+- Recognize external factors affecting your mood
+- Plan self-care around predictable low-energy days
+- Notice when work-life balance needs attention
+
+<Note>
+Day-of-week pattern detection requires at least 2 entries per day to establish reliable trends.
+</Note>
+
+## Mood and Activity Correlation
+
+One of Reflect AI's most powerful features is **activity-mood correlation**:
+
+### How It Works
+
+The app scans your journal entries for activities and behaviors:
+- Exercise mentions (gym, running, yoga)
+- Sleep quality (slept well, exhausted)
+- Social time (met friends, hung out)
+- Nature exposure (park, hiking, outdoors)
+- Creative work (wrote, painted, designed)
+
+Then it calculates average mood scores for entries mentioning each activity.
+
+### What You'll Learn
+
+<AccordionGroup>
+  <Accordion title="Positive Correlations">
+    "You seem most energized on days involving morning walks."
+    
+    "Writing about exercise tends to coincide with better moods."
+    
+    Identify activities that consistently boost your wellbeing.
+  </Accordion>
+  
+  <Accordion title="Negative Correlations">
+    "Days with poor sleep tend to feel more challenging."
+    
+    "Entries mentioning stress often have a more reflective tone."
+    
+    Recognize patterns that may need attention or mitigation.
+  </Accordion>
+</AccordionGroup>
+
+<Check>
+These correlations appear in your weekly and monthly insights summaries, helping you make data-driven decisions about your habits.
+</Check>
+
+## Theme and Mood Connection
+
+Reflect AI also tracks which **themes** appear during positive vs. challenging times:
+
+- Themes are automatically extracted from your writing (work, family, health, creativity, etc.)
+- The app identifies which themes coincide with your best moods
+- You'll receive insights like: "Writing about creativity often coincides with better moods"
+
+### Example Insights
+
+**Positive Mood Themes**: Learning, nature, friends
+
+**Challenging Mood Themes**: Work, deadlines, anxiety
+
+Use this data to understand what energizes you vs. what drains you.
+
+## Using Mood Data for Growth
+
+### Self-Awareness
+
+Mood tracking helps you:
+- Validate your emotional experiences
+- Identify triggers for difficult moods
+- Celebrate progress during tough periods
+- Recognize resilience patterns
+
+### Behavior Change
+
+With correlation insights, you can:
+- Prioritize activities that improve your mood
+- Build habits around what works for you
+- Set boundaries around mood-draining activities
+- Experiment and track what makes a difference
+
+### Perspective Over Time
+
+Looking back at mood history provides:
+- Reassurance that challenging periods pass
+- Evidence of growth and adaptation
+- Recognition of your emotional range
+- Context for current feelings
+
+<Tip>
+Review your mood trends monthly. You might be surprised by patterns you didn't notice day-to-day!
+</Tip>
+
+## Privacy and Sensitivity
+
+### Limitations of Automated Analysis
+
+VADER sentiment analysis is a tool, not a therapist:
+- It provides general emotional tone, not clinical assessment
+- Complex emotions may not be fully captured
+- Context and nuance can be missed
+- Use mood data as one input for self-reflection, not absolute truth
+
+<Warning>
+If you're experiencing persistent negative moods or mental health concerns, please reach out to a qualified mental health professional. Reflect AI is a journaling tool, not a substitute for professional support.
+</Warning>
+
+### Data Control
+
+Your mood data is:
+- Stored locally in your `journal_data.json` file
+- Never shared or uploaded anywhere
+- Fully exportable with your journal data
+- Deletable at any time by clearing entries
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I manually set my mood?">
+    No—mood is automatically calculated from your writing. This removes the burden of tracking and ensures your mood reflects your actual written expression, not just a checkbox.
+  </Accordion>
+  
+  <Accordion title="Why does my mood sometimes seem inaccurate?">
+    Sentiment analysis works best with natural, conversational writing. Very short entries, heavy use of sarcasm, or technical writing may yield less accurate results. Over time with more entries, patterns become more reliable.
+  </Accordion>
+  
+  <Accordion title="Does mood tracking work in other languages?">
+    VADER is optimized for English text. If you journal in other languages, mood scores may be less accurate.
+  </Accordion>
+  
+  <Accordion title="Can I see mood without writing?">
+    No—mood is generated from your journal text. You need to write at least a few sentences for meaningful sentiment analysis.
+  </Accordion>
+</AccordionGroup>

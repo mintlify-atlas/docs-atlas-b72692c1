@@ -1,0 +1,237 @@
+---
+title: Troubleshooting
+description: Common issues and solutions for Reflect AI
+---
+
+## Common Issues
+
+This guide covers the most common issues you might encounter while using Reflect AI and how to resolve them.
+
+### Port Already in Use
+
+**Problem**: When starting the app, you see an error like:
+```
+OSError: [Errno 48] Address already in use
+```
+
+**Solution 1: Kill the existing process**
+```bash
+# On macOS/Linux
+lsof -ti:5000 | xargs kill -9
+
+# On Windows (PowerShell)
+Get-Process -Id (Get-NetTCPConnection -LocalPort 5000).OwningProcess | Stop-Process -Force
+```
+
+**Solution 2: Use a different port**
+```bash
+python3 app.py --port 5001
+```
+Then access the app at `http://127.0.0.1:5001`
+
+---
+
+### NLTK Data Missing
+
+**Problem**: You see errors related to VADER or sentiment analysis:
+```
+LookupError: Resource vader_lexicon not found
+```
+
+**Solution**: Download the required NLTK data:
+```bash
+python3 -c "import nltk; nltk.download('vader_lexicon')"
+```
+
+This downloads the sentiment analysis lexicon (~500KB) needed for automatic mood detection.
+
+---
+
+### Groq API Errors
+
+**Problem**: AI features aren't working, or you see API-related errors in the console.
+
+**Common causes and solutions**:
+
+**Missing API Key**
+```bash
+# Create a .env file in the project directory
+echo 'GROQ_API_KEY="your_api_key_here"' > .env
+```
+
+Get your free API key from [console.groq.com](https://console.groq.com)
+
+**Invalid API Key**
+- Double-check your API key in the `.env` file
+- Ensure there are no extra spaces or quotes
+- Verify the key is active at console.groq.com
+
+**Rate Limit Exceeded**
+- The free tier has rate limits
+- Wait a few minutes and try again
+- AI features will still work, just more slowly
+
+**No Internet Connection**
+- Groq API requires internet connectivity
+- Basic journaling features work offline
+- AI insights, summaries, and greetings require connection
+
+---
+
+### Data Not Saving
+
+**Problem**: Your journal entries disappear after closing the app.
+
+**Solution 1: Check file permissions**
+```bash
+# Ensure journal_data.json is writable
+chmod 644 journal_data.json
+
+# Check if the file exists
+ls -la journal_data.json
+```
+
+**Solution 2: Verify disk space**
+```bash
+# Check available disk space
+df -h .
+```
+
+**Solution 3: Check browser console**
+- Open browser Developer Tools (F12)
+- Look for error messages in the Console tab
+- Common issues: CORS errors, network failures
+
+**Solution 4: Test the save endpoint**
+```bash
+curl -X POST http://127.0.0.1:5000/api/entries \
+  -H "Content-Type: application/json" \
+  -d '{"date":"2026-03-05","text":"Test entry"}'
+```
+
+---
+
+### Theme Not Persisting
+
+**Problem**: Dark/light theme preference resets every time you reload the page.
+
+**Solution 1: Clear browser cache**
+1. Open Developer Tools (F12)
+2. Go to Application → Local Storage
+3. Find your site (http://127.0.0.1:5000)
+4. Right-click → Clear
+5. Reload the page and set your theme preference again
+
+**Solution 2: Check browser settings**
+- Ensure cookies/local storage are enabled
+- Check if you're in private/incognito mode (doesn't persist storage)
+- Try a different browser to isolate the issue
+
+**Solution 3: Browser extension interference**
+- Some privacy extensions block local storage
+- Temporarily disable extensions to test
+- Add an exception for localhost if needed
+
+---
+
+### Performance Issues
+
+**Problem**: The app feels slow or charts take a long time to load.
+
+**For large journals (1000+ entries)**:
+
+**Solution 1: Clear browser cache**
+- Charts are cached for performance
+- If data seems stale, do a hard refresh: `Ctrl+Shift+R` (or `Cmd+Shift+R` on Mac)
+
+**Solution 2: Optimize your journal file**
+```bash
+# Check journal file size
+ls -lh journal_data.json
+
+# If very large (>10MB), consider archiving old entries
+```
+
+**Solution 3: Use Year View for navigation**
+- Year View loads faster than Month View for large journals
+- Navigate to specific months instead of browsing sequentially
+
+**For chart rendering**:
+- Charts load faster after the first view (cached)
+- Mobile: Use landscape mode for better chart performance
+- Consider using a modern browser (Chrome, Firefox, Safari)
+
+---
+
+### Import/Export Issues
+
+**Problem**: Import fails or exported data is corrupted.
+
+**Export troubleshooting**:
+```bash
+# Verify your data file is valid JSON
+python3 -c "import json; json.load(open('journal_data.json'))"
+```
+
+**Import troubleshooting**:
+- Ensure the backup file is valid JSON format
+- Check file encoding is UTF-8
+- Import merges with existing entries (doesn't overwrite)
+- Backup your current data before importing
+
+---
+
+### Flask Server Won't Start
+
+**Problem**: The server crashes immediately or won't start.
+
+**Solution 1: Check Python version**
+```bash
+python3 --version
+# Should be 3.9 or higher
+```
+
+**Solution 2: Reinstall dependencies**
+```bash
+pip install -r requirements.txt --force-reinstall
+```
+
+**Solution 3: Check for missing dependencies**
+```bash
+python3 -c "import flask, flask_cors, nltk, groq, dotenv"
+```
+
+**Solution 4: Enable verbose logging**
+```bash
+export FLASK_DEBUG=1
+python3 app.py
+```
+
+---
+
+## Getting More Help
+
+If your issue isn't covered here:
+
+1. **Check the logs**: Look for error messages in the terminal where you started the server
+2. **Browser console**: Press F12 and check the Console tab for JavaScript errors
+3. **GitHub Issues**: Search existing issues or create a new one
+4. **System compatibility**: Verify you meet the prerequisites (Python 3.9+, ~500MB disk space)
+
+### Debug Mode
+
+Run the app in debug mode for detailed error messages:
+```bash
+export FLASK_DEBUG=1
+python3 app.py
+```
+
+This provides:
+- Detailed stack traces
+- Auto-reload on code changes
+- Interactive debugger in the browser
+- More verbose logging
+
+<Warning>
+  Never enable debug mode in production or on publicly accessible servers.
+</Warning>

@@ -1,0 +1,260 @@
+---
+title: 'Authentication'
+description: 'Understanding the local-only security model'
+icon: 'shield'
+---
+
+## No Authentication Required
+
+<Info>
+  Reflect AI does **not require authentication**. The API is designed for single-user, local use only.
+</Info>
+
+## Why No Authentication?
+
+The app is built on these assumptions:
+
+1. **Local-only**: API runs on `127.0.0.1` (localhost)
+2. **Single-user**: One person uses the device
+3. **Trusted environment**: Your personal computer
+4. **No remote access**: Not accessible from internet
+
+### Design Philosophy
+
+```
+┌─────────────────────────────────────┐
+│  Your Device (Trusted Environment)  │
+│                                     │
+│  ┌─────────────┐   ┌─────────────┐ │
+│  │   Browser   │   │  Flask API  │ │
+│  │  (Frontend) │───│  (Backend)  │ │
+│  └─────────────┘   └─────────────┘ │
+│                         │           │
+│                    ┌────▼─────┐     │
+│                    │ JSON File│     │
+│                    └──────────┘     │
+└─────────────────────────────────────┘
+            No Internet Access
+```
+
+Since everything runs locally, adding authentication would:
+
+- Create unnecessary friction
+- Provide minimal security benefit
+- Complicate single-user experience
+
+## Security Model
+
+### Physical Security
+
+The primary security is **physical device security**:
+
+<Check>
+  If someone has access to your unlocked computer, they can:
+  - Access the API
+  - Read the journal file
+  - Use any application
+</Check>
+
+This is true for any local application, not just Reflect AI.
+
+### Recommended Security Practices
+
+<CardGroup cols={2}>
+  <Card title="Lock Your Computer" icon="lock">
+    Always lock when away from desk
+  </Card>
+  <Card title="Full Disk Encryption" icon="hard-drive">
+    Enable FileVault (Mac) or BitLocker (Windows)
+  </Card>
+  <Card title="Strong User Password" icon="key">
+    Protect your computer account
+  </Card>
+  <Card title="Secure Backups" icon="shield-halved">
+    Encrypt backup files
+  </Card>
+</CardGroup>
+
+## Not Accessible Remotely
+
+The API binds to `127.0.0.1` (localhost), making it **impossible to access from other devices**:
+
+```python
+app.run(debug=True, port=5000)  # Default binds to 127.0.0.1
+```
+
+### What This Means
+
+✅ Only your computer can access the API  
+✅ Other devices on your network cannot connect  
+✅ No exposure to internet  
+✅ No need for firewall rules  
+
+❌ Cannot access from phone/tablet  
+❌ Cannot access from another computer  
+❌ Cannot share with others  
+
+## Multi-User Scenarios
+
+<Warning>
+  Reflect AI is **not designed for multi-user setups**. Each user should run their own instance.
+</Warning>
+
+### Shared Computer
+
+If multiple people share a computer:
+
+1. **Create separate user accounts** on the OS
+2. **Run separate instances** of Reflect AI per user
+3. **Store journal files** in user-specific directories
+
+This provides OS-level separation.
+
+## If You Need Authentication
+
+If you want to add authentication (e.g., for a family shared computer), you could:
+
+### Option 1: OS User Separation
+
+The simplest approach - use OS user accounts:
+
+```bash
+# User 1 runs in their profile
+/Users/alice/reflect-ai/
+
+# User 2 runs in their profile  
+/Users/bob/reflect-ai/
+```
+
+Each user has their own journal file.
+
+### Option 2: Add Basic Auth
+
+Modify the code to add HTTP Basic Authentication:
+
+```python
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
+
+auth = HTTPBasicAuth()
+
+users = {
+    "username": generate_password_hash("password")
+}
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and check_password_hash(users.get(username), password):
+        return username
+
+@app.route("/api/entries")
+@auth.login_required
+def get_entries():
+    # Your code here
+```
+
+<Warning>
+  Adding authentication requires code modifications and is not officially supported.
+</Warning>
+
+### Option 3: File Encryption
+
+Encrypt the `journal_data.json` file:
+
+```bash
+# Encrypt with password
+openssl enc -aes-256-cbc -salt -in journal_data.json -out journal_data.json.enc
+
+# Decrypt when needed
+openssl enc -aes-256-cbc -d -in journal_data.json.enc -out journal_data.json
+```
+
+This requires manual encryption/decryption workflow.
+
+## API Tokens?
+
+<Info>
+  The API does **not support API tokens** or OAuth. These are unnecessary for local-only use.
+</Info>
+
+If the API were exposed to the internet, you would need:
+
+- API keys or tokens
+- Rate limiting
+- HTTPS/SSL
+- Session management
+- User accounts
+
+But since it's local-only, these add complexity without benefit.
+
+## Development Mode
+
+The app runs in debug mode by default:
+
+```python
+app.run(debug=True, port=5000)
+```
+
+<Warning>
+  **Never expose debug mode to the internet**. It allows arbitrary code execution.
+</Warning>
+
+For local use, debug mode is fine and helpful for development.
+
+## Production Deployment
+
+If you wanted to deploy Reflect AI as a web service (not recommended), you would need:
+
+1. **Remove debug mode**
+2. **Add user authentication** (login system)
+3. **Use proper WSGI server** (Gunicorn, uWSGI)
+4. **Enable HTTPS** with SSL certificates
+5. **Add rate limiting**
+6. **Implement CSRF protection**
+7. **Use proper database** (PostgreSQL, not JSON)
+8. **Add session management**
+
+This fundamentally changes the privacy model and is **not recommended**.
+
+## Security Checklist
+
+For local use:
+
+- [ ] Lock computer when away
+- [ ] Enable full disk encryption
+- [ ] Use strong OS user password
+- [ ] Keep OS updated
+- [ ] Run antivirus/malware protection
+- [ ] Backup journal file to encrypted storage
+- [ ] Don't expose API to network
+- [ ] Review Groq API key security
+
+## Questions?
+
+### Is my journal secure?
+
+Yes, as secure as any file on your computer. Use disk encryption and lock your computer.
+
+### Can others on my WiFi access it?
+
+No. The API only binds to `127.0.0.1`, which is inaccessible from other devices.
+
+### What if I want to access from my phone?
+
+You would need to modify the code to bind to `0.0.0.0` and add authentication. This is not recommended and breaks the privacy model.
+
+### Should I use a VPN?
+
+Not necessary. The API doesn't communicate over the internet (except for optional Groq API calls).
+
+## Summary
+
+<Check>
+  **No authentication is by design**:
+  - Local-only reduces attack surface
+  - Physical security is primary concern
+  - OS-level user separation available
+  - Privacy-first architecture
+</Check>
+
+The lack of authentication is a **feature, not a bug**. It keeps the app simple, private, and focused on single-user local use.

@@ -1,0 +1,179 @@
+---
+title: 'Data Storage'
+description: 'Learn how Reflect AI stores your journal entries locally'
+icon: 'database'
+---
+
+## Local-Only Storage
+
+Reflect AI stores all your journal data locally on your device. **No cloud uploads, ever.** Your thoughts stay private on your computer.
+
+## Storage Location
+
+All journal entries are stored in a single JSON file:
+
+```
+journal_data.json
+```
+
+This file is created in the same directory as the application when you write your first entry.
+
+## Data Format
+
+Your journal data is stored in a structured JSON format:
+
+```json
+{
+  "entries": {
+    "2024-03-15": {
+      "text": "Your journal entry text...",
+      "photos": [],
+      "tags": ["work", "reflection"],
+      "sentiment": {
+        "compound": 0.742,
+        "mood": "positive",
+        "scores": {
+          "positive": 0.352,
+          "negative": 0.021,
+          "neutral": 0.627
+        }
+      },
+      "themes": ["work", "learning", "creativity"],
+      "word_count": 247,
+      "updatedAt": "2024-03-15T14:30:22.123Z"
+    }
+  },
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+
+## Entry Structure
+
+Each entry contains:
+
+<ResponseField name="text" type="string" required>
+  Your journal entry content (up to 50,000 characters)
+</ResponseField>
+
+<ResponseField name="photos" type="array">
+  Array of photo URLs or paths (max 10 per entry)
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  Custom tags for organizing entries (max 10 tags, 30 chars each)
+</ResponseField>
+
+<ResponseField name="sentiment" type="object">
+  Automatically generated sentiment analysis
+  <Expandable title="sentiment object">
+    <ResponseField name="compound" type="number">
+      Overall sentiment score from -1 (very negative) to 1 (very positive)
+    </ResponseField>
+    <ResponseField name="mood" type="string">
+      Mood label: `very_positive`, `positive`, `neutral`, `negative`, or `very_negative`
+    </ResponseField>
+    <ResponseField name="scores" type="object">
+      Detailed sentiment breakdown
+      <Expandable title="scores object">
+        <ResponseField name="positive" type="number">
+          Positive sentiment score (0-1)
+        </ResponseField>
+        <ResponseField name="negative" type="number">
+          Negative sentiment score (0-1)
+        </ResponseField>
+        <ResponseField name="neutral" type="number">
+          Neutral sentiment score (0-1)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="themes" type="array">
+  Automatically detected themes (work, family, health, etc.)
+</ResponseField>
+
+<ResponseField name="word_count" type="number">
+  Number of words in the entry
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  ISO 8601 timestamp of last update
+</ResponseField>
+
+## Data Limits
+
+- **Maximum entry length**: 50,000 characters
+- **Maximum photos per entry**: 10
+- **Maximum tags per entry**: 10
+- **Maximum tag length**: 30 characters
+
+## Backup Files
+
+The app automatically creates backup files:
+
+- `journal_data.json.bak` - Previous version backup
+- `journal_data.json.tmp` - Temporary file during save operations
+
+These ensure your data is protected during write operations.
+
+## Backup Recommendations
+
+<Warning>
+  Since data is stored locally, **you are responsible for backups**.
+</Warning>
+
+### Manual Backup
+
+1. Copy the `journal_data.json` file to a secure location
+2. Store it on an encrypted external drive
+3. Keep multiple versions for safety
+
+### Export Feature
+
+Use the built-in export feature:
+
+```bash
+curl http://127.0.0.1:5000/api/export > backup.json
+```
+
+This creates a complete backup with metadata.
+
+## Security Considerations
+
+<Info>
+  The JSON file is **not encrypted by default**. Anyone with access to your device can read it.
+</Info>
+
+### Protecting Your Data
+
+1. **Encrypt your device**: Use full-disk encryption (FileVault, BitLocker)
+2. **Secure permissions**: Ensure the file is only readable by your user account
+3. **Lock your computer**: Always lock your screen when away
+4. **Backup securely**: Store backups in encrypted locations
+
+## No Cloud Sync
+
+Reflect AI **deliberately does not sync to the cloud**. This means:
+
+✅ Complete privacy - no third parties access your data  
+✅ Works offline - no internet required  
+✅ Full control - you own your data  
+
+❌ No automatic backups - you must back up manually  
+❌ No multi-device sync - data stays on one device  
+
+This is a conscious privacy-first design choice.
+
+## Data Portability
+
+Your data is stored in standard JSON format, making it:
+
+- **Readable**: Open with any text editor
+- **Portable**: Export and import between devices
+- **Future-proof**: No proprietary format lock-in
+- **Scriptable**: Process with any programming language
+
+See [Export & Import](/api/export-import) for details on moving your data.

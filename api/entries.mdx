@@ -1,0 +1,432 @@
+---
+title: 'Entries API'
+description: 'Create, read, update, and delete journal entries'
+icon: 'book'
+---
+
+## Get All Entries
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/entries
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/entries');
+const data = await response.json();
+```
+
+```python Python
+import requests
+response = requests.get('http://127.0.0.1:5000/api/entries')
+data = response.json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "entries": {
+    "2024-03-15": {
+      "text": "Today was incredibly productive. Finished the project.",
+      "photos": [],
+      "tags": ["work", "productivity"],
+      "sentiment": {
+        "compound": 0.742,
+        "mood": "positive",
+        "scores": {
+          "positive": 0.352,
+          "negative": 0.021,
+          "neutral": 0.627
+        }
+      },
+      "themes": ["work", "productivity"],
+      "word_count": 8,
+      "updatedAt": "2024-03-15T14:30:22.123Z"
+    },
+    "2024-03-14": {
+      "text": "Feeling stressed about deadlines.",
+      "photos": [],
+      "tags": ["stress"],
+      "sentiment": {
+        "compound": -0.431,
+        "mood": "negative",
+        "scores": {
+          "positive": 0.0,
+          "negative": 0.342,
+          "neutral": 0.658
+        }
+      },
+      "themes": ["work", "emotions"],
+      "word_count": 5,
+      "updatedAt": "2024-03-14T19:45:10.456Z"
+    }
+  },
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
+</ResponseExample>
+
+### Response
+
+<ResponseField name="entries" type="object" required>
+  Dictionary of all journal entries, keyed by date (YYYY-MM-DD)
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Journal metadata including creation timestamp
+</ResponseField>
+
+## Get Single Entry
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/entries/2024-03-15
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/entries/2024-03-15');
+const entry = await response.json();
+```
+
+```python Python
+import requests
+response = requests.get('http://127.0.0.1:5000/api/entries/2024-03-15')
+entry = response.json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "text": "Today was incredibly productive. Finished the project.",
+  "photos": [],
+  "tags": ["work", "productivity"],
+  "sentiment": {
+    "compound": 0.742,
+    "mood": "positive",
+    "scores": {
+      "positive": 0.352,
+      "negative": 0.021,
+      "neutral": 0.627
+    }
+  },
+  "themes": ["work", "productivity"],
+  "word_count": 8,
+  "updatedAt": "2024-03-15T14:30:22.123Z"
+}
+```
+</ResponseExample>
+
+### Parameters
+
+<ParamField path="date_key" type="string" required>
+  Date in YYYY-MM-DD format (e.g., `2024-03-15`)
+</ParamField>
+
+### Response
+
+Returns a single entry object or 404 if not found.
+
+<ResponseField name="text" type="string" required>
+  The journal entry content (up to 50,000 characters)
+</ResponseField>
+
+<ResponseField name="photos" type="array">
+  Array of photo URLs or paths (max 10)
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  User-defined tags (max 10 tags, 30 chars each)
+</ResponseField>
+
+<ResponseField name="sentiment" type="object">
+  Automatically generated sentiment analysis
+  <Expandable title="sentiment object">
+    <ResponseField name="compound" type="number">
+      Overall sentiment score from -1 (very negative) to 1 (very positive)
+    </ResponseField>
+    <ResponseField name="mood" type="string">
+      Mood label: `very_positive`, `positive`, `neutral`, `negative`, `very_negative`
+    </ResponseField>
+    <ResponseField name="scores" type="object">
+      Detailed sentiment breakdown (positive, negative, neutral scores)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="themes" type="array">
+  Automatically detected themes (work, family, health, etc.)
+</ResponseField>
+
+<ResponseField name="word_count" type="number">
+  Number of words in the entry
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  ISO 8601 timestamp of last update
+</ResponseField>
+
+## Create/Update Entry
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/entries/2024-03-15 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Today was great! I finished my project and went for a run.",
+    "tags": ["work", "exercise"],
+    "photos": []
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/entries/2024-03-15', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    text: 'Today was great! I finished my project and went for a run.',
+    tags: ['work', 'exercise'],
+    photos: []
+  })
+});
+const result = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'http://127.0.0.1:5000/api/entries/2024-03-15',
+    json={
+        'text': 'Today was great! I finished my project and went for a run.',
+        'tags': ['work', 'exercise'],
+        'photos': []
+    }
+)
+result = response.json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "saved": true,
+  "entry": {
+    "text": "Today was great! I finished my project and went for a run.",
+    "photos": [],
+    "tags": ["work", "exercise"],
+    "sentiment": {
+      "compound": 0.832,
+      "mood": "very_positive",
+      "scores": {
+        "positive": 0.425,
+        "negative": 0.0,
+        "neutral": 0.575
+      }
+    },
+    "themes": ["work", "health"],
+    "word_count": 12,
+    "updatedAt": "2024-03-15T20:15:30.789Z"
+  },
+  "encouragement": "What a wonderful day! Your positivity shines through your words."
+}
+```
+</ResponseExample>
+
+### Parameters
+
+<ParamField path="date_key" type="string" required>
+  Date in YYYY-MM-DD format
+</ParamField>
+
+### Request Body
+
+<ParamField body="text" type="string" required>
+  Journal entry text (max 50,000 characters)
+</ParamField>
+
+<ParamField body="tags" type="array" optional>
+  Array of tags (max 10 tags, 30 chars each)
+</ParamField>
+
+<ParamField body="photos" type="array" optional>
+  Array of photo URLs (max 10)
+</ParamField>
+
+### Response
+
+<ResponseField name="saved" type="boolean">
+  Indicates successful save
+</ResponseField>
+
+<ResponseField name="entry" type="object">
+  Complete entry object with automatically generated fields
+</ResponseField>
+
+<ResponseField name="encouragement" type="string">
+  Empathetic message based on detected mood
+</ResponseField>
+
+### Automatic Processing
+
+When you save an entry, the API automatically:
+
+1. **Analyzes sentiment** using NLTK VADER (local)
+2. **Detects themes** using keyword matching
+3. **Counts words**
+4. **Adds timestamp**
+5. **Generates empathetic response** based on mood
+
+### Empty Entry Deletion
+
+If you save an entry with no text and no photos, it will be **automatically deleted**:
+
+```json
+{
+  "deleted": true
+}
+```
+
+## Delete Entry
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE http://127.0.0.1:5000/api/entries/2024-03-15
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/entries/2024-03-15', {
+  method: 'DELETE'
+});
+const result = await response.json();
+```
+
+```python Python
+import requests
+response = requests.delete('http://127.0.0.1:5000/api/entries/2024-03-15')
+result = response.json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "deleted": true
+}
+```
+</ResponseExample>
+
+### Parameters
+
+<ParamField path="date_key" type="string" required>
+  Date in YYYY-MM-DD format
+</ParamField>
+
+### Response
+
+<ResponseField name="deleted" type="boolean">
+  `true` if entry was deleted, error if not found
+</ResponseField>
+
+## Error Responses
+
+### Invalid Date Format
+
+```json
+{
+  "error": "Invalid date format. Use YYYY-MM-DD"
+}
+```
+
+HTTP Status: `400`
+
+### Entry Not Found
+
+```json
+{
+  "error": "Entry not found"
+}
+```
+
+HTTP Status: `404`
+
+### Text Too Long
+
+```json
+{
+  "error": "Text exceeds maximum length of 50000 characters"
+}
+```
+
+HTTP Status: `400`
+
+### Too Many Photos
+
+```json
+{
+  "error": "Maximum 10 photos allowed"
+}
+```
+
+HTTP Status: `400`
+
+## Data Validation
+
+The API validates:
+
+- **Date format**: Must be `YYYY-MM-DD`
+- **Text length**: Max 50,000 characters
+- **Photos**: Max 10 per entry
+- **Tags**: Max 10 tags, 30 characters each
+
+## Mood Labels
+
+Sentiment analysis produces these mood labels:
+
+| Compound Score | Mood Label | Emoji |
+|----------------|------------|-------|
+| ≥ 0.5 | `very_positive` | 😄 |
+| 0.2 to 0.5 | `positive` | 🙂 |
+| -0.2 to 0.2 | `neutral` | 😐 |
+| -0.5 to -0.2 | `negative` | 😔 |
+| < -0.5 | `very_negative` | 😢 |
+
+## Theme Detection
+
+The API automatically detects themes from your text:
+
+- **work**: job, office, meeting, project
+- **family**: mom, dad, parent, sibling
+- **friends**: hangout, party, social
+- **health**: gym, workout, exercise
+- **food**: breakfast, lunch, dinner
+- **learning**: study, read, course
+- **emotions**: happy, sad, anxious
+- **travel**: trip, vacation, flight
+- **creativity**: write, art, music
+
+## Empathetic Responses
+
+Based on your entry's mood, you'll receive an empathetic response:
+
+| Mood | Example Response |
+|------|------------------|
+| Very Positive | "What a wonderful day! Your positivity shines through your words." |
+| Positive | "It sounds like things are going well. Keep nurturing those good moments." |
+| Neutral | "Thank you for reflecting today. Every entry helps you understand yourself better." |
+| Negative | "It seems like today had some challenges. Remember, it's okay to have difficult days." |
+| Very Negative | "I hear that today was tough. Writing about it is a brave step. Be gentle with yourself." |
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Stats API" icon="chart-line" href="/api/stats">
+    Track streaks and mood distribution
+  </Card>
+  <Card title="Insights API" icon="lightbulb" href="/api/insights">
+    Discover patterns in your journaling
+  </Card>
+</CardGroup>

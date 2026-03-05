@@ -1,0 +1,362 @@
+---
+title: Using AI Features
+description: Enhance your journaling with AI-powered writing tools and insights
+icon: sparkles
+---
+
+Reflect AI offers powerful AI features through the Groq API to enhance your journaling experience. These features help you write better, understand patterns, and gain deeper insights from your entries.
+
+<Info>
+  AI features require a free Groq API key. If you haven't set one up yet, see the [Installation guide](/installation) for instructions.
+</Info>
+
+## Setting Up AI Features
+
+<Steps>
+  <Step title="Get a Groq API Key">
+    1. Visit [console.groq.com](https://console.groq.com)
+    2. Sign up for a free account
+    3. Navigate to API Keys
+    4. Create a new API key
+    5. Copy your key (you won't be able to see it again)
+  </Step>
+
+  <Step title="Add to Environment">
+    Create a `.env` file in your Reflect AI directory:
+    ```bash
+    GROQ_API_KEY=your_api_key_here
+    ```
+  </Step>
+
+  <Step title="Restart the App">
+    Restart Reflect AI for the changes to take effect. AI features will now be enabled.
+  </Step>
+</Steps>
+
+<Note>
+  The Groq free tier is generous and suitable for personal journaling. The app uses the lightweight `llama-3.1-8b-instant` model for fast, efficient processing.
+</Note>
+
+## AI Writing Tools
+
+### Polish Writing
+
+The **Polish Writing** feature improves your entry's clarity, grammar, and flow while preserving your voice and meaning.
+
+**How to use:**
+<Steps>
+  <Step title="Write Your Draft">
+    Write your journal entry as you normally would. Don't worry about perfect grammar or wording.
+  </Step>
+
+  <Step title="Click Polish Writing">
+    In the editor toolbar, click the **Polish Writing** button (sparkle icon).
+  </Step>
+
+  <Step title="Review Changes">
+    The AI will refine your text while keeping your core message intact. Review the polished version.
+  </Step>
+
+  <Step title="Undo if Needed">
+    Don't like the changes? Click **Undo** to restore your original text. You can polish again for a different result.
+  </Step>
+
+  <Step title="Save">
+    When satisfied, click **Save** to keep the polished entry.
+  </Step>
+</Steps>
+
+**What Polish Writing does:**
+- ✅ Fixes grammar and spelling errors
+- ✅ Improves sentence flow and readability
+- ✅ Maintains your personal voice and tone
+- ✅ Preserves all key details and emotions
+- ✅ Keeps entries roughly the same length
+
+**What it doesn't do:**
+- ❌ Change your core message or meaning
+- ❌ Add information that wasn't there
+- ❌ Remove important details
+- ❌ Make your writing overly formal
+
+<Tip>
+  Use Polish Writing after you've finished your draft. It works best on complete thoughts rather than mid-sentence.
+</Tip>
+
+---
+
+### Generate from Nudges
+
+The **Nudges** feature lets you create full journal entries from quick notes—perfect for busy days.
+
+**How to use:**
+<Steps>
+  <Step title="Open a New Entry">
+    Click a date without an existing entry. You'll see the Nudges input section.
+  </Step>
+
+  <Step title="Add Quick Notes">
+    Type short phrases about your day and press Enter after each:
+    - "morning run felt great"
+    - "stressful client meeting"
+    - "lunch with Sarah"
+    - "finished project proposal"
+    
+    Add 2-5 nudges for best results.
+  </Step>
+
+  <Step title="Generate Entry">
+    Click **Generate Entry from Nudges**. The AI will create a cohesive journal entry from your notes.
+  </Step>
+
+  <Step title="Edit and Personalize">
+    Review the generated entry. Feel free to edit, expand, or modify it before saving.
+  </Step>
+
+  <Step title="Save Your Entry">
+    Click **Save** when you're satisfied with the entry.
+  </Step>
+</Steps>
+
+**Example:**
+
+*Input nudges:*
+- morning run in the park
+- productive work session
+- coffee with mom
+- feeling energized
+
+*Generated entry:*
+> "Started the day with an invigorating run through the park, which set a positive tone for everything that followed. Had a particularly productive work session where I made significant progress on my current project. The highlight was catching up with mom over coffee in the afternoon—we had a great conversation about her upcoming trip. Ending the day feeling genuinely energized and grateful for these moments."
+
+<Tip>
+  Be specific in your nudges. Instead of "work," try "completed the Smith presentation" for richer generated content.
+</Tip>
+
+---
+
+### Get Suggestions
+
+The **Suggestions** feature provides AI-powered writing prompts and reflection questions based on your current entry.
+
+**How to use:**
+<Steps>
+  <Step title="Write Some Content">
+    Start writing your entry. The more context you provide, the better the suggestions.
+  </Step>
+
+  <Step title="Request Suggestions">
+    Click **Get Suggestions** in the right sidebar of the editor.
+  </Step>
+
+  <Step title="Review Ideas">
+    Browse the suggested prompts and questions. These are tailored to your current entry.
+  </Step>
+
+  <Step title="Use as Inspiration">
+    Use the suggestions to spark new ideas or explore your thoughts more deeply.
+  </Step>
+</Steps>
+
+**Types of suggestions:**
+- **Reflection prompts**: "What specific aspect of this experience stands out most?"
+- **Exploration questions**: "How did this situation compare to similar past experiences?"
+- **Gratitude cues**: "What positive elements can you identify, even in challenging moments?"
+- **Growth opportunities**: "What could you learn or do differently next time?"
+
+<Note>
+  Suggestions are read-only inspiration. They won't modify your text—you decide what to incorporate.
+</Note>
+
+---
+
+## AI Insights and Patterns
+
+### Weekly Summaries
+
+Get AI-generated summaries of your week's entries with pattern analysis.
+
+**Accessing weekly summaries:**
+1. Go to the **Insights** tab
+2. The monthly summary includes weekly breakdowns
+3. View patterns, mood trends, and key themes
+
+**What you'll see:**
+- **Emotional journey**: How your mood evolved over the week
+- **Activity correlations**: What activities appeared on your best days
+- **Theme analysis**: Topics you wrote about most
+- **Personalized reflection**: AI-generated insights about your week
+
+**Example summary:**
+> "You wrote 5 entries this week with a generally positive tone. You seemed most energized on days involving morning exercise—mentioned 3 times and consistently coinciding with upbeat entries. Thursday's reflection on the project deadline showed resilience despite stress. Consider maintaining your morning routine as it appears to set a positive foundation for your days."
+
+---
+
+### Monthly Insights
+
+Deeper analysis of your month's journaling patterns.
+
+**Features:**
+- **Mood trajectory**: Whether your overall mood improved, declined, or stayed steady
+- **Top themes**: The 3-5 topics you reflected on most
+- **Activity-mood correlations**: What you do on your best vs. challenging days
+- **Day-of-week patterns**: Which days tend to be better or harder
+- **AI-generated reflection**: Personalized insights about your month
+
+**Example insight:**
+> "Your mood showed an improving trend this month, with more positive entries in the second half. Writing about 'work' and 'creativity' frequently coincided with better moods, while 'stress' and 'deadlines' appeared more on challenging days. Sundays consistently emerge as your most reflective, balanced days."
+
+---
+
+### Pattern Recognition
+
+Reflect AI automatically detects correlations between your activities and moods.
+
+**How it works:**
+1. **Activity extraction**: The app scans entries for mentioned activities (exercise, social time, work, etc.)
+2. **Mood correlation**: Links each activity to your mood score for that day
+3. **Pattern identification**: Identifies which activities consistently correlate with better or worse moods
+4. **Confidence scoring**: Marks patterns as "high confidence" (3+ occurrences) or "moderate" (2 occurrences)
+
+**Detected activities:**
+- Morning routines (walks, meditation, exercise)
+- Social interactions (friends, family, parties)
+- Work patterns (productive days, meetings, deadlines)
+- Self-care (sleep quality, healthy eating, alone time)
+- Creative pursuits (writing, art, music)
+- Screen time (Netflix, social media)
+
+**Example patterns:**
+- 🔗 "You seem most energized on days involving morning exercise."
+- 🔗 "Days with social gatherings tend to have a positive tone."
+- 🔗 "Poor sleep mentions correlate with more challenging entries."
+
+<Tip>
+  For better pattern detection, mention specific activities regularly. Instead of "had a good day," try "morning run, productive meeting, dinner with friends."
+</Tip>
+
+---
+
+## Personalized Greetings
+
+When AI is enabled, Reflect AI generates personalized greetings when you launch the app.
+
+**What influences greetings:**
+- Your current streak
+- Recent mood trends
+- Common themes in recent entries
+- Whether you've journaled today
+- Time of day
+
+**Example greetings:**
+- "Good morning! You're on a 12-day streak. Your recent reflections on creativity and growth have been inspiring—ready to continue?"
+- "Good evening. You haven't journaled in a few days, but there's no pressure. Just 5 minutes of reflection can be valuable."
+- "Welcome back! Noticed you've been writing about some work challenges. How are things feeling today?"
+
+---
+
+## AI Privacy and Data
+
+<Warning>
+  When you use AI features, portions of your journal text are sent to Groq's API for processing. While Groq has strong privacy policies, be aware that AI-enabled features involve external API calls.
+</Warning>
+
+**What's sent to Groq:**
+- Text you're polishing
+- Nudges you're expanding
+- Entry excerpts for suggestions (last 300 characters)
+- Summaries of recent entries for insights (date, mood, themes—not full text)
+
+**What's NOT sent:**
+- Your complete journal database
+- Entries you haven't explicitly used with AI features
+- Any photos attached to entries
+- Your name or identifying information
+
+**Privacy best practices:**
+- Don't include highly sensitive information (medical details, passwords, etc.) in entries you plan to polish
+- Review generated content before saving
+- Use AI features selectively for entries you're comfortable processing externally
+
+<Info>
+  You can use Reflect AI entirely without AI features. All core functionality (writing, mood detection, basic insights) works offline without any API calls.
+</Info>
+
+---
+
+## Troubleshooting AI Features
+
+<AccordionGroup>
+  <Accordion title="AI features aren't working">
+    **Check:**
+    1. Is your `GROQ_API_KEY` correctly set in the `.env` file?
+    2. Did you restart the app after adding the key?
+    3. Is your API key valid? Test it at [console.groq.com](https://console.groq.com)
+    4. Check your internet connection (AI features require online access)
+  </Accordion>
+
+  <Accordion title="'Polish Writing' returns an error">
+    **Possible causes:**
+    - Entry is too short (needs at least 10 words)
+    - API rate limit reached (wait a few minutes)
+    - Network connectivity issues
+    - Invalid API key
+    
+    Try again in a few moments. If it persists, check your API key status.
+  </Accordion>
+
+  <Accordion title="Suggestions aren't relevant">
+    **Improve suggestion quality:**
+    - Write more content before requesting suggestions (aim for 50+ words)
+    - Include specific details and context
+    - Try requesting suggestions again for different ideas
+  </Accordion>
+
+  <Accordion title="Generated entry from nudges is too generic">
+    **Make nudges more specific:**
+    - ❌ "work, lunch, tired"
+    - ✅ "finished the Miller project, lunch with Tom at the new cafe, exhausted from poor sleep"
+    
+    The more detail in your nudges, the richer the generated entry.
+  </Accordion>
+
+  <Accordion title="Weekly/monthly summaries aren't appearing">
+    **Requirements:**
+    - Weekly summaries: At least 3 entries in the past 7 days
+    - Monthly summaries: At least 5 entries in the current month
+    - AI features must be enabled (Groq API key configured)
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## API Usage and Limits
+
+Groq's free tier includes:
+- **Rate limits**: Generous limits suitable for personal use
+- **Model**: `llama-3.1-8b-instant` (fast and efficient)
+- **Typical usage**: 10-20 AI operations per day is well within limits
+
+**Reflect AI's AI features are optimized for minimal API usage:**
+- Polish Writing: ~256 tokens per request
+- Suggestions: ~256 tokens per request
+- Nudge generation: ~256 tokens per request
+- Weekly summaries: ~300 tokens per request
+- Monthly summaries: ~300 tokens per request
+
+<Tip>
+  You can monitor your API usage in the [Groq console](https://console.groq.com).
+</Tip>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Export Your Data" icon="download" href="/guides/export-import">
+    Keep AI-enhanced entries safe with regular backups
+  </Card>
+  <Card title="Customization" icon="palette" href="/guides/customization">
+    Customize prompts and themes to match your style
+  </Card>
+</CardGroup>

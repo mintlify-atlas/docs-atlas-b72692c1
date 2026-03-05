@@ -1,0 +1,469 @@
+---
+title: 'Analytics'
+description: 'Visualize your journaling patterns with interactive charts and data insights'
+icon: 'chart-line'
+---
+
+## Overview
+
+Reflect AI's **Insights** dashboard transforms your journal entries into visual data, helping you spot patterns, understand your emotional landscape, and track your writing habits over time.
+
+<Note>
+All analytics are generated locally on your device using Chart.js. No data is sent to external services for visualization.
+</Note>
+
+## Accessing Analytics
+
+Navigate to the **Insights** view:
+1. Click the **Insights** button in the sidebar
+2. Or click the **Insights** tab in the main header
+3. Use the month/year navigation arrows to view different time periods
+
+The dashboard updates in real-time as you add new entries.
+
+## Dashboard Overview
+
+### Time Period Selection
+
+Analytics can be viewed for:
+- **Specific months**: Select any month/year to see that period's data
+- **All time**: View cumulative patterns across your entire journal
+
+The current selection is displayed prominently at the top of the dashboard.
+
+<Tip>
+Use month-specific views to understand seasonal patterns or how a particular period felt. Use all-time views to see your long-term growth.
+</Tip>
+
+## Available Charts
+
+### 1. Mood Trend Chart
+
+**Type**: Line graph
+
+**What it shows**: Your emotional trajectory over time
+
+**Data points**:
+- X-axis: Dates (days of the month or recent 31 days)
+- Y-axis: Sentiment score (-1 to +1)
+- Each point represents one journal entry's mood
+
+**Visual features**:
+- **Line**: Smooth curve connecting your mood scores
+- **Point colors**: 
+  - 🟢 Green: Positive mood (score > 0.2)
+  - ⚪ Gray: Neutral mood (-0.2 to 0.2)
+  - 🔴 Red: Challenging mood (< -0.2)
+- **Gaps**: Days without entries show as breaks in the line
+- **Filled area**: Light blue shading under the curve
+
+**What to look for**:
+- Upward trends (improving mood over time)
+- Downward trends (increasing challenges)
+- Volatility (rapid ups and downs vs. stable mood)
+- Patterns around specific dates or events
+
+<Frame>
+  <img src="/images/mood-trend-chart.png" alt="Mood trend line graph" />
+</Frame>
+
+<Tip>
+Hover over any point to see the exact mood score and label. This helps you remember what was happening on that day.
+</Tip>
+
+### 2. Mood Distribution Chart
+
+**Type**: Doughnut chart
+
+**What it shows**: Percentage breakdown of your emotional states
+
+**Categories**:
+- 😄 Joyful (very positive)
+- 🙂 Content (positive)
+- 😐 Balanced (neutral)
+- 😔 Reflective (negative)
+- 😢 Processing (very negative)
+
+**Visual features**:
+- Color-coded segments (green to red spectrum)
+- Percentage labels
+- Legend showing counts
+
+**What to look for**:
+- Your baseline emotional state (largest segment)
+- Balance across categories
+- Skew toward positive or challenging moods
+- Changes month-to-month
+
+**Interpretation examples**:
+- Mostly green/teal: Generally positive outlook
+- Balanced across categories: Emotional range is healthy
+- Heavy red: May be a difficult period needing support
+
+<Note>
+Mood distribution reflects the entries you wrote, not necessarily every day of your life. You might journal more on challenging days, which can skew the data.
+</Note>
+
+### 3. Day of Week Distribution
+
+**Type**: Bar chart
+
+**What it shows**: Which days you journal most frequently
+
+**Data points**:
+- X-axis: Days of the week (Sun - Sat)
+- Y-axis: Number of entries
+- Each bar represents total entries for that day
+
+**What to look for**:
+- Your most consistent journaling days
+- Gaps (days you rarely write)
+- Weekday vs. weekend patterns
+- Whether your routine aligns with your goals
+
+**Common patterns**:
+- **High weekends, low weekdays**: Busy work schedule
+- **High mornings (Mon, Tue)**: Week-start motivation
+- **Friday peaks**: Week-end reflection
+- **Even distribution**: Strong daily habit
+
+<Tip>
+If you notice gaps, consider whether those days are particularly busy and if you need to adjust your journaling time.
+</Tip>
+
+### 4. Top Themes Chart
+
+**Type**: Horizontal bar chart
+
+**What it shows**: Your most frequently mentioned topics
+
+**Data points**:
+- Y-axis: Theme categories (Work, Health, Friends, etc.)
+- X-axis: Number of entries mentioning each theme
+- Up to 8 top themes displayed
+
+**Visual features**:
+- Color-coded bars (each theme has a distinct color)
+- Sorted by frequency (most common at top)
+
+**What to look for**:
+- What occupies your mental space
+- Balance across life areas
+- Themes that dominate vs. those you neglect
+- Changes over time
+
+**Interpretation examples**:
+- **Heavy "Work" mentions**: Career is primary focus
+- **Frequent "Emotions"**: Processing feelings actively
+- **Balanced themes**: Well-rounded attention to life areas
+- **Missing themes**: Areas you might be neglecting
+
+<Check>
+Theme frequency helps you audit where your energy goes. If you're surprised by the results, it might be time to rebalance.
+</Check>
+
+### 5. Entries Per Week Chart
+
+**Type**: Bar chart
+
+**What it shows**: Weekly journaling consistency
+
+**Data points**:
+- X-axis: Week labels ("Week 1", "Week 2" for months, or dates for all-time)
+- Y-axis: Number of entries (0-7)
+- Maximum of 7 entries per week
+
+**Visual features**:
+- Green bars indicate entry counts
+- Y-axis capped at 7 (max entries per week)
+
+**What to look for**:
+- Consistency across weeks
+- Weeks you fell off the habit
+- Improvement over time
+- Correlation with life events
+
+**Target**: Aim for 5-7 entries per week for strong consistency.
+
+<Frame>
+  <img src="/images/weekly-entries.png" alt="Weekly entry frequency" />
+</Frame>
+
+### 6. Average Words Per Entry Chart
+
+**Type**: Line chart
+
+**What it shows**: How much you write each week
+
+**Data points**:
+- X-axis: Week labels
+- Y-axis: Average word count
+- Each point is the mean word count for entries that week
+
+**Visual features**:
+- Purple line with shaded area
+- Smooth curve showing writing volume trends
+
+**What to look for**:
+- Whether you're writing more or less over time
+- Weeks with particularly long or short entries
+- Correlation between word count and mood
+- Energy levels and depth of reflection
+
+**Interpretation**:
+- **Increasing word count**: Deeper engagement with journaling
+- **Decreasing word count**: Busier life, less time, or more concise style
+- **Consistent word count**: Established rhythm
+
+<Note>
+More words doesn't mean better journaling. Some of your most meaningful entries might be short and focused.
+</Note>
+
+## Summary Insights
+
+At the top of the Insights dashboard, you'll see:
+
+### AI-Generated Monthly Summary
+
+**What's included**:
+- 2-3 paragraph narrative about the month
+- Mood trajectory (improving/steady/shifting)
+- Top 3 themes you explored
+- Key patterns detected
+- Personalized observations
+
+**Example**:
+> "February was a month of growth for you. Your mood improved steadily after a challenging start, particularly once you began prioritizing morning walks. You wrote frequently about learning, work, and creativity—often with a positive tone. Your best days tended to be weekends when you had space for hobbies. One pattern stood out: days with exercise consistently had more energized entries."
+
+<Tip>
+The monthly summary requires a Groq API key. If not configured, you'll see basic statistics instead.
+</Tip>
+
+### Quick Stats
+
+Displayed prominently:
+- **Total entries** for the selected period
+- **Mood emoji** representing average mood
+- **Top themes** (up to 3)
+- **Mood trajectory** indicator (↗️ ↘️ →)
+
+## Pattern Insights
+
+Based on your analytics, Reflect AI surfaces observations like:
+
+**Mood trends**:
+- "Your mood has been improving recently"
+- "Your mood has been steady this month"
+
+**Best days**:
+- "You tend to feel best on Saturdays"
+
+**Theme observations**:
+- "You've been reflecting on: Work, Learning, Creativity"
+
+**Activity correlations**:
+- "You seem most energized on days involving exercise"
+- "Entries mentioning nature time tend to have positive energy"
+
+These insights appear below the charts, helping you interpret the data.
+
+## Navigating Between Time Periods
+
+### Month Navigation
+
+Use the arrow buttons in the header:
+- **← Previous**: Go back one month
+- **→ Next**: Move forward one month
+- **Today button**: Jump to the current month
+
+### Comparing Periods
+
+To compare different months:
+1. Navigate to the first month and mentally note patterns
+2. Use arrows to move to the second month
+3. Compare charts visually
+4. Look for seasonal patterns, growth, or changes
+
+<Tip>
+Export screenshots of your monthly dashboards to create a visual journal of your year.
+</Tip>
+
+## Using Analytics for Growth
+
+### Self-Awareness
+
+Analytics help you:
+- **Validate feelings**: "I thought January was hard—the data confirms it"
+- **Spot patterns**: "I didn't realize I write so much about work"
+- **Track progress**: "My mood is genuinely improving over time"
+- **Identify triggers**: "My mood drops every Monday—maybe work stress?"
+
+### Behavior Change
+
+Use data to inform decisions:
+- **Activity insights**: If exercise correlates with better mood, prioritize it
+- **Theme balance**: If one area dominates, consider diversifying focus
+- **Writing habits**: If you rarely write on certain days, adjust your routine
+- **Mood patterns**: If weekends are your best days, protect that time
+
+### Goal Setting
+
+Charts provide concrete targets:
+- "I want to increase my weekly entry average from 3 to 5"
+- "I'll aim for more balanced themes next month"
+- "I want my mood trend line to slope upward"
+
+<Check>
+Review your analytics monthly. Treat it as a monthly check-in with yourself, celebrating wins and adjusting what's not working.
+</Check>
+
+## Exporting Your Data
+
+### Export Functionality
+
+Click **Export** in the sidebar to download:
+- All journal entries (text, tags, photos)
+- Sentiment scores for each entry
+- Themes and metadata
+- Entry dates and word counts
+
+**Format**: JSON file named `reflect-ai-YYYY-MM-DD.json`
+
+### What You Can Do With Exported Data
+
+<CardGroup cols={2}>
+  <Card title="Backup" icon="floppy-disk">
+    Store your journal securely offline or in cloud storage
+  </Card>
+  <Card title="Advanced Analysis" icon="code">
+    Import into Python/R for custom data science analysis
+  </Card>
+  <Card title="Migration" icon="right-left">
+    Move your journal to another device or future app versions
+  </Card>
+  <Card title="Long-term Archive" icon="box-archive">
+    Preserve your writing for years to come
+  </Card>
+</CardGroup>
+
+<Warning>
+Exported files contain your complete, unencrypted journal. Store them securely and be cautious about sharing.
+</Warning>
+
+## Chart Customization
+
+### Theme Support
+
+Charts automatically adapt to your theme:
+- **Light mode**: Light backgrounds, dark text
+- **Dark mode**: Dark backgrounds, light text
+- Theme toggle updates charts in real-time
+
+### Responsive Design
+
+Charts resize based on window size:
+- Desktop: Multi-column grid layout
+- Tablet: Two-column layout
+- Mobile: Single-column stacked layout
+
+All charts remain fully interactive regardless of device.
+
+## Technical Details
+
+### Chart Library
+
+Reflect AI uses **Chart.js v4**:
+- Open-source JavaScript charting library
+- Lightweight and performant
+- Fully responsive and accessible
+- No external dependencies
+
+### Data Processing
+
+Analytics are calculated on-demand:
+1. User navigates to Insights view
+2. App requests data from `/api/insights/charts?year=X&month=Y`
+3. Backend processes entries and calculates statistics
+4. Frontend receives JSON data and renders charts
+5. Charts are interactive immediately
+
+**Performance**:
+- Handles 1000+ entries without lag
+- Chart rendering takes less than 500ms on modern devices
+
+## Limitations
+
+### Minimum Data Requirements
+
+<AccordionGroup>
+  <Accordion title="Mood Trend">
+    Requires at least 2 entries to show a trend line. More entries = smoother curve.
+  </Accordion>
+  
+  <Accordion title="Mood Distribution">
+    Needs at least 1 entry. Percentages are meaningful with 10+ entries.
+  </Accordion>
+  
+  <Accordion title="Day of Week">
+    Works with any number of entries, but patterns emerge with 4+ weeks of data.
+  </Accordion>
+  
+  <Accordion title="Themes">
+    Requires entries with detected themes. Appears empty if no themes found.
+  </Accordion>
+</AccordionGroup>
+
+### Interpretation Caveats
+
+<Warning>
+**Correlation ≠ Causation**: Just because exercise days have better moods doesn't guarantee exercise *causes* the mood boost. Maybe you exercise when you already feel good.
+
+**Selection bias**: You might journal more on emotionally intense days, skewing the data.
+
+**Small sample sizes**: One month of data has limited statistical power. Trends become clearer over 3+ months.
+</Warning>
+
+## Best Practices
+
+1. **Review monthly**: Set a recurring reminder to check your analytics
+2. **Compare periods**: Look at the same month across different years
+3. **Combine with qualitative reflection**: Data tells part of the story; your memory fills in context
+4. **Don't over-optimize**: Journaling is for insight, not just hitting metrics
+5. **Track experiments**: If you change a habit, watch how charts respond
+6. **Export regularly**: Back up your data monthly
+
+## Privacy Note
+
+All analytics are computed locally:
+- No analytics data is sent to external servers
+- Chart rendering happens in your browser
+- Only you can see your charts
+- Data never leaves your device (except AI summaries if using Groq)
+
+<Info>
+Reflect AI doesn't track your analytics or aggregate user data. Your patterns are yours alone.
+</Info>
+
+## Frequently Asked Questions
+
+<AccordionGroup>
+  <Accordion title="Can I export charts as images?">
+    Currently, Reflect AI doesn't have a built-in export-to-image feature. You can take screenshots of the dashboard to save visual snapshots of your progress.
+  </Accordion>
+  
+  <Accordion title="Why do some days show no data on the mood trend chart?">
+    The chart only plots days with journal entries. Gaps represent days you didn't write. This is intentional—we don't want to infer mood for days without data.
+  </Accordion>
+  
+  <Accordion title="Can I see analytics for custom date ranges?">
+    Not currently. You can view specific months or all-time data. Custom ranges may be added in future updates.
+  </Accordion>
+  
+  <Accordion title="Why are my theme counts low?">
+    Theme detection uses keyword matching. If you use uncommon phrasing or write about topics not in the built-in categories, they won't be detected. Writing naturally with specific mentions ("went to the gym," "talked to mom") improves detection.
+  </Accordion>
+  
+  <Accordion title="Do deleted entries affect analytics?">
+    Yes—once you delete an entry, it's immediately removed from all charts and statistics. Export your data before bulk deletions if you want to preserve historical analytics.
+  </Accordion>
+</AccordionGroup>

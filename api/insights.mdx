@@ -1,0 +1,470 @@
+---
+title: 'Insights API'
+description: 'Chart data, AI summaries, and pattern analysis'
+icon: 'lightbulb'
+---
+
+## Get Chart Data
+
+Retrieve data formatted for visualizations, with optional month filtering.
+
+<CodeGroup>
+```bash cURL - All Time
+curl http://127.0.0.1:5000/api/insights/charts
+```
+
+```bash cURL - Specific Month
+curl "http://127.0.0.1:5000/api/insights/charts?year=2024&month=3"
+```
+
+```javascript JavaScript
+// All time
+const charts = await fetch('http://127.0.0.1:5000/api/insights/charts')
+  .then(r => r.json());
+
+// Specific month
+const marchCharts = await fetch('http://127.0.0.1:5000/api/insights/charts?year=2024&month=3')
+  .then(r => r.json());
+```
+
+```python Python
+import requests
+
+# All time
+charts = requests.get('http://127.0.0.1:5000/api/insights/charts').json()
+
+# Specific month
+march = requests.get(
+    'http://127.0.0.1:5000/api/insights/charts',
+    params={'year': 2024, 'month': 3}
+).json()
+```
+</CodeGroup>
+
+### Query Parameters
+
+<ParamField query="year" type="integer" optional>
+  Filter by year (e.g., 2024)
+</ParamField>
+
+<ParamField query="month" type="integer" optional>
+  Filter by month (1-12). Requires `year` parameter.
+</ParamField>
+
+### Response
+
+<ResponseExample>
+```json
+{
+  "has_data": true,
+  "month_name": "March 2024",
+  "mood_trend": [
+    {"date": "1", "score": 0.45, "has_entry": true},
+    {"date": "2", "score": null, "has_entry": false},
+    {"date": "3", "score": 0.62, "has_entry": true}
+  ],
+  "day_distribution": {
+    "days": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    "counts": [2, 5, 4, 6, 5, 3, 1],
+    "avg_moods": [0.15, 0.32, -0.05, 0.48, 0.22, 0.61, -0.12]
+  },
+  "themes": {
+    "labels": ["Work", "Health", "Learning", "Family"],
+    "counts": [15, 12, 8, 6]
+  },
+  "mood_distribution": {
+    "very_positive": 5,
+    "positive": 12,
+    "neutral": 6,
+    "negative": 2,
+    "very_negative": 0
+  },
+  "weekly_entries": [
+    {"week": "Week 1", "count": 5},
+    {"week": "Week 2", "count": 7},
+    {"week": "Week 3", "count": 6},
+    {"week": "Week 4", "count": 4}
+  ],
+  "weekly_words": [
+    {"week": "Week 1", "avg_words": 245},
+    {"week": "Week 2", "avg_words": 312},
+    {"week": "Week 3", "avg_words": 267},
+    {"week": "Week 4", "avg_words": 289}
+  ],
+  "total_entries": 22,
+  "insights": [
+    "Your mood has been improving recently.",
+    "You tend to feel best on Wednesdays.",
+    "You've been reflecting on: Work, Health, Learning."
+  ],
+  "best_day": "Wednesday"
+}
+```
+</ResponseExample>
+
+<ResponseField name="has_data" type="boolean">
+  Whether sufficient data exists for insights
+</ResponseField>
+
+<ResponseField name="month_name" type="string">
+  Display name (e.g., "March 2024" or "All Time")
+</ResponseField>
+
+<ResponseField name="mood_trend" type="array">
+  Daily mood scores for the period
+  <Expandable title="mood_trend item">
+    <ResponseField name="date" type="string">
+      Day number (if filtered) or formatted date (if all-time)
+    </ResponseField>
+    <ResponseField name="score" type="number | null">
+      Sentiment compound score (-1 to 1), or null if no entry
+    </ResponseField>
+    <ResponseField name="has_entry" type="boolean">
+      Whether an entry exists
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="day_distribution" type="object">
+  Breakdown by day of week
+  <Expandable title="day_distribution object">
+    <ResponseField name="days" type="array">
+      Day names (Sunday through Saturday)
+    </ResponseField>
+    <ResponseField name="counts" type="array">
+      Entry count for each day of week
+    </ResponseField>
+    <ResponseField name="avg_moods" type="array">
+      Average mood score for each day of week
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="themes" type="object">
+  Most common themes
+  <Expandable title="themes object">
+    <ResponseField name="labels" type="array">
+      Theme names (capitalized)
+    </ResponseField>
+    <ResponseField name="counts" type="array">
+      Frequency count for each theme
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="mood_distribution" type="object">
+  Count of entries by mood category (see [Stats API](/api/stats) for details)
+</ResponseField>
+
+<ResponseField name="weekly_entries" type="array">
+  Entry count by week
+</ResponseField>
+
+<ResponseField name="weekly_words" type="array">
+  Average word count by week
+</ResponseField>
+
+<ResponseField name="insights" type="array">
+  Human-readable insights generated from the data
+</ResponseField>
+
+<ResponseField name="best_day" type="string | null">
+  Day of week with highest average mood
+</ResponseField>
+
+## Get Pattern Insights
+
+Analyze activity-mood correlations and thematic patterns.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/insights
+```
+
+```javascript JavaScript
+const insights = await fetch('http://127.0.0.1:5000/api/insights')
+  .then(r => r.json());
+```
+
+```python Python
+import requests
+insights = requests.get('http://127.0.0.1:5000/api/insights').json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "insights": [
+    {
+      "type": "activity_correlation",
+      "title": "Activity Pattern",
+      "description": "You seem most energized on days involving morning walk.",
+      "emoji": "🔗",
+      "confidence": "high"
+    },
+    {
+      "type": "weekly_pattern",
+      "title": "Weekly Rhythm",
+      "description": "Wednesdays tend to be your best days, while Mondays are more challenging.",
+      "emoji": "📅"
+    },
+    {
+      "type": "mood_trend",
+      "title": "Mood Trend",
+      "description": "Your overall mood has been improving over the past entries.",
+      "emoji": "📈"
+    },
+    {
+      "type": "themes",
+      "title": "Common Themes",
+      "description": "You write most about: work, health, learning",
+      "emoji": "🎯"
+    },
+    {
+      "type": "theme_mood",
+      "title": "Positive Triggers",
+      "description": "Writing about health and creativity often coincides with better moods.",
+      "emoji": "✨"
+    }
+  ],
+  "mood_trend": "improving",
+  "average_sentiment": 0.32,
+  "top_themes": [
+    ["work", 15],
+    ["health", 12],
+    ["learning", 8]
+  ],
+  "activity_correlations": [
+    {
+      "activity": "morning_walk",
+      "avg_mood": 0.612,
+      "occurrences": 8,
+      "positive": true,
+      "negative": false
+    },
+    {
+      "activity": "exercise",
+      "avg_mood": 0.548,
+      "occurrences": 12,
+      "positive": true,
+      "negative": false
+    },
+    {
+      "activity": "stressed",
+      "avg_mood": -0.342,
+      "occurrences": 5,
+      "positive": false,
+      "negative": true
+    }
+  ],
+  "entries_analyzed": 14
+}
+```
+</ResponseExample>
+
+### Minimum Requirements
+
+<Info>
+  Requires at least **3 entries** to generate insights.
+</Info>
+
+### Response Fields
+
+<ResponseField name="insights" type="array">
+  List of discovered patterns and insights
+  <Expandable title="insight object">
+    <ResponseField name="type" type="string">
+      Insight category: `activity_correlation`, `weekly_pattern`, `mood_trend`, `themes`, `theme_mood`
+    </ResponseField>
+    <ResponseField name="title" type="string">
+      Display title
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Human-readable insight
+    </ResponseField>
+    <ResponseField name="emoji" type="string">
+      Visual icon for the insight
+    </ResponseField>
+    <ResponseField name="confidence" type="string" optional>
+      Confidence level: `high` or `moderate`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="mood_trend" type="string">
+  Overall trend: `improving`, `declining`, or `stable`
+</ResponseField>
+
+<ResponseField name="average_sentiment" type="number">
+  Average sentiment score across analyzed entries
+</ResponseField>
+
+<ResponseField name="activity_correlations" type="array">
+  Correlations between activities and mood scores
+</ResponseField>
+
+## Get Weekly Summary
+
+AI-generated weekly reflection with pattern connections (requires Groq API key).
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/insights/weekly
+```
+
+```javascript JavaScript
+const weekly = await fetch('http://127.0.0.1:5000/api/insights/weekly')
+  .then(r => r.json());
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "summary": "You wrote 5 entries this week with a notably positive tone. Your energy seemed highest on days when you mentioned morning walks or exercise—you brought up feeling refreshed and productive after physical activity. Writing about health and creative projects also coincided with upbeat entries. Consider building on that momentum: those morning routines seem to set a strong foundation for your day.",
+  "entries_count": 5,
+  "pattern_insights": [
+    "You mentioned morning walk 3 times this week, and those entries had notably positive energy.",
+    "Writing about health seemed to coincide with better moods."
+  ],
+  "activity_correlations": [
+    {"activity": "morning_walk", "avg_mood": 0.68, "occurrences": 3, "positive": true}
+  ],
+  "ai_available": true
+}
+```
+</ResponseExample>
+
+### AI vs Non-AI Response
+
+With Groq API key:
+- Personalized narrative summary
+- References specific activities and patterns
+- Actionable suggestions
+
+Without Groq API key:
+- Basic statistics summary
+- Pattern insights (local analysis)
+- No personalized narrative
+
+## Get Monthly Summary
+
+AI-generated monthly reflection (last 30 days).
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/insights/monthly
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "summary": "You wrote 22 entries this month—impressive consistency! Your mood trajectory has been improving, especially in the second half of the month. A clear pattern emerged: days involving morning walks or exercise correlated with more positive entries...",
+  "entries_count": 22,
+  "mood_trajectory": "improving",
+  "insights": [
+    {"type": "activity", "text": "You seem most energized on days involving exercise.", "emoji": "🔗"},
+    {"type": "positive_triggers", "text": "Activities that boosted your mood: morning walk, creative work", "emoji": "⚡"}
+  ],
+  "activity_correlations": [...],
+  "ai_available": true
+}
+```
+</ResponseExample>
+
+### Minimum Requirements
+
+<Info>
+  Requires at least **5 entries** in the last 30 days.
+</Info>
+
+## Get Month-Specific Summary
+
+AI summary for a specific calendar month.
+
+<CodeGroup>
+```bash cURL
+curl "http://127.0.0.1:5000/api/insights/summary?year=2024&month=3"
+```
+
+```javascript JavaScript
+const summary = await fetch(
+  'http://127.0.0.1:5000/api/insights/summary?year=2024&month=3'
+).then(r => r.json());
+```
+</CodeGroup>
+
+### Query Parameters
+
+<ParamField query="year" type="integer" required>
+  Year (e.g., 2024)
+</ParamField>
+
+<ParamField query="month" type="integer" required>
+  Month (1-12)
+</ParamField>
+
+<ResponseExample>
+```json
+{
+  "summary": "In March 2024, you wrote 18 journal entries showing strong consistency. Your mood started neutral early in the month but shifted noticeably positive as you wrote more about outdoor activities and creative projects...",
+  "month_name": "March 2024",
+  "entries_count": 18,
+  "mood_trajectory": "improving",
+  "avg_mood": 0.28,
+  "top_themes": ["work", "health", "learning"],
+  "insights": [...],
+  "ai_available": true
+}
+```
+</ResponseExample>
+
+### Minimum Requirements
+
+<Info>
+  Requires at least **3 entries** in the specified month.
+</Info>
+
+## Activity Detection
+
+The insights engine detects these activities automatically:
+
+- **morning_walk** - morning walk, walked early
+- **exercise** - gym, workout, ran, yoga
+- **meditation** - meditate, mindful, breathing
+- **good_sleep** - slept well, rested, refreshed
+- **poor_sleep** - couldn't sleep, tired, exhausted
+- **social_time** - met friends, hung out, party
+- **nature** - park, hiking, outdoors, fresh air
+- **creative_work** - wrote, painted, created
+- **reading** - read, book, article
+- **productive_day** - productive, accomplished
+- **stressed** - stressed, overwhelmed, anxious
+- **grateful** - grateful, thankful, blessed
+
+And many more. These are correlated with mood scores to find patterns.
+
+## Privacy Note
+
+<Warning>
+  AI summaries (weekly, monthly, month-specific) send entry previews to Groq API if configured. See [Groq API Integration](/privacy/groq-api) for details.
+</Warning>
+
+Local-only features (no AI):
+- Chart data generation
+- Pattern insights (activity correlations)
+- Theme detection
+- Day-of-week analysis
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Greeting API" icon="hand-wave" href="/api/greeting">
+    Personalized daily greetings
+  </Card>
+  <Card title="Export/Import" icon="download" href="/api/export-import">
+    Backup your journal data
+  </Card>
+</CardGroup>

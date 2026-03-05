@@ -1,80 +1,249 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: 'Quickstart'
+description: 'Get up and running with Reflect AI in under 5 minutes'
+icon: 'rocket'
 ---
 
-## Get started in three steps
+## Welcome to Reflect AI
 
-Get your documentation site running locally and make your first customization.
+Reflect AI is a privacy-first journaling web application that helps you maintain a consistent reflection habit. All your data stays local on your device—no cloud uploads, no tracking, just you and your thoughts.
 
-### Step 1: Set up your local environment
+This guide will take you from zero to your first journal entry in minutes.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Prerequisites
 
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
+Before you begin, make sure you have:
 
 <CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
+  <Card title="Python 3.9+" icon="python">
+    Check your version with `python3 --version`
+  </Card>
+  <Card title="pip" icon="box">
+    Python package manager (usually included with Python)
+  </Card>
 </CardGroup>
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+## Quick Installation
+
+<Steps>
+  <Step title="Navigate to the project directory">
+    ```bash
+    cd "PANW Hackathon Code"
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    ```bash
+    pip install -r requirements.txt
+    ```
+    
+    This installs Flask, NLTK, Groq, and other required packages.
+  </Step>
+
+  <Step title="Download NLTK sentiment data">
+    ```bash
+    python3 -c "import nltk; nltk.download('vader_lexicon')"
+    ```
+    
+    <Note>
+      This is a one-time setup. The VADER lexicon enables automatic mood detection in your journal entries.
+    </Note>
+  </Step>
+
+  <Step title="Set up your Groq API key (optional)">
+    Get a free API key from [console.groq.com](https://console.groq.com), then:
+    
+    ```bash
+    echo 'GROQ_API_KEY="your_api_key_here"' > .env
+    ```
+    
+    <Tip>
+      AI features work without this, but you'll get enhanced insights, personalized greetings, and AI-powered summaries with a Groq API key.
+    </Tip>
+  </Step>
+</Steps>
+
+## Start the Application
+
+Launch the Flask server:
+
+```bash
+python3 app.py
+```
+
+You'll see output like this:
+
+```plaintext
+2026-01-31 21:41:42,357 - INFO - Starting Reflect AI server...
+2026-01-31 21:41:42,357 - INFO - Privacy-first design: All data stays local
+ * Running on http://127.0.0.1:5000
+```
+
+Open your browser and navigate to:
+
+```
+http://127.0.0.1:5000
+```
+
+## Write Your First Entry
+
+<Steps>
+  <Step title="Click 'Write Today'">
+    The big blue button in the sidebar takes you straight to today's entry.
+  </Step>
+
+  <Step title="Choose a writing style (optional)">
+    Select from pre-built prompts:
+    - **Free** - Blank canvas for stream-of-consciousness
+    - **Gratitude** - Focus on what you're thankful for
+    - **Reflection** - Highlights and lessons from your day
+    - **Goals** - Set intentions
+    - **Emotions** - Process how you're feeling
+  </Step>
+
+  <Step title="Write your thoughts">
+    Start typing in the text area. The app automatically:
+    - Tracks your word count in real-time
+    - Saves your work (no auto-save, click Save when ready)
+    - Analyzes sentiment when you save
+  </Step>
+
+  <Step title="Save your entry">
+    Click the **Save** button. Within seconds, you'll see:
+    - Your mood emoji (😊, 🙂, 😐, 😔, etc.)
+    - Encouraging feedback based on your mood
+    - Updated streak counter
+  </Step>
+</Steps>
+
+<Tip>
+  Your entry is stored locally in `journal_data.json`. No data ever leaves your device unless you explicitly export it.
+</Tip>
+
+## What Happens Next?
+
+After saving your first entry:
+
+<CardGroup cols={2}>
+  <Card title="View on Calendar" icon="calendar" href="/features/journaling">
+    Return to the month view to see your entry with its mood emoji on the calendar.
+  </Card>
+  
+  <Card title="Build Your Streak" icon="fire" href="/features/streaks-achievements">
+    Write daily to build a streak. Hit 7 days for your first badge!
+  </Card>
+  
+  <Card title="Explore Insights" icon="chart-line" href="/features/analytics">
+    After 3+ entries, visit the Insights tab for mood trends and pattern analysis.
+  </Card>
+  
+  <Card title="Export Anytime" icon="download" href="/guides/export-import">
+    Click Export in the sidebar to download your complete journal as JSON.
+  </Card>
+</CardGroup>
+
+## Key Features to Try
+
+### Automatic Mood Detection
+
+Every entry is analyzed with NLTK's VADER sentiment analyzer:
+
+```python
+# From app.py:128-159
+def analyze_sentiment(text: str) -> Dict[str, Any]:
+    scores = sia.polarity_scores(text)
+    compound = scores["compound"]
+    
+    # Determine mood label with nuanced thresholds
+    if compound >= 0.5:
+        mood = "very_positive"
+    elif compound >= 0.2:
+        mood = "positive"
+    elif compound > -0.2:
+        mood = "neutral"
+    elif compound > -0.5:
+        mood = "negative"
+    else:
+        mood = "very_negative"
+```
+
+### Streak Tracking
+
+Stay motivated with visual streak counters:
+
+- **Current Streak**: Consecutive days of journaling
+- **Weekly Chain**: See which days this week you've written
+- **Badges**: Unlock milestones at 7, 14, 30, 60, 100, and 365 days
+
+### Theme Detection
+
+The app automatically identifies themes in your writing:
+
+```python
+# From app.py:319-344
+theme_keywords = {
+    "work": ["work", "job", "office", "meeting", "project"],
+    "family": ["family", "mom", "dad", "parent", "sister"],
+    "health": ["gym", "workout", "exercise", "run", "yoga"],
+    "emotions": ["happy", "sad", "anxious", "excited"],
+    # ...more themes
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Installation Details" icon="wrench" href="/installation">
+    Learn about dependencies, NLTK setup, and environment configuration
+  </Card>
+  
+  <Card title="Core Features" icon="star" href="/features/journaling">
+    Explore calendar views, prompts, tags, and photos
+  </Card>
+  
+  <Card title="AI Features" icon="sparkles" href="/features/ai-insights">
+    Discover AI-powered insights, summaries, and writing assistance
+  </Card>
+  
+  <Card title="Analytics" icon="chart-mixed" href="/features/analytics">
+    Dive into mood trends, theme analysis, and interactive charts
+  </Card>
+</CardGroup>
+
+<Warning>
+  **Privacy First**: Reflect AI stores all data locally in `journal_data.json`. No cloud sync means complete control, but also means you should back up regularly using the Export feature.
+</Warning>
+
+## Troubleshooting
+
+### Port Already in Use
+
+If port 5000 is busy:
+
+```bash
+# Kill existing process
+lsof -ti:5000 | xargs kill -9
+
+# Or use a different port
+python3 app.py --port 5001
+```
+
+### Can't Find NLTK Data
+
+Re-download the VADER lexicon:
+
+```bash
+python3 -c "import nltk; nltk.download('vader_lexicon')"
+```
+
+### Module Not Found Errors
+
+Reinstall dependencies:
+
+```bash
+pip install -r requirements.txt --force-reinstall
+```
+
+---
+
+**Ready to reflect?** Open the app and start your journaling journey today! 🌟

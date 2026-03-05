@@ -1,0 +1,497 @@
+---
+title: Contributing
+description: How to contribute to Reflect AI
+---
+
+## Welcome Contributors! 🎉
+
+Thank you for your interest in contributing to Reflect AI! This project was created for the PANW Hackathon Challenge 2026, and we welcome contributions from the community.
+
+Whether you're fixing bugs, adding features, improving documentation, or suggesting ideas, your contributions help make Reflect AI better for everyone.
+
+---
+
+## Ways to Contribute
+
+### 🐛 Report Bugs
+
+Found a bug? Help us fix it:
+
+1. **Check existing issues** to see if it's already reported
+2. **Create a new issue** with:
+   - Clear, descriptive title
+   - Steps to reproduce the bug
+   - Expected vs. actual behavior
+   - Your environment (OS, Python version, browser)
+   - Screenshots or error messages if applicable
+
+### 💡 Suggest Features
+
+Have an idea for a new feature?
+
+1. **Open an issue** with the `enhancement` label
+2. Describe:
+   - The problem it solves
+   - How it would work
+   - Why it's valuable for users
+   - Any implementation ideas
+
+### 📝 Improve Documentation
+
+Documentation contributions are highly valued:
+
+- Fix typos or clarify confusing sections
+- Add examples or tutorials
+- Improve code comments
+- Translate documentation to other languages
+- Add FAQ entries based on common questions
+
+### 🔧 Submit Code Changes
+
+Ready to write code? Follow the development workflow below.
+
+---
+
+## Development Setup
+
+### Prerequisites
+
+Before you start, ensure you have:
+
+- **Python 3.9 or higher**
+- **Git** for version control
+- **Text editor** or IDE (VS Code, PyCharm, etc.)
+- **Modern web browser** for testing
+
+### Fork and Clone
+
+1. **Fork the repository** on GitHub (click the Fork button)
+
+2. **Clone your fork**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/reflect-ai.git
+   cd reflect-ai
+   ```
+
+3. **Add upstream remote** (to sync with the main repo):
+   ```bash
+   git remote add upstream https://github.com/ORIGINAL_OWNER/reflect-ai.git
+   ```
+
+### Install Dependencies
+
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Download NLTK data
+python3 -c "import nltk; nltk.download('vader_lexicon')"
+
+# Create .env file for API keys
+echo 'GROQ_API_KEY="your_api_key_here"' > .env
+```
+
+### Run the Development Server
+
+```bash
+# Enable debug mode for development
+export FLASK_DEBUG=1
+python3 app.py
+```
+
+The app will be available at `http://127.0.0.1:5000`
+
+**Debug mode features**:
+- Auto-reload on code changes
+- Detailed error messages
+- Interactive debugger
+- Verbose logging
+
+---
+
+## Development Workflow
+
+### 1. Create a Branch
+
+Always create a new branch for your changes:
+
+```bash
+# For features
+git checkout -b feature/your-feature-name
+
+# For bug fixes
+git checkout -b fix/issue-description
+
+# For documentation
+git checkout -b docs/what-youre-documenting
+```
+
+**Branch naming conventions**:
+- `feature/` - New features or enhancements
+- `fix/` - Bug fixes
+- `docs/` - Documentation improvements
+- `refactor/` - Code refactoring
+- `test/` - Test additions or improvements
+
+### 2. Make Your Changes
+
+**Edit the code**:
+- Keep changes focused and atomic
+- Follow the code style guidelines (see below)
+- Add comments for complex logic
+- Update documentation if needed
+
+**Test your changes**:
+```bash
+# Run the app
+python3 app.py
+
+# Test in browser
+# - Try different scenarios
+# - Check browser console for errors
+# - Test on mobile view (responsive design)
+```
+
+### 3. Commit Your Changes
+
+```bash
+# Stage your changes
+git add .
+
+# Commit with a descriptive message
+git commit -m "Add feature: brief description"
+```
+
+**Commit message guidelines**:
+- Use present tense ("Add feature" not "Added feature")
+- Be specific and concise
+- Reference issue numbers: `Fix #123: Description`
+- Examples:
+  - `Add dark mode support for charts`
+  - `Fix #45: Resolve CORS error on API calls`
+  - `Docs: Update installation instructions`
+  - `Refactor: Simplify sentiment analysis logic`
+
+### 4. Push and Create Pull Request
+
+```bash
+# Push your branch to your fork
+git push origin your-branch-name
+```
+
+Then on GitHub:
+
+1. Navigate to your fork
+2. Click **"Compare & pull request"**
+3. Fill out the PR template:
+   - **Title**: Clear, descriptive summary
+   - **Description**: What changed and why
+   - **Related Issues**: Link to issues (Fixes #123)
+   - **Testing**: How you tested the changes
+   - **Screenshots**: If UI changes are involved
+
+---
+
+## Code Style Guidelines
+
+### Python (Backend)
+
+Follow **PEP 8** style guide:
+
+```python
+# Good
+def calculate_mood_score(text: str) -> float:
+    """Calculate sentiment score using VADER.
+    
+    Args:
+        text: Journal entry text
+    
+    Returns:
+        Compound sentiment score (-1 to 1)
+    """
+    scores = sia.polarity_scores(text)
+    return scores['compound']
+
+# Use type hints
+# Docstrings for functions
+# Snake_case for variables and functions
+# Meaningful names
+```
+
+**Key conventions**:
+- 4 spaces for indentation (no tabs)
+- Max line length: 88 characters (Black formatter standard)
+- Use `snake_case` for functions and variables
+- Use `PascalCase` for classes
+- Add docstrings to all functions
+- Include type hints where helpful
+
+### JavaScript (Frontend)
+
+```javascript
+// Good
+function calculateStreak(entries) {
+  // Clear, descriptive variable names
+  const sortedDates = Object.keys(entries).sort();
+  let currentStreak = 0;
+  
+  // Comments for non-obvious logic
+  for (let i = sortedDates.length - 1; i >= 0; i--) {
+    // Implementation...
+  }
+  
+  return currentStreak;
+}
+
+// Use camelCase
+// Const for immutable, let for mutable
+// Meaningful function names
+```
+
+**Key conventions**:
+- 2 spaces for indentation
+- Use `camelCase` for functions and variables
+- Use `PascalCase` for classes and constructors
+- Prefer `const` over `let`, avoid `var`
+- Add comments for complex logic
+- Keep functions small and focused
+
+### CSS
+
+```css
+/* Good */
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 8px;
+  
+  /* Use CSS variables for theming */
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+/* Use BEM-like naming */
+/* Organize by component */
+/* Comment complex selectors */
+```
+
+**Key conventions**:
+- Use CSS variables for colors and spacing
+- Organize by component/section
+- Use kebab-case for class names
+- Avoid deep nesting (max 3 levels)
+- Comment non-obvious styles
+
+---
+
+## Testing Guidelines
+
+### Manual Testing Checklist
+
+Before submitting a PR, test:
+
+**Core Features** ✅
+- [ ] Create a new journal entry
+- [ ] Edit an existing entry
+- [ ] Delete an entry
+- [ ] Navigate between months/years
+- [ ] View insights and charts
+- [ ] Export data
+- [ ] Import data
+- [ ] Toggle dark/light theme
+
+**Edge Cases** ⚠️
+- [ ] Very long entries (10,000+ characters)
+- [ ] Special characters and emojis
+- [ ] Empty entries
+- [ ] Rapid saves (spam clicking save)
+- [ ] Offline behavior (disconnect internet)
+
+**Browser Testing** 🌐
+- [ ] Chrome/Edge
+- [ ] Firefox
+- [ ] Safari (if available)
+- [ ] Mobile responsive view
+
+**Error Scenarios** 🚨
+- [ ] Invalid JSON in data file
+- [ ] Missing API key
+- [ ] API rate limit exceeded
+- [ ] Port already in use
+
+### Automated Testing
+
+Currently, Reflect AI doesn't have automated tests. **Contributions welcome!**
+
+Potential test additions:
+- Unit tests for backend API endpoints (pytest)
+- Unit tests for sentiment analysis
+- Frontend tests (Jest, Vitest)
+- Integration tests (Selenium, Playwright)
+- API contract tests
+
+---
+
+## Pull Request Process
+
+### Before Submitting
+
+1. **Sync with upstream**:
+   ```bash
+   git fetch upstream
+   git rebase upstream/main
+   ```
+
+2. **Test thoroughly** (see testing checklist)
+
+3. **Update documentation** if needed:
+   - README.md
+   - Code comments
+   - API documentation
+   - This guide
+
+4. **Check for conflicts**:
+   ```bash
+   git status
+   # Resolve any merge conflicts
+   ```
+
+### PR Review Process
+
+1. **Maintainer review**: A project maintainer will review your PR
+2. **Feedback**: You may receive comments or change requests
+3. **Updates**: Make requested changes and push to your branch
+4. **Approval**: Once approved, your PR will be merged
+5. **Cleanup**: Delete your branch after merge
+
+**What reviewers look for**:
+- Code quality and style adherence
+- Functionality and correctness
+- Test coverage
+- Documentation updates
+- No breaking changes (unless discussed)
+- Performance implications
+
+### After Your PR is Merged
+
+```bash
+# Update your local main branch
+git checkout main
+git pull upstream main
+
+# Delete your feature branch
+git branch -d your-branch-name
+```
+
+Congratulations! 🎉 Thank you for contributing!
+
+---
+
+## Project Structure
+
+Understanding the codebase:
+
+```
+reflect-ai/
+├── app.py                    # Flask backend (REST API)
+│   ├── Data layer (load/save)
+│   ├── API endpoints
+│   ├── Sentiment analysis
+│   └── Groq AI integration
+│
+├── static/
+│   ├── app.js               # Frontend logic
+│   │   ├── Calendar rendering
+│   │   ├── Entry management
+│   │   ├── Chart generation
+│   │   └── API calls
+│   │
+│   ├── styles.css           # Styling
+│   │   ├── CSS variables
+│   │   ├── Dark theme
+│   │   └── Responsive design
+│   │
+│   └── [assets]             # Images, icons, etc.
+│
+├── index.html               # Main HTML shell
+├── journal_data.json        # Data storage (gitignored)
+├── requirements.txt         # Python dependencies
+├── .env                     # API keys (gitignored)
+└── README.md               # Project documentation
+```
+
+**Key files to understand**:
+- `app.py:64-120` - Data layer functions
+- `app.py:400-600` - API endpoint definitions
+- `static/app.js:1-200` - Initialization and config
+- `static/app.js:500-800` - Calendar rendering
+- `static/styles.css:1-100` - CSS variables and theming
+
+---
+
+## Code of Conduct
+
+We are committed to providing a welcoming and inclusive environment:
+
+✅ **Do**:
+- Be respectful and constructive
+- Welcome newcomers and help them learn
+- Focus on what's best for the community
+- Accept constructive criticism gracefully
+- Show empathy toward others
+
+❌ **Don't**:
+- Use offensive or discriminatory language
+- Attack or insult other contributors
+- Publish others' private information
+- Engage in trolling or harassment
+- Spam issues or PRs
+
+**Reporting issues**: If you experience or witness unacceptable behavior, please report it to the project maintainers.
+
+---
+
+## Recognition
+
+Contributors are recognized in:
+- GitHub contributors list
+- Release notes for significant contributions
+- README acknowledgments
+
+Every contribution, big or small, is valued and appreciated! 💙
+
+---
+
+## Getting Help
+
+**Stuck or have questions?**
+
+- **GitHub Discussions**: Ask questions and discuss ideas
+- **Issues**: Tag your question with `question` label
+- **Documentation**: Check the [FAQ](/resources/faq) and [Troubleshooting](/resources/troubleshooting)
+- **Code comments**: Many functions have detailed docstrings
+
+**Want to contribute but don't know where to start?**
+
+Look for issues labeled:
+- `good first issue` - Perfect for newcomers
+- `help wanted` - We need community help
+- `documentation` - Documentation improvements
+- `enhancement` - New features to build
+
+---
+
+## License
+
+By contributing to Reflect AI, you agree that your contributions will be licensed under the same license as the project.
+
+This project was created for the PANW Hackathon Challenge 2026.
+
+---
+
+## Thank You! 🙏
+
+Reflect AI is better because of contributors like you. Whether you're fixing a typo, reporting a bug, or adding a major feature, your contribution makes a difference.
+
+Happy coding, and happy reflecting! 🌟

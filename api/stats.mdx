@@ -1,0 +1,364 @@
+---
+title: 'Stats API'
+description: 'Track streaks, mood distribution, and engagement badges'
+icon: 'chart-line'
+---
+
+## Get Stats
+
+Retrieve journaling statistics including streak data, mood distribution, and engagement metrics.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/stats
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/stats');
+const stats = await response.json();
+```
+
+```python Python
+import requests
+response = requests.get('http://127.0.0.1:5000/api/stats')
+stats = response.json()
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "streak": {
+    "current_streak": 7,
+    "longest_streak": 14,
+    "total_entries": 45,
+    "this_week": 5,
+    "this_month": 18,
+    "last_entry_date": "2024-03-15"
+  },
+  "encouragement": "Amazing 7-day streak! Consistency is your superpower.",
+  "mood_distribution": {
+    "very_positive": 12,
+    "positive": 18,
+    "neutral": 10,
+    "negative": 4,
+    "very_negative": 1
+  },
+  "total_words": 12847,
+  "average_words": 285,
+  "week_chain": [
+    {"date": "2024-03-09", "day": "S", "has_entry": false, "is_today": false},
+    {"date": "2024-03-10", "day": "M", "has_entry": true, "is_today": false},
+    {"date": "2024-03-11", "day": "T", "has_entry": true, "is_today": false},
+    {"date": "2024-03-12", "day": "W", "has_entry": true, "is_today": false},
+    {"date": "2024-03-13", "day": "T", "has_entry": true, "is_today": false},
+    {"date": "2024-03-14", "day": "F", "has_entry": true, "is_today": false},
+    {"date": "2024-03-15", "day": "S", "has_entry": true, "is_today": true}
+  ],
+  "journaled_today": true,
+  "hours_remaining": 8.5,
+  "streak_status": "safe",
+  "badges": [
+    {"days": 7, "achieved": true, "label": "7 Days"},
+    {"days": 14, "achieved": false, "label": "14 Days"},
+    {"days": 30, "achieved": false, "label": "30 Days"},
+    {"days": 60, "achieved": false, "label": "60 Days"},
+    {"days": 100, "achieved": false, "label": "100 Days"},
+    {"days": 365, "achieved": false, "label": "365 Days"}
+  ],
+  "next_milestone": {
+    "days": 14,
+    "remaining": 7,
+    "progress": 50
+  },
+  "weekly_goal": {
+    "target": 5,
+    "current": 5,
+    "progress": 100
+  }
+}
+```
+</ResponseExample>
+
+## Response Fields
+
+### Streak Data
+
+<ResponseField name="streak" type="object" required>
+  Detailed streak and engagement statistics
+  <Expandable title="streak object">
+    <ResponseField name="current_streak" type="number">
+      Number of consecutive days with entries (ending today or yesterday)
+    </ResponseField>
+    <ResponseField name="longest_streak" type="number">
+      Longest streak ever achieved
+    </ResponseField>
+    <ResponseField name="total_entries" type="number">
+      Total number of journal entries
+    </ResponseField>
+    <ResponseField name="this_week" type="number">
+      Entries in the last 7 days
+    </ResponseField>
+    <ResponseField name="this_month" type="number">
+      Entries in the current month
+    </ResponseField>
+    <ResponseField name="last_entry_date" type="string">
+      Date of most recent entry (YYYY-MM-DD)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Encouragement
+
+<ResponseField name="encouragement" type="string">
+  Personalized message based on streak length
+</ResponseField>
+
+Examples:
+- "Start your journaling journey today. Every story begins with one page."
+- "Great start! One day at a time builds lasting habits."
+- "7 days strong! You're building something meaningful."
+- "Amazing 30-day streak! Consistency is your superpower."
+- "Incredible 100 days! Your dedication to self-reflection inspires."
+- "Legendary 365-day streak! You've mastered the art of daily reflection."
+
+### Mood Distribution
+
+<ResponseField name="mood_distribution" type="object" required>
+  Count of entries for each mood category
+  <Expandable title="mood_distribution object">
+    <ResponseField name="very_positive" type="number">
+      Count of very positive entries (😄)
+    </ResponseField>
+    <ResponseField name="positive" type="number">
+      Count of positive entries (🙂)
+    </ResponseField>
+    <ResponseField name="neutral" type="number">
+      Count of neutral entries (😐)
+    </ResponseField>
+    <ResponseField name="negative" type="number">
+      Count of negative entries (😔)
+    </ResponseField>
+    <ResponseField name="very_negative" type="number">
+      Count of very negative entries (😢)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Writing Stats
+
+<ResponseField name="total_words" type="number">
+  Sum of word counts across all entries
+</ResponseField>
+
+<ResponseField name="average_words" type="number">
+  Average words per entry (rounded)
+</ResponseField>
+
+### Week Chain
+
+<ResponseField name="week_chain" type="array">
+  Visual representation of last 7 days
+  <Expandable title="week_chain item">
+    <ResponseField name="date" type="string">
+      Date in YYYY-MM-DD format
+    </ResponseField>
+    <ResponseField name="day" type="string">
+      First letter of day name (M, T, W, T, F, S, S)
+    </ResponseField>
+    <ResponseField name="has_entry" type="boolean">
+      Whether an entry exists for this date
+    </ResponseField>
+    <ResponseField name="is_today" type="boolean">
+      Whether this is today's date
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Today's Status
+
+<ResponseField name="journaled_today" type="boolean">
+  Whether you've journaled today
+</ResponseField>
+
+<ResponseField name="hours_remaining" type="number">
+  Hours remaining in the day (rounded to 1 decimal)
+</ResponseField>
+
+<ResponseField name="streak_status" type="string">
+  Current streak status
+</ResponseField>
+
+Possible values:
+- `safe` - Already journaled today
+- `reminder` - Haven't journaled, 6-12 hours left
+- `at_risk` - Haven't journaled, < 6 hours left
+- `start` - No current streak
+
+### Badges
+
+<ResponseField name="badges" type="array">
+  Milestone badges for streak achievements
+  <Expandable title="badge item">
+    <ResponseField name="days" type="number">
+      Milestone day count
+    </ResponseField>
+    <ResponseField name="achieved" type="boolean">
+      Whether this milestone has been reached
+    </ResponseField>
+    <ResponseField name="label" type="string">
+      Display label (e.g., "7 Days")
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+Milestones: 7, 14, 30, 60, 100, 365 days
+
+### Next Milestone
+
+<ResponseField name="next_milestone" type="object | null">
+  Information about the next unachieved milestone
+  <Expandable title="next_milestone object">
+    <ResponseField name="days" type="number">
+      Target day count
+    </ResponseField>
+    <ResponseField name="remaining" type="number">
+      Days remaining to reach milestone
+    </ResponseField>
+    <ResponseField name="progress" type="number">
+      Progress percentage (0-100)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+Returns `null` if all milestones achieved.
+
+### Weekly Goal
+
+<ResponseField name="weekly_goal" type="object">
+  Progress toward weekly journaling goal (default: 5 days)
+  <Expandable title="weekly_goal object">
+    <ResponseField name="target" type="number">
+      Goal number of entries per week (default: 5)
+    </ResponseField>
+    <ResponseField name="current" type="number">
+      Entries this week
+    </ResponseField>
+    <ResponseField name="progress" type="number">
+      Progress percentage (0-100, capped at 100)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Streak Calculation
+
+The streak algorithm:
+
+1. **Current streak**: Consecutive days with entries, ending today or yesterday
+   - If you journal today, the streak continues
+   - If you journal yesterday but not today, the streak is still active (grace period)
+   - If you miss both today and yesterday, the streak resets to 0
+
+2. **Longest streak**: Maximum consecutive days ever achieved
+
+3. **Counts**: Simple counts over specified time periods
+
+## Use Cases
+
+### Display Dashboard
+
+Use this endpoint to build a stats dashboard:
+
+```javascript
+const stats = await fetch('http://127.0.0.1:5000/api/stats').then(r => r.json());
+
+// Show streak
+console.log(`${stats.streak.current_streak} day streak!`);
+
+// Show encouragement
+console.log(stats.encouragement);
+
+// Display week chain
+stats.week_chain.forEach(day => {
+  console.log(`${day.day}: ${day.has_entry ? '✓' : '○'}`);
+});
+
+// Show badges
+stats.badges.forEach(badge => {
+  if (badge.achieved) {
+    console.log(`🏆 ${badge.label}`);
+  }
+});
+```
+
+### Gamification
+
+Use badges and milestones for motivation:
+
+```javascript
+if (stats.next_milestone) {
+  console.log(
+    `${stats.next_milestone.remaining} days until ${stats.next_milestone.days}-day badge!`
+  );
+}
+
+// Weekly goal progress
+if (stats.weekly_goal.current >= stats.weekly_goal.target) {
+  console.log('🎉 Weekly goal achieved!');
+}
+```
+
+### Streak Protection
+
+Warn users about at-risk streaks:
+
+```javascript
+if (stats.streak_status === 'at_risk') {
+  alert(`⚠️ ${stats.hours_remaining}h left to maintain your ${stats.streak.current_streak}-day streak!`);
+}
+```
+
+## Empty State
+
+If no entries exist:
+
+```json
+{
+  "streak": {
+    "current_streak": 0,
+    "longest_streak": 0,
+    "total_entries": 0,
+    "this_week": 0,
+    "this_month": 0,
+    "last_entry_date": null
+  },
+  "encouragement": "Start your journaling journey today. Every story begins with one page.",
+  "mood_distribution": {
+    "very_positive": 0,
+    "positive": 0,
+    "neutral": 0,
+    "negative": 0,
+    "very_negative": 0
+  },
+  "total_words": 0,
+  "average_words": 0,
+  "week_chain": [...],
+  "journaled_today": false,
+  "hours_remaining": 12.5,
+  "streak_status": "start",
+  "badges": [...],
+  "next_milestone": {"days": 7, "remaining": 7, "progress": 0},
+  "weekly_goal": {"target": 5, "current": 0, "progress": 0}
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Insights API" icon="lightbulb" href="/api/insights">
+    Discover patterns and correlations
+  </Card>
+  <Card title="Entries API" icon="book" href="/api/entries">
+    Manage journal entries
+  </Card>
+</CardGroup>

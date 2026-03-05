@@ -1,0 +1,181 @@
+---
+title: 'Journaling'
+description: 'Write and organize your daily thoughts with an intuitive calendar-based interface'
+icon: 'pen-nib'
+---
+
+## Calendar-Based Entry Management
+
+Reflect AI uses a calendar view as the foundation for your journaling practice. Each day becomes a dedicated space for your thoughts, making it easy to see your writing history at a glance.
+
+### Navigating Your Journal
+
+**Monthly Calendar View**
+- Days with entries are visually highlighted and show mood indicators
+- See preview snippets of your entries directly on the calendar
+- Navigate between months using the arrow buttons or jump to today instantly
+
+**Year View**
+- Browse all years with journal entries
+- Drill down into specific months to see your writing patterns
+- Quickly navigate to any date to review or continue writing
+
+<Tip>
+Use the **Today** button in the sidebar to quickly jump to the current date, perfect for maintaining your daily writing habit.
+</Tip>
+
+## Writing Your Entries
+
+### Getting Started
+
+Click any date on the calendar to open the editor. You'll see:
+- A full-screen writing space with minimal distractions
+- The current date displayed prominently
+- Real-time word count tracking
+- Auto-save functionality (entries save when you click Save)
+
+### Writing Prompts
+
+Reflect AI offers guided prompts to help you get started:
+
+<CardGroup cols={2}>
+  <Card title="Free Writing" icon="infinity">
+    Open-ended journaling with no structure—let your thoughts flow naturally
+  </Card>
+  <Card title="Gratitude" icon="heart">
+    Focus on three things you're grateful for today
+  </Card>
+  <Card title="Reflection" icon="lightbulb">
+    Structured reflection on highlights and learnings from your day
+  </Card>
+  <Card title="Goals" icon="bullseye">
+    Set and track your daily intentions and objectives
+  </Card>
+</CardGroup>
+
+### Quick Nudges Feature
+
+When starting a new entry, you can use **Quick Nudges** to capture moments throughout your day:
+
+1. Add short notes like "morning coffee," "team meeting went well," or "felt anxious about presentation"
+2. Collect multiple nudges as your day unfolds
+3. Click **Generate Entry from Nudges** to have AI expand your notes into a cohesive journal entry
+4. Edit and personalize the generated text before saving
+
+<Note>
+Quick Nudges require a Groq API key. If you prefer to write freely, click "Skip" to access the regular text editor.
+</Note>
+
+## Enhancing Your Entries
+
+### Tags
+
+Organize entries with custom tags:
+- Click the **+ tag** button to add labels like "work," "personal," "travel"
+- Maximum 10 tags per entry, each up to 30 characters
+- Use tags to identify themes and patterns over time
+
+### Photos
+
+Attach visual memories to your journal entries:
+- Click the photo icon to upload images
+- Add up to 10 photos per entry
+- Photos are stored as base64 data in your local journal file
+
+<Warning>
+Photos increase your journal file size. Consider exporting and backing up regularly if you add many images.
+</Warning>
+
+## Word Count Tracking
+
+Reflect AI tracks your writing volume:
+- Live word count displays in the editor as you type
+- Entry word counts are saved with each journal entry
+- View average words per entry in your Analytics dashboard
+- Track writing trends over time
+
+## Voice Journaling
+
+Speak your thoughts instead of typing (browser support required):
+
+1. Click the microphone icon in the editor
+2. Grant microphone permissions when prompted
+3. Speak your journal entry naturally
+4. Your speech is transcribed directly into the text editor
+
+<Info>
+Voice journaling works in Chrome, Edge, and Safari. The feature uses your browser's built-in speech recognition—no audio is sent to external servers.
+</Info>
+
+## Auto-Save and Data Protection
+
+### Saving Your Work
+
+- Click **Save** to store your entry
+- Entries are written atomically with backup protection
+- You'll be warned if you try to leave with unsaved changes
+- Each save includes an automatic sentiment analysis
+
+### Entry Management
+
+**Editing Entries**: Click any calendar date to reopen and modify past entries
+
+**Deleting Entries**: 
+- Click the trash icon in the editor
+- Confirm deletion (this action cannot be undone)
+- Empty entries (no text or photos) are automatically deleted on save
+
+## Writing Enhancement Tools
+
+### Polish Writing
+
+Use AI to refine your writing:
+1. Write your entry naturally
+2. Click **Polish Writing**
+3. AI rewrites your text for clarity and flow
+4. Use **Undo** if you prefer your original version
+
+### Get Suggestions
+
+Receive AI-powered writing prompts:
+- Click **Get Suggestions** while writing
+- AI analyzes your current text and offers:
+  - Questions to explore deeper
+  - Related themes to consider
+  - Alternative perspectives
+
+<Note>
+Both polish and suggestions features require a Groq API key configured in your `.env` file.
+</Note>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Write at the same time daily">
+    Consistency builds habits. Many users find success journaling in the morning or before bed.
+  </Accordion>
+  
+  <Accordion title="Don't overthink it">
+    Your journal is judgment-free. Write authentically without worrying about grammar or structure.
+  </Accordion>
+  
+  <Accordion title="Start small">
+    Even 50-100 words is valuable. You don't need to write pages to benefit from journaling.
+  </Accordion>
+  
+  <Accordion title="Use prompts when stuck">
+    The guided prompts help you get started when you're not sure what to write about.
+  </Accordion>
+</AccordionGroup>
+
+## Privacy First
+
+All journal entries are stored locally in `journal_data.json`:
+- No cloud uploads or external databases
+- Your writing never leaves your device
+- AI features (when used) only send the specific text you're editing
+- Export your data anytime to maintain complete ownership
+
+<Check>
+Reflect AI is designed with privacy as the foundation—your thoughts, your data, your device.
+</Check>

@@ -1,0 +1,487 @@
+---
+title: Export & Import
+description: Back up your journal data and transfer it between devices
+icon: download
+---
+
+Reflect AI stores all your journal data locally on your device for maximum privacy. Regular exports ensure your entries are backed up and can be transferred to new devices or restored if needed.
+
+## Exporting Your Journal
+
+### Quick Export
+
+<Steps>
+  <Step title="Open the Actions Menu">
+    In the left sidebar, find the **Actions** section with navigation buttons.
+  </Step>
+
+  <Step title="Click Export">
+    Click the **Export** button (download icon). This triggers an immediate export.
+  </Step>
+
+  <Step title="Save the File">
+    Your browser will download a JSON file named:
+    ```
+    reflect-ai-YYYY-MM-DD.json
+    ```
+    Example: `reflect-ai-2024-03-15.json`
+  </Step>
+
+  <Step title="Store Safely">
+    Save this file to:
+    - ☁️ Cloud storage (Google Drive, Dropbox, iCloud)
+    - 💾 External hard drive
+    - 📧 Email to yourself
+    - 🗄️ Multiple backup locations (recommended)
+  </Step>
+</Steps>
+
+### What's Included in Exports
+
+Your export file contains complete journal data in JSON format:
+
+```json
+{
+  "entries": {
+    "2024-03-15": {
+      "text": "Today was a great day...",
+      "photos": ["data:image/png;base64,..."],
+      "tags": ["gratitude", "work"],
+      "sentiment": {
+        "compound": 0.8,
+        "mood": "very_positive",
+        "scores": {
+          "positive": 0.5,
+          "negative": 0.0,
+          "neutral": 0.5
+        }
+      },
+      "themes": ["work", "friends"],
+      "word_count": 127,
+      "updatedAt": "2024-03-15T14:30:00Z"
+    }
+  },
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00Z"
+  }
+}
+```
+
+**Exported data includes:**
+- ✅ All journal entry text
+- ✅ All attached photos (base64 encoded)
+- ✅ All tags
+- ✅ Sentiment analysis scores and mood labels
+- ✅ Detected themes
+- ✅ Word counts
+- ✅ Creation and update timestamps
+- ✅ Journal metadata
+
+<Info>
+  The export file is human-readable JSON. You can open it in any text editor to view your data, though it's formatted for machine processing.
+</Info>
+
+---
+
+## Backup Strategies
+
+### Recommended Schedule
+
+<CardGroup cols={2}>
+  <Card title="Weekly" icon="calendar-week">
+    Export every Sunday evening as part of your weekly review routine
+  </Card>
+  <Card title="Monthly" icon="calendar">
+    Keep monthly snapshots in dated folders: `2024-03/`, `2024-04/`, etc.
+  </Card>
+  <Card title="Before Updates" icon="wrench">
+    Always export before updating Reflect AI to a new version
+  </Card>
+  <Card title="After Major Entries" icon="star">
+    Export after writing particularly important entries
+  </Card>
+</CardGroup>
+
+### The 3-2-1 Backup Rule
+
+For critical data like journal entries, follow this industry best practice:
+
+- **3** copies of your data
+- **2** different storage types (e.g., local + cloud)
+- **1** copy offsite (cloud or different physical location)
+
+**Example setup:**
+1. **Original**: Data in Reflect AI on your computer
+2. **Copy 1**: Weekly export saved to your computer
+3. **Copy 2**: Weekly export uploaded to Google Drive
+4. **Copy 3**: Monthly export on an external hard drive
+
+<Warning>
+  Journal entries are irreplaceable personal documents. Regular backups are essential. Don't rely solely on your local data.
+</Warning>
+
+---
+
+## Importing Journal Data
+
+### Import from Export File
+
+<Steps>
+  <Step title="Prepare Your Import File">
+    Locate the `.json` export file you want to import. Ensure it's a valid Reflect AI export.
+  </Step>
+
+  <Step title="Open Import Dialog">
+    In the left sidebar Actions section, click the **Import** button (upload icon).
+  </Step>
+
+  <Step title="Select File">
+    A file picker will open. Navigate to and select your `.json` export file.
+  </Step>
+
+  <Step title="Import Process">
+    Reflect AI will:
+    - Read the file
+    - Validate the data structure
+    - Merge entries into your current journal
+    - Display a success message
+  </Step>
+
+  <Step title="Verify Import">
+    Browse your calendar to confirm entries have been imported correctly.
+  </Step>
+</Steps>
+
+### Import Behavior
+
+**Merging logic:**
+- Entries from the import file are **merged** with existing entries
+- If an entry exists for a date, the **imported version overwrites** the existing one
+- Existing entries for dates not in the import file are **preserved**
+- All metadata and sentiment scores are imported as-is
+
+**Example scenario:**
+
+*Current journal:*
+- 2024-03-15: "Today was good"
+- 2024-03-16: "Went hiking"
+
+*Import file:*
+- 2024-03-15: "Today was amazing" (different content)
+- 2024-03-17: "Productive day"
+
+*After import:*
+- 2024-03-15: "Today was amazing" ← Overwritten
+- 2024-03-16: "Went hiking" ← Preserved
+- 2024-03-17: "Productive day" ← Added
+
+<Warning>
+  Import overwrites existing entries for matching dates. Always export your current data before importing to avoid accidental data loss.
+</Warning>
+
+---
+
+## Common Import/Export Scenarios
+
+### Transferring to a New Computer
+
+<Steps>
+  <Step title="Export from Old Computer">
+    On your current computer, export your journal data.
+  </Step>
+
+  <Step title="Transfer File">
+    Copy the `.json` file to your new computer via:
+    - USB drive
+    - Email
+    - Cloud storage
+    - Network transfer
+  </Step>
+
+  <Step title="Install Reflect AI">
+    Set up Reflect AI on your new computer following the [Installation guide](/installation).
+  </Step>
+
+  <Step title="Import Data">
+    Open Reflect AI on your new computer and import the `.json` file.
+  </Step>
+
+  <Step title="Verify and Continue">
+    Check that all entries are present. You're ready to continue journaling!
+  </Step>
+</Steps>
+
+---
+
+### Restoring from Backup
+
+If you lose data or need to restore from a backup:
+
+<Steps>
+  <Step title="Clear Current Data (Optional)">
+    If you want a clean restore, click **Clear All Data** in the Actions menu first.
+    
+    <Warning>This permanently deletes all current entries. Only do this if you're certain.</Warning>
+  </Step>
+
+  <Step title="Import Backup File">
+    Click **Import** and select your most recent backup `.json` file.
+  </Step>
+
+  <Step title="Verify Restoration">
+    Check your calendar and stats to ensure everything is restored correctly.
+  </Step>
+</Steps>
+
+---
+
+### Merging Multiple Journals
+
+If you have journal entries in multiple export files:
+
+<Steps>
+  <Step title="Import First File">
+    Start with your oldest or most comprehensive export file.
+  </Step>
+
+  <Step title="Export Current State">
+    After importing, export to create a backup of the merged data.
+  </Step>
+
+  <Step title="Import Additional Files">
+    Import the next file. Entries will merge, with newer imports overwriting conflicts.
+  </Step>
+
+  <Step title="Repeat and Export">
+    Continue importing files and creating backup exports after each merge.
+  </Step>
+
+  <Step title="Final Export">
+    Once all files are merged, create a final comprehensive export for safekeeping.
+  </Step>
+</Steps>
+
+<Tip>
+  Import files in chronological order (oldest to newest) to ensure the most recent version of each entry is preserved.
+</Tip>
+
+---
+
+## Advanced: Manual Data Editing
+
+Because exports are JSON files, you can manually edit them in a text editor.
+
+### When to Edit Manually
+
+- Batch-correcting dates or timestamps
+- Removing specific entries before sharing data
+- Merging journals from different sources
+- Migrating from another journaling app
+
+### Editing Guidelines
+
+<AccordionGroup>
+  <Accordion title="Maintain Valid JSON Structure">
+    Always ensure the file remains valid JSON:
+    - Use a JSON validator (like [jsonlint.com](https://jsonlint.com))
+    - Keep all required fields
+    - Match data types (strings, numbers, objects)
+    - Don't forget commas and brackets
+  </Accordion>
+
+  <Accordion title="Required Entry Fields">
+    Each entry must have:
+    ```json
+    {
+      "text": "string",
+      "photos": [],  // array of base64 strings
+      "tags": [],    // array of strings
+      "sentiment": {
+        "compound": 0.0,  // -1.0 to 1.0
+        "mood": "neutral",
+        "scores": {
+          "positive": 0.0,
+          "negative": 0.0,
+          "neutral": 0.0
+        }
+      },
+      "themes": [],
+      "word_count": 0,
+      "updatedAt": "2024-03-15T14:30:00Z"
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Date Format">
+    Entry keys must be in `YYYY-MM-DD` format:
+    - ✅ `"2024-03-15"`
+    - ✅ `"2024-12-01"`
+    - ❌ `"3-15-2024"`
+    - ❌ `"2024/03/15"`
+  </Accordion>
+
+  <Accordion title="Test After Editing">
+    1. Save your edited JSON file
+    2. Keep a backup of the original
+    3. Try importing to a test installation first
+    4. Verify all entries appear correctly
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Manual editing can corrupt your journal data if done incorrectly. Always keep backups and validate JSON before importing.
+</Warning>
+
+---
+
+## Data Format Reference
+
+### Valid Mood Values
+
+| Mood | Compound Score Range |
+|------|----------------------|
+| `very_positive` | ≥ 0.5 |
+| `positive` | 0.2 to 0.5 |
+| `neutral` | -0.2 to 0.2 |
+| `negative` | -0.5 to -0.2 |
+| `very_negative` | ≤ -0.5 |
+
+### Valid Theme Values
+
+Reflect AI automatically detects these themes:
+
+`work`, `family`, `friends`, `health`, `food`, `learning`, `emotions`, `travel`, `creativity`
+
+### Timestamp Format
+
+All timestamps use ISO 8601 format:
+```
+YYYY-MM-DDTHH:MM:SSZ
+```
+Example: `2024-03-15T14:30:00Z`
+
+---
+
+## Clearing All Data
+
+<Warning>
+  The **Clear All Data** function permanently deletes your entire journal. This action cannot be undone.
+</Warning>
+
+### When to Clear Data
+
+- Starting completely fresh
+- Removing test data
+- Preparing to sell/give away your computer
+- Switching to a different journaling system
+
+### How to Clear
+
+<Steps>
+  <Step title="Export First">
+    **ALWAYS** export your data before clearing. Even if you think you don't need it, create a backup.
+  </Step>
+
+  <Step title="Click Clear All Data">
+    In the Actions menu, click **Clear All Data** (trash icon).
+  </Step>
+
+  <Step title="Confirm">
+    A warning dialog will appear. Read it carefully and confirm if you're certain.
+  </Step>
+
+  <Step title="Data Deleted">
+    All entries, photos, tags, and metadata are permanently removed. Your journal is now empty.
+  </Step>
+</Steps>
+
+<Info>
+  Clearing data doesn't delete export files you've saved. Those remain in your file system and can be imported later.
+</Info>
+
+---
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Export file won't download">
+    **Try:**
+    - Check browser download permissions
+    - Disable browser extensions temporarily
+    - Try a different browser
+    - Check available disk space
+    - Look in your Downloads folder (it may have downloaded without notification)
+  </Accordion>
+
+  <Accordion title="Import fails with 'Invalid file' error">
+    **Causes:**
+    - File is not valid JSON
+    - File is corrupted
+    - File is from a different journaling app
+    - File structure doesn't match Reflect AI format
+    
+    **Fix:**
+    - Validate JSON at [jsonlint.com](https://jsonlint.com)
+    - Ensure the file has an `entries` object
+    - Try opening the file in a text editor to inspect it
+  </Accordion>
+
+  <Accordion title="Import succeeds but entries don't appear">
+    **Check:**
+    - Are you looking at the correct dates in the calendar?
+    - Refresh the app (reload the page)
+    - Check if entries use valid date keys (`YYYY-MM-DD`)
+    - Look at different months/years
+  </Accordion>
+
+  <Accordion title="Photos not appearing after import">
+    **Possible issues:**
+    - Photo data may be corrupted
+    - Base64 encoding may be invalid
+    - Photos may be too large (check file size)
+    
+    If photos are critical, check the export file manually to see if the base64 data is intact.
+  </Accordion>
+
+  <Accordion title="Export file is very large">
+    Large files (>10MB) are usually due to many attached photos. This is normal.
+    
+    **Options:**
+    - Compress the file (use .zip)
+    - Split into multiple exports (export date ranges)
+    - Use cloud storage for large backups
+    - Consider removing old photos from entries
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Encrypt Sensitive Exports" icon="lock">
+    If your journal contains highly sensitive information, encrypt export files before uploading to cloud storage.
+  </Card>
+  <Card title="Use Secure Cloud Storage" icon="cloud">
+    Store exports in secure, password-protected cloud services like encrypted Dropbox or Google Drive with 2FA.
+  </Card>
+  <Card title="Don't Email Unencrypted" icon="envelope">
+    Avoid emailing exports unless using encrypted email. Use secure file transfer instead.
+  </Card>
+  <Card title="Delete Old Backups Securely" icon="trash">
+    When removing old backups, use secure deletion tools rather than just moving to trash.
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Customization" icon="palette" href="/guides/customization">
+    Personalize Reflect AI with custom themes and prompts
+  </Card>
+  <Card title="Privacy & Security" icon="shield-check" href="/privacy-security">
+    Learn more about how Reflect AI protects your data
+  </Card>
+</CardGroup>

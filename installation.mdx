@@ -1,0 +1,503 @@
+---
+title: 'Installation'
+description: 'Complete installation guide for Reflect AI'
+icon: 'download'
+---
+
+## System Requirements
+
+Reflect AI is a Flask-based web application that runs on your local machine. Before installing, ensure your system meets these requirements:
+
+<CardGroup cols={2}>
+  <Card title="Python" icon="python">
+    **Version 3.9 or higher**  
+    Check: `python3 --version`
+  </Card>
+  
+  <Card title="pip" icon="box">
+    **Python package manager**  
+    Usually included with Python
+  </Card>
+  
+  <Card title="Disk Space" icon="hard-drive">
+    **~500 MB**  
+    For Python packages and NLTK data
+  </Card>
+  
+  <Card title="Browser" icon="browser">
+    **Modern web browser**  
+    Chrome, Firefox, Safari, or Edge
+  </Card>
+</CardGroup>
+
+## Installation Steps
+
+<Steps>
+  <Step title="Navigate to Project Directory">
+    Open a terminal and change to the Reflect AI directory:
+    
+    ```bash
+    cd "PANW Hackathon Code"
+    ```
+    
+    Verify you're in the right place:
+    
+    ```bash
+    ls -la
+    ```
+    
+    You should see:
+    - `app.py` (Flask backend)
+    - `requirements.txt` (dependencies)
+    - `index.html` (frontend)
+    - `static/` directory (CSS, JS, assets)
+  </Step>
+
+  <Step title="Install Python Dependencies">
+    Install all required packages using pip:
+    
+    ```bash
+    pip install -r requirements.txt
+    ```
+    
+    This installs:
+    
+    <CodeGroup>
+    ```txt requirements.txt
+    flask
+    flask-cors
+    python-dotenv
+    groq
+    nltk
+    ```
+    </CodeGroup>
+    
+    <Note>
+      If you're using a virtual environment (recommended), activate it before running pip install.
+    </Note>
+    
+    ### What Each Package Does
+    
+    | Package | Purpose | Version |
+    |---------|---------|----------|
+    | `flask` | Web framework for the backend API | Latest |
+    | `flask-cors` | Enables cross-origin requests | Latest |
+    | `python-dotenv` | Loads environment variables from `.env` | Latest |
+    | `groq` | Groq API client for AI features | Latest |
+    | `nltk` | Natural Language Toolkit for sentiment analysis | Latest |
+  </Step>
+
+  <Step title="Download NLTK VADER Lexicon">
+    Reflect AI uses NLTK's VADER (Valence Aware Dictionary and sEntiment Reasoner) for automatic mood detection. Download the required data:
+    
+    ```bash
+    python3 -c "import nltk; nltk.download('vader_lexicon')"
+    ```
+    
+    You'll see output like:
+    
+    ```plaintext
+    [nltk_data] Downloading package vader_lexicon to
+    [nltk_data]     /Users/your-username/nltk_data...
+    [nltk_data] Package vader_lexicon is already up-to-date!
+    ```
+    
+    <Tip>
+      The app checks for VADER data on startup and will auto-download if missing, but manual installation is faster.
+    </Tip>
+    
+    ### How VADER Works
+    
+    From `app.py:32-40`:
+    
+    ```python
+    # Download NLTK data (only once)
+    try:
+        nltk.data.find('sentiment/vader_lexicon.zip')
+    except LookupError:
+        logger.info("Downloading NLTK VADER lexicon...")
+        nltk.download('vader_lexicon', quiet=True)
+
+    # Initialize sentiment analyzer
+    sia = SentimentIntensityAnalyzer()
+    ```
+    
+    VADER analyzes text and returns a compound score from -1 (very negative) to +1 (very positive).
+  </Step>
+
+  <Step title="Set Up Groq API Key">
+    Groq powers AI features like personalized greetings, insights, and summaries. While optional, it's highly recommended for the full experience.
+    
+    ### Get Your API Key
+    
+    1. Visit [console.groq.com](https://console.groq.com)
+    2. Sign up for a free account
+    3. Navigate to API Keys
+    4. Create a new API key
+    5. Copy the key (starts with `gsk_...`)
+    
+    ### Create Environment File
+    
+    Create a `.env` file in the project root:
+    
+    ```bash
+    echo 'GROQ_API_KEY="gsk_your_actual_api_key_here"' > .env
+    ```
+    
+    Or manually create `.env` with:
+    
+    ```bash .env
+    GROQ_API_KEY="gsk_your_actual_api_key_here"
+    ```
+    
+    ### How the App Uses Groq
+    
+    From `app.py:52-57`:
+    
+    ```python
+    GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+    if GROQ_API_KEY:
+        logger.info("Groq API configured for AI features")
+    else:
+        logger.warning("No GROQ_API_KEY found. Get one free at https://console.groq.com")
+    ```
+    
+    <Warning>
+      **Never commit your `.env` file to version control!** Add it to `.gitignore` to keep your API key private.
+    </Warning>
+    
+    ### What Works Without Groq?
+    
+    These features work without a Groq API key:
+    - ✅ Basic journaling
+    - ✅ Mood detection (VADER)
+    - ✅ Streak tracking
+    - ✅ Calendar view
+    - ✅ Export/import
+    - ✅ Theme detection
+    
+    These require Groq:
+    - ❌ AI-powered personalized greetings
+    - ❌ Weekly/monthly AI summaries
+    - ❌ Writing polish suggestions
+    - ❌ Pattern insights generation
+  </Step>
+
+  <Step title="Verify Installation">
+    Check that everything is installed correctly:
+    
+    ```bash
+    python3 -c "import flask, nltk, groq, dotenv; print('All dependencies installed!')"
+    ```
+    
+    If successful, you'll see:
+    
+    ```plaintext
+    All dependencies installed!
+    ```
+    
+    ### Test VADER
+    
+    ```bash
+    python3 -c "from nltk.sentiment.vader import SentimentIntensityAnalyzer; sia = SentimentIntensityAnalyzer(); print(sia.polarity_scores('Today was amazing!'))"
+    ```
+    
+    Expected output:
+    
+    ```python
+    {'neg': 0.0, 'neu': 0.423, 'pos': 0.577, 'compound': 0.6588}
+    ```
+  </Step>
+</Steps>
+
+## Project Structure
+
+After installation, your project should look like this:
+
+```plaintext
+PANW Hackathon Code/
+├── app.py                    # Flask backend (1,947 lines)
+├── index.html               # Main HTML shell
+├── static/
+│   ├── app.js              # Frontend logic (1,479 lines)
+│   ├── styles.css          # Styling with theme support
+│   └── [assets]            # Images, icons, etc.
+├── journal_data.json        # Your entries (auto-created on first save)
+├── requirements.txt         # Python dependencies
+├── .env                    # Environment variables (you create this)
+└── README.md               # Project documentation
+```
+
+## Running the Application
+
+Start the Flask development server:
+
+```bash
+python3 app.py
+```
+
+### Expected Output
+
+```plaintext
+2026-03-05 10:30:15,123 - INFO - Starting Reflect AI server...
+2026-03-05 10:30:15,124 - INFO - Privacy-first design: All data stays local
+2026-03-05 10:30:15,125 - INFO - Groq API configured for AI features
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+```
+
+<Note>
+  The development server is perfect for personal use. Flask's warning about production deployment can be ignored for local journaling.
+</Note>
+
+### Access the Application
+
+Open your browser and navigate to:
+
+```
+http://127.0.0.1:5000
+```
+
+You should see the Reflect AI loading screen with a personalized greeting, followed by the main calendar interface.
+
+## Data Storage
+
+Reflect AI creates a `journal_data.json` file in the project root on your first save. This file contains all your entries.
+
+### Data Format
+
+From `app.py:64-90`:
+
+```python
+def load_data() -> Dict[str, Any]:
+    """Load journal data from file with error handling."""
+    if not os.path.exists(DATA_FILE):
+        return {"entries": {}, "metadata": {"created_at": datetime.now().isoformat()}}
+    
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON decode error: {e}")
+        return {"entries": {}, "metadata": {}}
+```
+
+### Example Entry
+
+```json journal_data.json
+{
+  "entries": {
+    "2026-03-05": {
+      "text": "Today was productive. Finished the project documentation and went for a run.",
+      "photos": [],
+      "tags": ["work", "health"],
+      "sentiment": {
+        "compound": 0.765,
+        "mood": "positive",
+        "scores": {
+          "positive": 0.387,
+          "negative": 0.0,
+          "neutral": 0.613
+        }
+      },
+      "themes": ["work", "health"],
+      "word_count": 13,
+      "updatedAt": "2026-03-05T14:23:45.123456"
+    }
+  },
+  "metadata": {
+    "created_at": "2026-03-05T14:23:45.123456"
+  }
+}
+```
+
+<Tip>
+  **Backup Regularly**: Use the Export button in the app to download a backup of `journal_data.json`. Store it somewhere safe!
+</Tip>
+
+## Environment Variables
+
+Reflect AI uses `python-dotenv` to load configuration from a `.env` file.
+
+### Supported Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `GROQ_API_KEY` | No | `None` | Groq API key for AI features |
+
+### Loading Process
+
+From `app.py:22-23`:
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+The app loads `.env` automatically on startup. Any changes require a server restart.
+
+## Troubleshooting
+
+### Common Issues
+
+<AccordionGroup>
+  <Accordion title="ModuleNotFoundError: No module named 'flask'">
+    **Problem**: Python dependencies not installed.
+    
+    **Solution**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+    
+    If using a virtual environment, make sure it's activated first.
+  </Accordion>
+  
+  <Accordion title="[Errno 48] Address already in use">
+    **Problem**: Port 5000 is already in use by another process.
+    
+    **Solution**:
+    ```bash
+    # Find and kill the process using port 5000
+    lsof -ti:5000 | xargs kill -9
+    
+    # Or run on a different port
+    python3 app.py --port 5001
+    ```
+  </Accordion>
+  
+  <Accordion title="LookupError: Resource vader_lexicon not found">
+    **Problem**: NLTK VADER lexicon not downloaded.
+    
+    **Solution**:
+    ```bash
+    python3 -c "import nltk; nltk.download('vader_lexicon')"
+    ```
+    
+    The app will auto-download on first run, but manual installation is faster.
+  </Accordion>
+  
+  <Accordion title="Permission denied: 'journal_data.json'">
+    **Problem**: File permissions prevent writing.
+    
+    **Solution**:
+    ```bash
+    chmod 644 journal_data.json
+    ```
+    
+    Or delete the file and let the app recreate it:
+    ```bash
+    rm journal_data.json
+    ```
+  </Accordion>
+  
+  <Accordion title="Groq API key not working">
+    **Problem**: API key not loaded or invalid.
+    
+    **Solution**:
+    1. Verify `.env` file exists in project root
+    2. Check the key format: `GROQ_API_KEY="gsk_..."`
+    3. Restart the Flask server
+    4. Check server logs for "Groq API configured" message
+    
+    Test the key directly:
+    ```bash
+    python3 -c "import os; from dotenv import load_dotenv; load_dotenv(); print(os.getenv('GROQ_API_KEY'))"
+    ```
+  </Accordion>
+  
+  <Accordion title="Dark theme not persisting">
+    **Problem**: Browser localStorage issue.
+    
+    **Solution**:
+    Clear browser storage:
+    1. Open Developer Tools (F12)
+    2. Go to Application → Local Storage
+    3. Delete the `theme` key
+    4. Refresh the page
+  </Accordion>
+</AccordionGroup>
+
+### Getting Help
+
+If you encounter issues not covered here:
+
+1. Check the Flask server logs in your terminal
+2. Open browser Developer Tools (F12) and check the Console for errors
+3. Verify all files are in place: `ls -la`
+4. Ensure Python version is 3.9+: `python3 --version`
+
+## Advanced Configuration
+
+### Using a Virtual Environment
+
+Recommended for keeping dependencies isolated:
+
+```bash
+# Create virtual environment
+python3 -m venv venv
+
+# Activate it
+source venv/bin/activate  # macOS/Linux
+venv\Scripts\activate     # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+python3 app.py
+```
+
+### Custom Port
+
+The app defaults to port 5000. To use a different port, modify `app.py`:
+
+```python app.py
+if __name__ == "__main__":
+    app.run(debug=False, host="127.0.0.1", port=5001)  # Change port here
+```
+
+### Production Deployment
+
+<Warning>
+  **For Local Use Only**: Reflect AI is designed for single-user, local operation. It lacks authentication and should not be exposed to the internet without additional security measures.
+</Warning>
+
+If you want to deploy on a local network:
+
+1. Use a production WSGI server like Gunicorn:
+   ```bash
+   pip install gunicorn
+   gunicorn -w 4 -b 0.0.0.0:5000 app:app
+   ```
+
+2. Consider adding authentication middleware
+3. Use HTTPS with a reverse proxy like Nginx
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/quickstart">
+    Write your first journal entry in under 5 minutes
+  </Card>
+  
+  <Card title="Core Features" icon="book-open" href="/features/journaling">
+    Learn about calendar views, prompts, and tags
+  </Card>
+  
+  <Card title="AI Features" icon="sparkles" href="/features/ai-insights">
+    Explore AI-powered insights and summaries
+  </Card>
+  
+  <Card title="API Reference" icon="code" href="/api/overview">
+    Complete API documentation for developers
+  </Card>
+</CardGroup>
+
+---
+
+**Installation complete!** You're ready to start your journaling journey. 🎉

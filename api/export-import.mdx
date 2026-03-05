@@ -1,0 +1,524 @@
+---
+title: 'Export & Import API'
+description: 'Backup and restore your journal data'
+icon: 'download'
+---
+
+## Export Data
+
+Export all journal data as JSON for backup or portability.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/export > backup.json
+```
+
+```javascript JavaScript
+const data = await fetch('http://127.0.0.1:5000/api/export')
+  .then(r => r.json());
+
+// Save to file
+const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = `journal-backup-${new Date().toISOString().split('T')[0]}.json`;
+a.click();
+```
+
+```python Python
+import requests
+import json
+from datetime import datetime
+
+data = requests.get('http://127.0.0.1:5000/api/export').json()
+
+# Save to file
+filename = f"journal-backup-{datetime.now().strftime('%Y-%m-%d')}.json"
+with open(filename, 'w', encoding='utf-8') as f:
+    json.dump(data, f, indent=2, ensure_ascii=False)
+
+print(f"Exported to {filename}")
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "entries": {
+    "2024-03-15": {
+      "text": "Today was productive...",
+      "photos": [],
+      "tags": ["work"],
+      "sentiment": {
+        "compound": 0.742,
+        "mood": "positive",
+        "scores": {
+          "positive": 0.352,
+          "negative": 0.021,
+          "neutral": 0.627
+        }
+      },
+      "themes": ["work", "productivity"],
+      "word_count": 47,
+      "updatedAt": "2024-03-15T14:30:22.123Z"
+    },
+    "2024-03-14": {
+      "text": "Quiet day at home...",
+      "photos": [],
+      "tags": [],
+      "sentiment": {...},
+      "themes": ["alone_time"],
+      "word_count": 23,
+      "updatedAt": "2024-03-14T19:15:10.456Z"
+    }
+  },
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00.000Z"
+  },
+  "exported_at": "2024-03-16T10:30:45.789Z",
+  "version": "1.0"
+}
+```
+</ResponseExample>
+
+### Response Fields
+
+<ResponseField name="entries" type="object" required>
+  All journal entries, keyed by date (YYYY-MM-DD)
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Journal metadata (creation date, etc.)
+</ResponseField>
+
+<ResponseField name="exported_at" type="string" required>
+  ISO 8601 timestamp of export
+</ResponseField>
+
+<ResponseField name="version" type="string" required>
+  Export format version (currently "1.0")
+</ResponseField>
+
+## Import Data
+
+Restore journal data from a backup file.
+
+<Warning>
+  **This will replace all existing data.** Make sure you have a current backup before importing.
+</Warning>
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/import \
+  -H "Content-Type: application/json" \
+  -d @backup.json
+```
+
+```javascript JavaScript
+// From file input
+const fileInput = document.getElementById('import-file');
+const file = fileInput.files[0];
+const text = await file.text();
+const data = JSON.parse(text);
+
+const response = await fetch('http://127.0.0.1:5000/api/import', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(data)
+});
+
+const result = await response.json();
+if (result.imported) {
+  console.log(`Imported ${result.entries_count} entries`);
+}
+```
+
+```python Python
+import requests
+import json
+
+# Load backup file
+with open('backup.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+# Import
+response = requests.post(
+    'http://127.0.0.1:5000/api/import',
+    json=data
+)
+
+result = response.json()
+if result.get('imported'):
+    print(f"Imported {result['entries_count']} entries")
+else:
+    print(f"Error: {result.get('error')}")
+```
+</CodeGroup>
+
+### Request Body
+
+Must be a valid export JSON with at minimum:
+
+<ParamField body="entries" type="object" required>
+  Dictionary of journal entries keyed by date
+</ParamField>
+
+<ParamField body="metadata" type="object" optional>
+  Journal metadata (will be preserved)
+</ParamField>
+
+### Response
+
+<ResponseExample>
+```json
+{
+  "imported": true,
+  "entries_count": 45
+}
+```
+</ResponseExample>
+
+<ResponseField name="imported" type="boolean">
+  Whether import was successful
+</ResponseField>
+
+<ResponseField name="entries_count" type="number">
+  Number of entries imported
+</ResponseField>
+
+### Import Metadata
+
+The import adds a timestamp to metadata:
+
+```json
+{
+  "metadata": {
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "imported_at": "2024-03-16T10:35:20.123Z"
+  }
+}
+```
+
+## Clear All Data
+
+Delete all journal data (irreversible).
+
+<Warning>
+  **This action cannot be undone.** Export a backup first!
+</Warning>
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE http://127.0.0.1:5000/api/clear
+```
+
+```javascript JavaScript
+if (confirm('Delete all journal data? This cannot be undone!')) {
+  const response = await fetch('http://127.0.0.1:5000/api/clear', {
+    method: 'DELETE'
+  });
+  const result = await response.json();
+  
+  if (result.cleared) {
+    console.log('All data deleted');
+  }
+}
+```
+
+```python Python
+import requests
+
+response = input('Delete all data? (yes/no): ')
+if response.lower() == 'yes':
+    result = requests.delete('http://127.0.0.1:5000/api/clear').json()
+    if result.get('cleared'):
+        print('All data deleted')
+```
+</CodeGroup>
+
+<ResponseExample>
+```json
+{
+  "cleared": true
+}
+```
+</ResponseExample>
+
+<ResponseField name="cleared" type="boolean">
+  Whether data was successfully cleared
+</ResponseField>
+
+## Backup Best Practices
+
+### Regular Backups
+
+Create a scheduled backup script:
+
+```bash
+#!/bin/bash
+# backup-journal.sh
+
+DATE=$(date +%Y-%m-%d)
+BACKUP_DIR="$HOME/journal-backups"
+mkdir -p "$BACKUP_DIR"
+
+curl http://127.0.0.1:5000/api/export > "$BACKUP_DIR/journal-backup-$DATE.json"
+
+echo "Backup saved to $BACKUP_DIR/journal-backup-$DATE.json"
+
+# Keep only last 30 days
+find "$BACKUP_DIR" -name "journal-backup-*.json" -mtime +30 -delete
+```
+
+Schedule with cron:
+
+```cron
+# Run daily at 11 PM
+0 23 * * * /path/to/backup-journal.sh
+```
+
+### Encrypted Backups
+
+Encrypt sensitive backup files:
+
+```bash
+# Export and encrypt
+curl http://127.0.0.1:5000/api/export | \
+  openssl enc -aes-256-cbc -salt -pbkdf2 > journal-backup-encrypted.json.enc
+
+# Decrypt and import
+openssl enc -aes-256-cbc -d -pbkdf2 -in journal-backup-encrypted.json.enc | \
+  curl -X POST http://127.0.0.1:5000/api/import \
+    -H "Content-Type: application/json" \
+    -d @-
+```
+
+### Cloud Storage (Optional)
+
+<Info>
+  Only use **encrypted** cloud storage for journal backups.
+</Info>
+
+```python
+import requests
+import json
+from datetime import datetime
+import boto3  # AWS S3 example
+
+# Export
+data = requests.get('http://127.0.0.1:5000/api/export').json()
+filename = f"journal-backup-{datetime.now().strftime('%Y-%m-%d')}.json"
+
+# Encrypt and upload to S3
+s3 = boto3.client('s3')
+s3.put_object(
+    Bucket='my-journal-backups',
+    Key=filename,
+    Body=json.dumps(data),
+    ServerSideEncryption='AES256'
+)
+```
+
+## Version Control
+
+Track journal history with Git:
+
+```bash
+# Initialize repo
+git init journal-backup
+cd journal-backup
+
+# Daily backup script
+curl http://127.0.0.1:5000/api/export > journal.json
+git add journal.json
+git commit -m "Backup $(date +%Y-%m-%d)"
+
+# View history
+git log --oneline journal.json
+
+# Restore old version
+git checkout <commit-hash> journal.json
+curl -X POST http://127.0.0.1:5000/api/import \
+  -H "Content-Type: application/json" \
+  -d @journal.json
+```
+
+## Migration Between Devices
+
+### Device A (Export)
+
+```bash
+# Export from Device A
+curl http://127.0.0.1:5000/api/export > journal-export.json
+
+# Transfer via USB, email, or secure file sharing
+```
+
+### Device B (Import)
+
+```bash
+# Import on Device B
+curl -X POST http://127.0.0.1:5000/api/import \
+  -H "Content-Type: application/json" \
+  -d @journal-export.json
+```
+
+## Data Format
+
+Exported data is standard JSON:
+
+- **Human-readable**: Open in any text editor
+- **Portable**: Import to other systems
+- **Scriptable**: Process with Python, Node.js, jq, etc.
+- **No vendor lock-in**: Own your data forever
+
+### Example Processing
+
+```bash
+# Count entries
+jq '.entries | length' backup.json
+
+# Extract all text
+jq '.entries[].text' backup.json
+
+# Filter by mood
+jq '.entries | to_entries | map(select(.value.sentiment.mood == "positive"))' backup.json
+
+# Get date range
+jq '.entries | keys | [first, last]' backup.json
+```
+
+## Error Handling
+
+### Invalid Format
+
+```json
+{
+  "error": "Invalid data format"
+}
+```
+
+HTTP Status: `400`
+
+### Missing Entries Field
+
+```json
+{
+  "error": "Missing 'entries' field"
+}
+```
+
+HTTP Status: `400`
+
+### Save Failure
+
+```json
+{
+  "error": "Failed to save imported data"
+}
+```
+
+HTTP Status: `500`
+
+## Security Considerations
+
+<Warning>
+  Backup files contain your **unencrypted journal entries**. Handle with care.
+</Warning>
+
+### Protect Backup Files
+
+1. **Encrypt at rest**: Use encrypted drives or file encryption
+2. **Secure permissions**: `chmod 600 backup.json` (user-only access)
+3. **Delete old backups**: Don't accumulate unnecessary copies
+4. **Secure transfer**: Use encrypted channels (SSH, HTTPS, encrypted USB)
+
+### Don't:
+
+❌ Email backups unencrypted  
+❌ Store in public cloud without encryption  
+❌ Share backup files with others  
+❌ Leave backups on shared/public computers  
+
+## Automated Backup UI
+
+Example backup interface:
+
+```html
+<div class="backup-section">
+  <h2>Backup & Restore</h2>
+  
+  <!-- Export -->
+  <button onclick="exportData()">💾 Export Backup</button>
+  
+  <!-- Import -->
+  <input type="file" id="import-file" accept=".json" />
+  <button onclick="importData()">📥 Import Backup</button>
+  
+  <!-- Clear -->
+  <button onclick="clearData()" class="danger">
+    ⚠️ Clear All Data
+  </button>
+</div>
+
+<script>
+function exportData() {
+  fetch('http://127.0.0.1:5000/api/export')
+    .then(r => r.json())
+    .then(data => {
+      const blob = new Blob([JSON.stringify(data, null, 2)], 
+        { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `journal-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+    });
+}
+
+function importData() {
+  const file = document.getElementById('import-file').files[0];
+  if (!file) return;
+  
+  file.text().then(text => {
+    return fetch('http://127.0.0.1:5000/api/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: text
+    });
+  })
+  .then(r => r.json())
+  .then(result => {
+    if (result.imported) {
+      alert(`Imported ${result.entries_count} entries!`);
+      location.reload();
+    }
+  });
+}
+
+function clearData() {
+  if (!confirm('Delete all data? This cannot be undone!')) return;
+  
+  fetch('http://127.0.0.1:5000/api/clear', { method: 'DELETE' })
+    .then(r => r.json())
+    .then(result => {
+      if (result.cleared) {
+        alert('All data deleted.');
+        location.reload();
+      }
+    });
+}
+</script>
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Data Storage" icon="database" href="/privacy/data-storage">
+    Learn about local JSON storage
+  </Card>
+  <Card title="API Overview" icon="code" href="/api/overview">
+    Explore other API endpoints
+  </Card>
+</CardGroup>

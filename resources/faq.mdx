@@ -1,0 +1,469 @@
+---
+title: FAQ
+description: Frequently asked questions about Reflect AI
+---
+
+## General Questions
+
+<AccordionGroup>
+  <Accordion title="Is my data private and secure?">
+    **Yes, completely.** Reflect AI is designed with privacy as the top priority:
+    
+    - ✅ **100% Local Storage**: All your journal entries are stored in `journal_data.json` on your local device
+    - ✅ **No Cloud Sync**: Your data never leaves your computer unless you explicitly export it
+    - ✅ **No Analytics**: No tracking, no telemetry, no data collection
+    - ✅ **No Authentication Required**: Single-user, designed for your personal device
+    - ✅ **Full Data Ownership**: Export your data anytime as portable JSON
+    
+    **About Groq API**: The only external service used is Groq AI for generating insights and summaries. Only the specific text needed for analysis is sent temporarily - your full journal never leaves your device.
+  </Accordion>
+
+  <Accordion title="Do I need an internet connection?">
+    **Partially.** Reflect AI has both online and offline features:
+    
+    **Works Offline** ✅
+    - Write and save journal entries
+    - View existing entries
+    - Browse calendar and navigate by date
+    - Track streaks and view achievements
+    - Automatic mood detection (VADER runs locally)
+    - Switch between dark/light themes
+    
+    **Requires Internet** 🌐
+    - AI-powered insights and summaries
+    - Personalized greetings
+    - AI rewrite suggestions
+    - Weekly and monthly AI summaries
+    - Weather data for entries
+    
+    The core journaling experience works completely offline. AI features gracefully fail if you're offline.
+  </Accordion>
+
+  <Accordion title="Can I use Reflect AI on mobile?">
+    **Yes!** Reflect AI is fully responsive and works on mobile devices:
+    
+    - 📱 **Mobile-optimized interface**: Touch-friendly buttons and navigation
+    - 🔄 **Responsive design**: Adapts to any screen size
+    - 📊 **Mobile charts**: Interactive visualizations work on touchscreens
+    - 💡 **Tip**: Use landscape mode for better chart visibility
+    
+    **How to access on mobile**:
+    
+    1. Start the server on your computer:
+       ```bash
+       python3 app.py
+       ```
+    
+    2. Find your computer's local IP address:
+       ```bash
+       # macOS/Linux
+       ifconfig | grep "inet "
+       
+       # Windows
+       ipconfig
+       ```
+    
+    3. On your mobile device (connected to same WiFi), visit:
+       ```
+       http://YOUR_IP_ADDRESS:5000
+       ```
+       Example: `http://192.168.1.100:5000`
+    
+    <Note>
+      Both your computer and mobile device must be on the same WiFi network.
+    </Note>
+  </Accordion>
+
+  <Accordion title="How do I backup my journal data?">
+    **Multiple ways to protect your entries**:
+    
+    **Method 1: Built-in Export (Recommended)**
+    1. Click the **Export** button in the app
+    2. Downloads `journal_backup.json` with all your entries
+    3. Store this file somewhere safe (cloud storage, external drive, etc.)
+    
+    **Method 2: Manual File Backup**
+    ```bash
+    # Copy the data file
+    cp journal_data.json ~/backups/journal_backup_$(date +%Y%m%d).json
+    ```
+    
+    **Method 3: Automated Backup Script**
+    ```bash
+    # Create a daily backup cron job
+    0 2 * * * cp /path/to/journal_data.json ~/backups/journal_$(date +\%Y\%m\%d).json
+    ```
+    
+    **Restoring from backup**:
+    1. Click the **Import** button in the app
+    2. Select your backup JSON file
+    3. Existing entries are preserved (safe merge)
+    
+    <Tip>
+      Export your data weekly or after significant journaling sessions to maintain fresh backups.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="What AI model does Reflect AI use?">
+    Reflect AI uses **two different AI technologies**:
+    
+    **1. VADER Sentiment Analysis (Local)**
+    - **What**: NLTK's Valence Aware Dictionary and sEntiment Reasoner
+    - **Purpose**: Automatic mood detection from your journal text
+    - **Privacy**: Runs 100% locally on your device
+    - **Speed**: Instant analysis
+    - **Accuracy**: Specialized for social media and short-form text
+    
+    **2. Groq AI (Cloud-based)**
+    - **What**: Fast inference API (uses various LLMs like Llama, Mixtral)
+    - **Purpose**: Insights, summaries, greetings, and rewrite suggestions
+    - **Privacy**: Only sends specific text for analysis (not your entire journal)
+    - **Speed**: Very fast (~2 seconds for summaries)
+    - **Cost**: Free tier available at [console.groq.com](https://console.groq.com)
+    
+    The free tier of Groq is generous and sufficient for personal journaling use.
+  </Accordion>
+
+  <Accordion title="Can I customize the writing prompts?">
+    **Yes!** You can add your own custom prompts:
+    
+    **Option 1: Edit the JavaScript file**
+    
+    1. Open `static/app.js` in a text editor
+    2. Find the `PROMPTS` object (search for "PROMPTS")
+    3. Add your custom prompt:
+       ```javascript
+       const PROMPTS = {
+         gratitude: "What am I grateful for today?",
+         reflection: "What did I learn today?",
+         goals: "What do I want to accomplish?",
+         emotions: "How am I feeling right now?",
+         custom: "Your custom prompt here",  // Add this
+       };
+       ```
+    4. Save and refresh the browser
+    
+    **Option 2: Fork and customize**
+    
+    Since Reflect AI is open source, you can:
+    - Clone the repository
+    - Modify prompts, themes, or any feature
+    - Personalize it to your journaling style
+    - Share your customizations with the community
+    
+    <Tip>
+      Consider creating themed prompt sets (morning routines, evening reflection, weekly review, etc.)
+    </Tip>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Features & Usage
+
+<AccordionGroup>
+  <Accordion title="How does streak tracking work?">
+    Reflect AI tracks your journaling consistency:
+    
+    **Current Streak**:
+    - Counts consecutive days with at least one entry
+    - Resets to 0 if you miss a day
+    - Visual progress ring shows your current streak
+    
+    **Weekly Chain**:
+    - Shows which days of the week you've journaled (M-S)
+    - Resets every week
+    - Green checkmarks for completed days
+    
+    **Streak Alert**:
+    - Warns you when your streak is at risk
+    - Appears if you haven't journaled today and have an active streak
+    
+    **Tips to maintain streaks**:
+    - Journal at the same time each day (habit stacking)
+    - Even short entries count toward streaks
+    - Use quick prompts when you're short on time
+    - Set a daily reminder on your phone
+  </Accordion>
+
+  <Accordion title="What are achievement badges and how do I unlock them?">
+    Badges celebrate your journaling milestones:
+    
+    **Available Badges**:
+    - 🎯 **First Entry**: Write your first journal entry
+    - 🔥 **7-Day Streak**: Journal for 7 consecutive days
+    - 📝 **30 Entries**: Reach 30 total entries
+    - 🌟 **100 Entries**: Reach 100 total entries
+    - ⚡ **30-Day Streak**: Journal for 30 consecutive days
+    - 📚 **Year of Reflection**: Journal for 365 days
+    
+    **How to view badges**:
+    - Badges appear in the sidebar or achievements section
+    - Unlocked badges are shown in color
+    - Locked badges are shown in grayscale
+    - Hover to see unlock requirements
+    
+    Badges are automatically awarded when you reach the milestone.
+  </Accordion>
+
+  <Accordion title="How accurate is the mood detection?">
+    Reflect AI uses VADER sentiment analysis, which is:
+    
+    **Strengths** ✅
+    - Trained on social media text (similar to journal style)
+    - Recognizes emoticons and emojis (😊 = positive)
+    - Handles negations ("not bad" = slightly positive)
+    - Understands intensifiers ("very happy" > "happy")
+    - Instant analysis (no API calls)
+    
+    **Limitations** ⚠️
+    - May misinterpret sarcasm or complex emotions
+    - Works best with clear emotional language
+    - Short entries may have less accurate detection
+    - Context-dependent phrases may be misread
+    
+    **Mood categories**:
+    - **Very Positive** 😊: compound score > 0.5
+    - **Positive** 🙂: compound score 0.05 to 0.5
+    - **Neutral** 😐: compound score -0.05 to 0.05
+    - **Negative** 😟: compound score -0.5 to -0.05
+    - **Very Negative** 😢: compound score < -0.5
+    
+    You can always manually adjust the mood if the detection seems off.
+  </Accordion>
+
+  <Accordion title="Can I delete or edit old entries?">
+    **Yes!** You have full control over your entries:
+    
+    **Edit an entry**:
+    1. Click on the date in the calendar
+    2. Modify the text
+    3. Click **Save** - mood is automatically re-analyzed
+    4. See "Last saved" timestamp update
+    
+    **Delete an entry**:
+    1. Open the entry you want to delete
+    2. Look for the **Delete** button (usually near the bottom)
+    3. Confirm the deletion
+    4. Entry is permanently removed
+    
+    <Warning>
+      Deletions are permanent. Consider exporting a backup before deleting important entries.
+    </Warning>
+    
+    **Bulk operations**:
+    Currently, the UI supports one entry at a time. For bulk operations, you can:
+    - Edit `journal_data.json` directly (make a backup first!)
+    - Use the API endpoints programmatically
+    - Write a script to modify the JSON file
+  </Accordion>
+
+  <Accordion title="What do the different chart types show?">
+    The Insights view provides 6 interactive charts:
+    
+    **1. Mood Trend Line Chart** 📈
+    - Shows your emotional journey over time
+    - X-axis: Timeline (days/weeks/months)
+    - Y-axis: Mood score (-1 to +1)
+    - Hover to see exact dates and scores
+    
+    **2. Emotional Balance Pie Chart** 🥧
+    - Distribution of moods (positive, neutral, negative)
+    - Shows percentage of each mood category
+    - Larger slices = more time in that mood
+    
+    **3. Writing Patterns by Day** 📊
+    - Bar chart of entries per day of week
+    - Identifies your most active journaling days
+    - Useful for planning consistent habits
+    
+    **4. Topics You've Explored** 🏷️
+    - Most frequent themes in your journal
+    - Based on keyword extraction
+    - Larger bars = more discussion of that topic
+    
+    **5. Weekly Writing Consistency** ✅
+    - Heatmap or bar chart of weekly completion
+    - Shows which weeks you journaled most
+    - Helps visualize long-term consistency
+    
+    **6. Reflection Depth (Word Count)** 📝
+    - Average words per entry over time
+    - Tracks how much you're writing
+    - Longer entries often indicate deeper reflection
+    
+    All charts are interactive - click, hover, and zoom to explore your data.
+  </Accordion>
+
+  <Accordion title="How do AI insights and summaries work?">
+    Reflect AI generates intelligent insights using Groq API:
+    
+    **Weekly Insights**:
+    - Analyzes entries from the past 7 days
+    - Identifies mood trends and patterns
+    - Highlights recurring themes
+    - Suggests areas for reflection
+    
+    **Monthly Summary**:
+    - Comprehensive review of the month
+    - Mood trajectory and emotional highlights
+    - Most productive days and times
+    - Personal growth observations
+    
+    **AI-Generated Insights** (on Insights page):
+    - "Your best journaling days are..."
+    - "You tend to write more when..."
+    - "Recurring themes include..."
+    - "Your mood improves after..."
+    
+    **Personalized Greetings**:
+    - Welcomes you based on your journaling history
+    - References recent moods or streaks
+    - Encourages continued reflection
+    
+    **How it works**:
+    1. App sends relevant entry text to Groq API
+    2. Groq analyzes and generates natural language insights
+    3. Results are displayed in the UI
+    4. All analysis is ephemeral (not stored by Groq)
+    
+    <Info>
+      AI insights require an active internet connection and valid Groq API key.
+    </Info>
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Technical Questions
+
+<AccordionGroup>
+  <Accordion title="What happens if I run out of disk space?">
+    If your disk is full:
+    
+    **Symptoms**:
+    - Entries won't save
+    - You may see "Save failed" errors
+    - App may become unresponsive
+    
+    **Solutions**:
+    ```bash
+    # Check available space
+    df -h .
+    
+    # Archive old entries
+    python3 -c "import json; data=json.load(open('journal_data.json')); \
+      old={k:v for k,v in data['entries'].items() if k < '2025-01-01'}; \
+      json.dump(old, open('archive_2024.json','w'))"
+    
+    # Remove archived entries from main file
+    # (Do this carefully with a backup!)
+    ```
+    
+    **Prevention**:
+    - Regular exports/backups
+    - Archive entries older than 1-2 years
+    - Monitor journal file size: `ls -lh journal_data.json`
+    
+    A typical journal entry is 200-500 bytes. Even with 10,000 entries, your file should be under 10MB.
+  </Accordion>
+
+  <Accordion title="Can I run Reflect AI on a different port?">
+    **Yes**, you can customize the port:
+    
+    **Method 1: Command line argument**
+    ```bash
+    python3 app.py --port 8080
+    ```
+    
+    **Method 2: Environment variable**
+    ```bash
+    export PORT=8080
+    python3 app.py
+    ```
+    
+    **Method 3: Edit app.py**
+    Find the line near the end:
+    ```python
+    if __name__ == "__main__":
+        app.run(host="127.0.0.1", port=5000, debug=False)
+    ```
+    Change `port=5000` to your desired port.
+    
+    Then access the app at `http://127.0.0.1:YOUR_PORT`
+  </Accordion>
+
+  <Accordion title="Is Reflect AI compatible with my browser?">
+    Reflect AI works on all modern browsers:
+    
+    **Fully Supported** ✅
+    - Chrome/Edge 90+
+    - Firefox 88+
+    - Safari 14+
+    - Opera 76+
+    
+    **Required browser features**:
+    - JavaScript ES6+ support
+    - LocalStorage API
+    - Fetch API
+    - Canvas API (for charts)
+    
+    **Recommended**:
+    - Use the latest browser version for best performance
+    - Enable JavaScript (required)
+    - Allow local storage (for theme persistence)
+    
+    **Not supported** ❌
+    - Internet Explorer (any version)
+    - Very old mobile browsers (pre-2020)
+  </Accordion>
+
+  <Accordion title="Can I use Reflect AI with multiple users?">
+    **Not out of the box.** Reflect AI is designed for single-user, personal use.
+    
+    **Workarounds**:
+    
+    **Option 1: Separate user accounts**
+    - Run the app under different OS user accounts
+    - Each user gets their own `journal_data.json`
+    
+    **Option 2: Multiple ports**
+    ```bash
+    # User 1
+    python3 app.py --port 5001
+    
+    # User 2
+    python3 app.py --port 5002
+    ```
+    Each instance has its own data file.
+    
+    **Option 3: Different directories**
+    ```bash
+    # User 1
+    cd ~/user1_journal && python3 app.py
+    
+    # User 2
+    cd ~/user2_journal && python3 app.py
+    ```
+    
+    <Warning>
+      There is no authentication system. Anyone with access to the URL can view and edit entries.
+    </Warning>
+    
+    For a true multi-user setup, you'd need to fork the project and add:
+    - User authentication
+    - Per-user data files
+    - Access control
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Still Have Questions?
+
+If your question isn't answered here:
+
+- Check the [Troubleshooting](/resources/troubleshooting) guide
+- Review the [API Reference](/api/overview)
+- Visit the [Contributing](/resources/contributing) page to ask questions or suggest improvements
+- Search or create an issue on GitHub

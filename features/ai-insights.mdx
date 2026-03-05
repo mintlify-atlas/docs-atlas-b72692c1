@@ -1,0 +1,412 @@
+---
+title: 'AI Insights'
+description: 'Get personalized reflections and pattern detection powered by Groq AI'
+icon: 'sparkles'
+---
+
+## Overview
+
+Reflect AI uses **Groq's LLaMA 3.1 model** to generate personalized insights from your journal entries. The AI identifies patterns, themes, and connections you might miss, helping you gain deeper self-awareness.
+
+<Note>
+AI features require a free Groq API key. Set `GROQ_API_KEY` in your `.env` file to enable insights.
+</Note>
+
+## How AI Insights Work
+
+### Privacy-First Design
+
+When you request AI insights:
+1. Selected entries are sent to Groq's API (via secure HTTPS)
+2. AI generates insights based on your writing
+3. Insights are displayed to you
+4. **No data is stored by Groq** after generation
+5. All original journal data remains on your device
+
+<Warning>
+While Groq's API is secure and doesn't store your data long-term, be aware that entry text is temporarily sent to an external service when using AI features. If you prefer 100% local-only operation, skip AI features.
+</Warning>
+
+## Types of AI Insights
+
+### 1. Personalized Greetings
+
+When you open Reflect AI, the app generates a warm, context-aware greeting:
+
+**AI considers**:
+- Current time of day
+- Your current streak
+- Whether you've journaled today
+- Recent mood trends
+- Common themes in recent entries
+
+**Example greetings**:
+- "Good morning! You're on a 12-day streak and writing about creativity lately—keep that momentum going."
+- "Welcome back. It's been a few days since your last entry, but your journal is always here when you're ready."
+- "Good evening! You've been journaling about work challenges this week. Take time to decompress tonight."
+
+<Tip>
+The AI greeting is shown during the loading screen, setting a personal, encouraging tone as you enter your journaling space.
+</Tip>
+
+### 2. Weekly Summaries
+
+Request a **weekly reflection** to get an AI-generated summary of your last 7 days.
+
+**What's included**:
+
+<Tabs>
+  <Tab title="Emotional Journey">
+    A 2-3 sentence narrative describing your mood trajectory over the week.
+    
+    Example: "This week had an arc—starting with stress around project deadlines, finding flow mid-week as you got into creative work, and ending with gratitude for time with friends."
+  </Tab>
+  
+  <Tab title="Pattern Connections">
+    AI highlights correlations between activities and moods.
+    
+    Example: "You mentioned feeling most energized on days you had a morning walk. Consider making that a daily practice."
+  </Tab>
+  
+  <Tab title="Theme Analysis">
+    Identifies what you wrote about most during positive moments.
+    
+    Example: "Writing about learning and personal growth seemed to coincide with your best moods this week."
+  </Tab>
+  
+  <Tab title="Personalized Suggestion">
+    One gentle, actionable recommendation based on what works for you.
+    
+    Example: "You seem to thrive when you have unstructured creative time. Maybe protect a few hours this weekend for that."
+  </Tab>
+</Tabs>
+
+**How to access**:
+```
+POST /api/insights/weekly
+```
+
+<Frame>
+  <img src="/images/weekly-summary.png" alt="AI-generated weekly summary" />
+</Frame>
+
+### 3. Monthly Summaries
+
+For a broader perspective, request a **monthly reflection**.
+
+**What's analyzed**:
+- All entries from the selected month
+- Overall mood trajectory (improving/declining/steady)
+- Top 3-5 themes you explored
+- Activity-mood correlations across the month
+- Day-of-week patterns
+
+**Example monthly summary**:
+
+> "April was a month of transition for you. Early in the month, you grappled with uncertainty about your career direction, with more reflective entries on weekdays. As the month progressed, your mood lifted—especially after you started the online course you'd been considering. You wrote frequently about learning, creativity, and future possibilities. Your best days tended to be weekends when you had space for hobbies. The pattern is clear: you thrive when you're growing and have autonomy over your time."
+
+<Check>
+Monthly summaries are ideal for reflection at the end of each month, helping you process the bigger picture before moving forward.
+</Check>
+
+### 4. Pattern Detection Insights
+
+AI automatically identifies connections in your journaling:
+
+**Activity-Mood Correlations**
+
+The app detects when certain activities consistently appear in positive or negative entries:
+
+| Correlation Type | Example Insight |
+|------------------|----------------|
+| Positive | "You seem most energized on days involving exercise." |
+| Positive | "Entries mentioning nature time tend to have notably positive energy." |
+| Negative | "Days with poor sleep tend to feel more challenging." |
+| Negative | "Entries mentioning deadline stress often have a more reflective tone." |
+
+**Theme-Mood Patterns**
+
+AI tracks which themes coincide with your best moods:
+
+```
+"Writing about creativity seemed to coincide with better moods."
+"You tend to feel more balanced when reflecting on gratitude."
+```
+
+**Temporal Patterns**
+
+Identifies day-of-week trends:
+
+```
+"Saturdays tend to be your best days, while Mondays are more challenging."
+```
+
+<Note>
+Pattern detection requires at least 5 entries to generate reliable insights. The more you write, the more accurate the patterns become.
+</Note>
+
+## Theme Extraction
+
+Reflect AI automatically categorizes your entries into themes:
+
+### Built-in Theme Categories
+
+- **Work**: Job, meetings, projects, colleagues, deadlines
+- **Family**: Parents, siblings, children, relatives
+- **Friends**: Social time, hangouts, relationships
+- **Health**: Exercise, wellness, sleep, energy
+- **Food**: Meals, cooking, restaurants
+- **Learning**: Study, courses, reading, skill development
+- **Emotions**: Feelings, mental states, processing
+- **Travel**: Trips, vacations, exploration
+- **Creativity**: Writing, art, music, making
+
+### How Themes Are Used
+
+**In Charts**:
+- Top themes bar chart shows your most frequent topics
+- Theme frequency helps you see what occupies your mind
+
+**In Insights**:
+- AI references themes when generating summaries
+- "You've been reflecting on work, learning, and creativity this month"
+
+**In Correlations**:
+- Themes are analyzed alongside mood data
+- Identify which topics energize vs. drain you
+
+<Tip>
+Themes are detected using keyword matching. For best results, use natural language when writing—the AI will pick up on patterns automatically.
+</Tip>
+
+## AI Writing Tools
+
+### Polish Writing
+
+**Purpose**: Improve clarity, flow, and readability of your journal entries.
+
+**How it works**:
+1. Write your entry naturally (even if rough)
+2. Click **Polish Writing**
+3. AI rewrites your text for better structure and readability
+4. Review the polished version
+5. Click **Undo** if you prefer your original
+
+**What the AI does**:
+- Fixes grammar and typos
+- Improves sentence structure
+- Enhances flow between ideas
+- Maintains your voice and content
+
+**Example**:
+
+**Before**:
+> "Had a weird day. Work was busy and annoying and then I got home and felt better after talking to my friend about stuff."
+
+**After**:
+> "Today was strange—work was hectic and frustrating. But coming home and talking through it with my friend helped me feel grounded again."
+
+<Note>
+Polishing doesn't change your ideas or experiences—it just helps you express them more clearly.
+</Note>
+
+### Writing Suggestions
+
+**Purpose**: Overcome writer's block with AI-generated prompts.
+
+**How it works**:
+1. Start writing an entry (even just a sentence or two)
+2. Click **Get Suggestions**
+3. AI analyzes your current text
+4. Receive 3-5 suggestions for what to explore next
+
+**Types of suggestions**:
+
+<CardGroup cols={2}>
+  <Card title="Deepening Questions" icon="question">
+    "What specifically about that conversation made you uncomfortable?"
+    
+    "How does this connect to your goals for the year?"
+  </Card>
+  <Card title="Related Themes" icon="sitemap">
+    "You mentioned feeling anxious—have you noticed any patterns in when that comes up?"
+    
+    "This reminds me of what you wrote about last week. Has your perspective shifted?"
+  </Card>
+  <Card title="Alternative Perspectives" icon="glasses">
+    "What might you learn from this challenge?"
+    
+    "If you were advising a friend in this situation, what would you say?"
+  </Card>
+  <Card title="Gratitude Prompts" icon="heart">
+    "Even in a tough day, what's one thing you appreciate?"
+  </Card>
+</CardGroup>
+
+<Tip>
+Use suggestions when you've started an entry but aren't sure where to go next. They're designed to spark deeper reflection, not replace your writing.
+</Tip>
+
+### Generate Entry from Nudges
+
+**Purpose**: Transform brief notes into a full journal entry.
+
+**How it works**:
+1. Throughout your day, add quick nudges ("coffee with Sarah," "stressed about presentation")
+2. When ready to journal, click **Generate Entry from Nudges**
+3. AI weaves your nudges into a cohesive narrative
+4. Edit and personalize the generated entry
+5. Save to your journal
+
+**Example**:
+
+**Your nudges**:
+- Morning coffee
+- Team meeting went well
+- Felt anxious about presentation
+- Evening walk helped
+
+**AI-generated entry**:
+> "Started the day with my usual morning coffee, easing into the routine. The team meeting went surprisingly well—collaboration felt smooth and productive. Later, I felt anxious about the upcoming presentation, that familiar nervous energy. An evening walk helped clear my head and put things in perspective. Ended the day feeling more grounded."
+
+<Check>
+This feature is perfect for busy days when you want to maintain your journaling habit but don't have time for deep reflection.
+</Check>
+
+## Technical Details
+
+### Model Used
+
+**LLaMA 3.1 8B Instant** via Groq
+- Fast inference (typically less than 1 second)
+- Strong contextual understanding
+- Conversational and empathetic tone
+
+### API Configuration
+
+Reflect AI uses these parameters:
+
+```python
+model="llama-3.1-8b-instant"
+max_tokens=256  # For greetings and polish
+max_tokens=300  # For weekly summaries
+temperature=0.7  # Balanced creativity and consistency
+```
+
+### System Prompts
+
+The app uses carefully crafted system prompts to ensure:
+- Warm, encouraging tone (not clinical)
+- Respect for your privacy and experiences
+- Focus on observation, not prescription
+- Specificity (references actual details from your entries)
+- Conciseness (insights are 1-3 paragraphs, not essays)
+
+<Info>
+System prompts instruct the AI to avoid excessive enthusiasm, generic advice, and judgment. The goal is supportive reflection, not toxic positivity.
+</Info>
+
+## Limitations and Considerations
+
+### When AI Insights Work Best
+
+<AccordionGroup>
+  <Accordion title="Sufficient data">
+    AI needs at least 3-5 entries to generate meaningful insights. The more you write, the better the patterns.
+  </Accordion>
+  
+  <Accordion title="Natural writing">
+    Conversational, authentic entries yield better results than terse bullet points or highly formal writing.
+  </Accordion>
+  
+  <Accordion title="Diverse content">
+    If all your entries are about the same topic in the same tone, AI will have less to analyze.
+  </Accordion>
+  
+  <Accordion title="Context understanding">
+    AI works best with explicit mentions of activities, feelings, and events—it can't read between the lines perfectly.
+  </Accordion>
+</AccordionGroup>
+
+### What AI Cannot Do
+
+<Warning>
+**Not a therapist**: AI insights are reflective tools, not mental health treatment. If you're struggling, seek professional support.
+
+**Not always accurate**: AI may misinterpret nuance, miss sarcasm, or draw incorrect correlations.
+
+**Not prescriptive**: Suggestions are food for thought, not commands. You know yourself best.
+</Warning>
+
+### Handling Errors
+
+If AI features fail:
+- Check that your `GROQ_API_KEY` is set correctly
+- Verify you have internet connectivity
+- Ensure your Groq account has available credits (free tier is generous)
+- Try again—API timeouts occasionally happen
+
+## Cost and Rate Limits
+
+### Groq Free Tier
+
+Groq offers a generous free tier:
+- 14,400 requests per day
+- 30 requests per minute
+- No credit card required to start
+
+### Typical Usage
+
+With Reflect AI:
+- **Greeting**: 1 request per app load (~1-3/day)
+- **Weekly summary**: 1 request per week
+- **Monthly summary**: 1 request per month
+- **Polish writing**: 1 request per use
+- **Suggestions**: 1 request per use
+- **Generate from nudges**: 1 request per use
+
+Even active users typically stay well within free tier limits.
+
+<Tip>
+Monitor your Groq usage at https://console.groq.com. The dashboard shows your request count and remaining quota.
+</Tip>
+
+## Best Practices
+
+1. **Review weekly summaries regularly**: Set a Sunday reminder to request your weekly insight
+2. **Compare AI observations to your own**: Use insights as a starting point for deeper self-reflection
+3. **Don't over-rely on polish**: Write authentically first, polish only when you want to clarify
+4. **Experiment with suggestions**: Try writing directions you wouldn't have thought of
+5. **Save meaningful insights**: Copy particularly resonant AI summaries into a new journal entry to preserve them
+
+## Privacy Recap
+
+<CardGroup cols={2}>
+  <Card title="What's sent to Groq" icon="cloud-arrow-up">
+    - Entry text you're editing (polish/suggestions)
+    - Recent entries for context (summaries)
+    - Mood data and themes (summaries)
+  </Card>
+  <Card title="What's NOT sent" icon="shield-check">
+    - Entries you don't explicitly request insights for
+    - Photos attached to entries
+    - Your complete journal history
+    - Any data outside the specific API request
+  </Card>
+</CardGroup>
+
+<Info>
+Groq's privacy policy states they don't train models on user data sent via API. Your entries are processed for your specific request only.
+</Info>
+
+## Opting Out
+
+To use Reflect AI without AI features:
+1. Don't set a `GROQ_API_KEY` in your `.env` file
+2. The app will function fully with local-only features:
+   - VADER sentiment analysis (local)
+   - Streak tracking (local)
+   - Theme extraction (local keyword matching)
+   - Charts and analytics (local)
+
+You'll see "AI not available" messages for AI-specific features.

@@ -1,0 +1,248 @@
+---
+title: Understanding Moods
+description: Learn how Reflect AI analyzes sentiment and what your mood indicators mean
+icon: face-smile
+---
+
+Reflect AI automatically analyzes the emotional tone of your journal entries using VADER (Valence Aware Dictionary and sEntiment Reasoner), a sophisticated sentiment analysis tool designed for social media and personal text.
+
+## How Sentiment Analysis Works
+
+When you save an entry, Reflect AI:
+
+<Steps>
+  <Step title="Analyzes Word Choice">
+    VADER examines your text and assigns sentiment scores to individual words and phrases. It understands:
+    - Positive words (happy, excited, grateful, wonderful)
+    - Negative words (sad, frustrated, anxious, disappointing)
+    - Neutral words (went, meeting, weather, think)
+    - Intensifiers (very, extremely, really, quite)
+    - Negations (not, don't, never, can't)
+  </Step>
+
+  <Step title="Calculates Scores">
+    The analysis produces four scores:
+    - **Positive**: Proportion of positive sentiment (0.0 to 1.0)
+    - **Negative**: Proportion of negative sentiment (0.0 to 1.0)
+    - **Neutral**: Proportion of neutral text (0.0 to 1.0)
+    - **Compound**: Overall sentiment score (-1.0 to +1.0)
+  </Step>
+
+  <Step title="Determines Mood Category">
+    Based on the compound score, your entry is categorized into one of five moods (see details below).
+  </Step>
+
+  <Step title="Displays Result">
+    The mood emoji appears next to the date in both the calendar view and the editor header.
+  </Step>
+</Steps>
+
+## The Five Mood Categories
+
+### 😊 Very Positive (Joyful)
+**Compound Score: ≥ 0.5**
+
+**What it means:** Your entry contains strong positive sentiment with words like "amazing," "love," "thrilled," or "wonderful." These are your best days!
+
+**Example phrases:**
+- "I'm so grateful for today"
+- "Everything went perfectly"
+- "Feeling absolutely wonderful"
+- "Best day in a long time"
+
+**AI Response:** _"What a wonderful day! Your positivity shines through your words."_
+
+---
+
+### 🙂 Positive (Content)
+**Compound Score: 0.2 to 0.5**
+
+**What it means:** Your entry leans positive with words like "good," "nice," "enjoyed," or "pleasant." These are solid, satisfying days.
+
+**Example phrases:**
+- "Had a productive day"
+- "Enjoyed dinner with friends"
+- "Things went well"
+- "Feeling pretty good"
+
+**AI Response:** _"It sounds like things are going well. Keep nurturing those good moments."_
+
+---
+
+### 😐 Neutral (Balanced)
+**Compound Score: -0.2 to 0.2**
+
+**What it means:** Your entry is balanced or factual, without strong emotional language. These entries might be informational or reflective.
+
+**Example phrases:**
+- "Went to work, came home"
+- "Normal day, nothing special"
+- "Worked on project, had lunch"
+- "Thinking about next week"
+
+**AI Response:** _"Thank you for reflecting today. Every entry helps you understand yourself better."_
+
+---
+
+### 😔 Negative (Reflective)
+**Compound Score: -0.5 to -0.2**
+
+**What it means:** Your entry contains some challenging emotions with words like "difficult," "tired," "stressed," or "frustrated." These are tough but manageable days.
+
+**Example phrases:**
+- "Feeling a bit overwhelmed"
+- "Difficult meeting today"
+- "Tired and stressed"
+- "Not my best day"
+
+**AI Response:** _"It seems like today had some challenges. Remember, it's okay to have difficult days."_
+
+---
+
+### 😢 Very Negative (Processing)
+**Compound Score: ≤ -0.5**
+
+**What it means:** Your entry reflects significant distress with words like "terrible," "hopeless," "devastated," or "awful." These are the hardest days.
+
+**Example phrases:**
+- "Everything went wrong"
+- "Feeling really down"
+- "Terrible day, nothing worked"
+- "So frustrated and upset"
+
+**AI Response:** _"I hear that today was tough. Writing about it is a brave step. Be gentle with yourself."_
+
+<Warning>
+  If you're experiencing persistent very negative moods or thoughts of self-harm, please reach out to a mental health professional. Reflect AI is a journaling tool, not a substitute for professional care.
+</Warning>
+
+## Understanding Your Scores
+
+You can see detailed sentiment scores in the Insights tab. Here's how to interpret them:
+
+| Score Component | Range | Interpretation |
+|----------------|-------|----------------|
+| **Compound** | -1.0 to +1.0 | Overall emotional tone (most important) |
+| **Positive** | 0.0 to 1.0 | Percentage of positive language |
+| **Negative** | 0.0 to 1.0 | Percentage of negative language |
+| **Neutral** | 0.0 to 1.0 | Percentage of neutral/factual language |
+
+<Info>
+  An entry can have both positive and negative scores. For example, "Had a tough morning but a great afternoon" might score 0.3 positive, 0.2 negative, and 0.5 neutral, with a compound score around +0.15.
+</Info>
+
+## Factors That Influence Mood Detection
+
+### What VADER Recognizes
+
+<AccordionGroup>
+  <Accordion title="Intensifiers and Modifiers">
+    Words like "very," "extremely," and "incredibly" strengthen sentiment:
+    - "I'm happy" → Positive
+    - "I'm very happy" → More positive
+    - "I'm extremely happy" → Very positive
+  </Accordion>
+
+  <Accordion title="Negations">
+    Words like "not," "no," and "never" flip sentiment:
+    - "I'm excited" → Positive
+    - "I'm not excited" → Negative
+    - "This is good" → Positive
+    - "This is not good" → Negative
+  </Accordion>
+
+  <Accordion title="Capitalization">
+    ALL CAPS indicates stronger emotion:
+    - "I'm happy" → Positive
+    - "I'm HAPPY" → More positive
+    - "I'm SO HAPPY" → Very positive
+  </Accordion>
+
+  <Accordion title="Punctuation">
+    Exclamation points add emphasis:
+    - "Great day" → Positive
+    - "Great day!" → More positive
+    - "Great day!!!" → Very positive
+  </Accordion>
+
+  <Accordion title="Emoticons and Emoji">
+    VADER recognizes common emoticons:
+    - ":)" ":-)" 😊 → Positive boost
+    - ":(" ":-(" 😢 → Negative boost
+  </Accordion>
+</AccordionGroup>
+
+### What Doesn't Affect Scores
+
+- **Entry length**: A short positive entry and long positive entry can have similar scores
+- **Grammar**: Spelling and grammar errors don't impact sentiment detection
+- **Topics**: Writing about "work" isn't inherently positive or negative—it depends on the emotional words you use
+
+## Mood Trends Over Time
+
+Reflect AI tracks your mood patterns to help you understand your emotional journey:
+
+**In the Insights Tab:**
+- **Mood Trend Chart**: See your compound scores over the past month
+- **Mood Distribution**: Pie chart showing your mood category breakdown
+- **Day of Week Patterns**: Discover which days tend to be better or harder
+
+**Pattern Insights:**
+- The app identifies activities that correlate with better moods
+- Weekly and monthly summaries highlight emotional trends
+- Activity-mood correlations show what helps you feel your best
+
+<Tip>
+  If you notice consistent negative patterns, consider talking to a therapist or counselor. Journaling is a great complement to professional mental health care.
+</Tip>
+
+## Mood vs. Mental Health
+
+It's important to understand what mood tracking can and cannot tell you:
+
+**Mood tracking helps you:**
+- Notice patterns in your emotional life
+- Identify activities that lift your spirits
+- Track the effectiveness of lifestyle changes
+- Reflect on your emotional growth over time
+
+**Mood tracking does NOT:**
+- Diagnose mental health conditions
+- Replace professional assessment
+- Predict future mental health episodes
+- Provide medical or therapeutic advice
+
+<Info>
+  Think of mood tracking as a tool for self-awareness, not self-diagnosis. If you're concerned about your mental health, consult a qualified professional.
+</Info>
+
+## Privacy and Your Mood Data
+
+Your mood scores are:
+- ✅ Calculated locally on your device
+- ✅ Never sent to external servers
+- ✅ Stored only in your local journal file
+- ✅ Completely private to you
+- ✅ Exportable with your journal data
+
+No one else can see your mood trends—not even the Reflect AI developers.
+
+## Improving Mood Accuracy
+
+For the most accurate sentiment analysis:
+
+1. **Write naturally**: Don't try to "game" the system. Authentic writing produces meaningful insights.
+2. **Use emotional words**: "Felt great" is clearer than "It was okay" if you're trying to capture positive feelings.
+3. **Include context**: "Stressful meeting but proud of how I handled it" captures complexity better than just "Stressful."
+4. **Be specific**: Details about what made a day good or bad help the analysis work better.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="AI Features" icon="sparkles" href="/guides/using-ai-features">
+    Use AI to get personalized insights about your mood patterns
+  </Card>
+  <Card title="Export Your Data" icon="download" href="/guides/export-import">
+    Back up your journal entries and mood history
+  </Card>
+</CardGroup>

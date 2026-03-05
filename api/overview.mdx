@@ -1,0 +1,261 @@
+---
+title: 'API Overview'
+description: 'Understanding the Reflect AI REST API architecture'
+icon: 'code'
+---
+
+## Introduction
+
+Reflect AI provides a simple REST API for managing journal entries, retrieving insights, and accessing AI features.
+
+## Base URL
+
+All API requests are made to:
+
+```
+http://127.0.0.1:5000
+```
+
+<Info>
+  The API runs locally on your machine. It's not accessible from the internet.
+</Info>
+
+## Architecture
+
+### Local-First Design
+
+- **Flask backend** serves the REST API
+- **JSON storage** for all journal data
+- **NLTK/VADER** for local sentiment analysis
+- **Groq API** for optional AI features
+
+### Request/Response Format
+
+All endpoints accept and return JSON:
+
+```bash
+curl -X POST http://127.0.0.1:5000/api/entries/2024-03-15 \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Today was productive..."}'
+```
+
+## Authentication
+
+<Info>
+  **No authentication required.** Reflect AI is designed for single-user, local use.
+</Info>
+
+Since the API only runs locally on your device, there's no authentication system. The app assumes:
+
+- Single user
+- Trusted local environment
+- No remote access
+
+See [Authentication](/api/authentication) for security considerations.
+
+## API Categories
+
+### Entry Management
+
+<CardGroup cols={2}>
+  <Card title="Entries" icon="book" href="/api/entries">
+    Create, read, update, and delete journal entries
+  </Card>
+  <Card title="Export/Import" icon="download" href="/api/export-import">
+    Backup and restore your journal data
+  </Card>
+</CardGroup>
+
+### Analytics & Insights
+
+<CardGroup cols={2}>
+  <Card title="Stats" icon="chart-line" href="/api/stats">
+    Streak tracking, mood distribution, badges
+  </Card>
+  <Card title="Insights" icon="lightbulb" href="/api/insights">
+    Charts, summaries, and pattern analysis
+  </Card>
+</CardGroup>
+
+### AI Features
+
+<CardGroup cols={1}>
+  <Card title="Greeting" icon="hand-wave" href="/api/greeting">
+    Personalized greetings based on your journaling habits
+  </Card>
+</CardGroup>
+
+## Response Format
+
+### Success Response
+
+Successful requests return JSON with appropriate status codes:
+
+```json
+{
+  "saved": true,
+  "entry": {
+    "text": "Today was productive...",
+    "sentiment": {
+      "compound": 0.742,
+      "mood": "positive"
+    }
+  }
+}
+```
+
+### Error Response
+
+Errors return a JSON object with an `error` field:
+
+```json
+{
+  "error": "Invalid date format. Use YYYY-MM-DD"
+}
+```
+
+### HTTP Status Codes
+
+<ResponseField name="200" type="OK">
+  Successful request
+</ResponseField>
+
+<ResponseField name="400" type="Bad Request">
+  Invalid input or parameters
+</ResponseField>
+
+<ResponseField name="404" type="Not Found">
+  Entry or resource not found
+</ResponseField>
+
+<ResponseField name="500" type="Internal Server Error">
+  Server error (check logs)
+</ResponseField>
+
+## CORS
+
+CORS is enabled for all origins to allow the frontend to communicate with the API.
+
+```python
+from flask_cors import CORS
+CORS(app)
+```
+
+## Error Handling
+
+All endpoints use a consistent error handling decorator:
+
+```python
+@handle_errors
+def endpoint():
+    # Your code here
+```
+
+This catches exceptions and returns user-friendly error messages.
+
+## Data Validation
+
+The API validates:
+
+- **Date formats**: Must be `YYYY-MM-DD`
+- **Text length**: Max 50,000 characters
+- **Photo limits**: Max 10 per entry
+- **Tag limits**: Max 10 tags, 30 chars each
+
+Invalid data returns a 400 error with explanation.
+
+## Rate Limiting
+
+<Info>
+  No rate limiting. Since the API is local-only, there's no need for rate limits.
+</Info>
+
+## API Conventions
+
+### Date Keys
+
+Entries are keyed by date in `YYYY-MM-DD` format:
+
+```
+/api/entries/2024-03-15
+```
+
+### Query Parameters
+
+Some endpoints accept query parameters:
+
+```
+/api/insights/charts?year=2024&month=3
+```
+
+### Automatic Processing
+
+When you save an entry, the API automatically:
+
+1. Analyzes sentiment (local, using VADER)
+2. Extracts themes (local, keyword-based)
+3. Counts words
+4. Adds timestamp
+5. Returns empathetic response
+
+## Testing the API
+
+### Using cURL
+
+```bash
+# Get all entries
+curl http://127.0.0.1:5000/api/entries
+
+# Create an entry
+curl -X POST http://127.0.0.1:5000/api/entries/2024-03-15 \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Today was great!"}'
+
+# Get stats
+curl http://127.0.0.1:5000/api/stats
+```
+
+### Using JavaScript
+
+```javascript
+// Fetch all entries
+const response = await fetch('http://127.0.0.1:5000/api/entries');
+const data = await response.json();
+
+// Create entry
+await fetch('http://127.0.0.1:5000/api/entries/2024-03-15', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ text: 'Today was great!' })
+});
+```
+
+### Using Python
+
+```python
+import requests
+
+# Get all entries
+response = requests.get('http://127.0.0.1:5000/api/entries')
+data = response.json()
+
+# Create entry
+requests.post(
+    'http://127.0.0.1:5000/api/entries/2024-03-15',
+    json={'text': 'Today was great!'}
+)
+```
+
+## Next Steps
+
+<CardGroup cols={3}>
+  <Card title="Entries API" icon="book" href="/api/entries">
+    Learn about entry management
+  </Card>
+  <Card title="Stats API" icon="chart-line" href="/api/stats">
+    Explore analytics endpoints
+  </Card>
+  <Card title="Insights API" icon="lightbulb" href="/api/insights">
+    Discover pattern analysis
+  </Card>
+</CardGroup>

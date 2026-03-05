@@ -1,0 +1,89 @@
+---
+title: Welcome to Reflect AI
+description: A privacy-first AI-powered journaling companion that helps you maintain a consistent reflection habit through personalized insights and beautiful visualizations.
+---
+
+<img
+  className="block dark:hidden"
+  src="https://media.brand.dev/180000fb-6734-41c6-b757-84c45ca64da6.svg"
+  alt="Reflect AI Logo"
+/>
+<img
+  className="hidden dark:block"
+  src="https://media.brand.dev/180000fb-6734-41c6-b757-84c45ca64da6.svg"
+  alt="Reflect AI Logo"
+/>
+
+## Your Private Journaling Companion
+
+Reflect AI is a modern, privacy-first journaling application that helps you maintain a consistent reflection habit. With automatic mood tracking, AI-powered insights, and beautiful visualizations, your journaling practice becomes more meaningful and rewarding.
+
+**All your data stays local and private.** No cloud sync, no tracking, complete control over your personal reflections.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Calendar-Based Journaling" icon="calendar" href="/features/journaling">
+    Browse entries by month or year with a beautiful calendar view
+  </Card>
+  <Card title="Automatic Mood Tracking" icon="face-smile" href="/features/mood-tracking">
+    Real-time sentiment analysis using VADER NLP detects your emotional state
+  </Card>
+  <Card title="Streak Tracking & Badges" icon="fire" href="/features/streaks-achievements">
+    Stay motivated with visual streak counters and achievement milestones
+  </Card>
+  <Card title="AI-Powered Insights" icon="sparkles" href="/features/ai-insights">
+    Discover patterns with Groq AI-generated summaries and smart suggestions
+  </Card>
+  <Card title="Interactive Analytics" icon="chart-line" href="/features/analytics">
+    Beautiful Chart.js visualizations of your journaling patterns
+  </Card>
+  <Card title="100% Local Storage" icon="shield-check" href="/privacy/data-storage">
+    All data stored locally in JSON format on your device
+  </Card>
+</CardGroup>
+
+## Privacy First
+
+<Note>
+  **Your data stays on your device.** Reflect AI uses 100% local storage with no cloud sync. The only external service is the optional Groq API for AI features, which processes text but doesn't store your entries.
+</Note>
+
+Reflect AI is designed with privacy at its core:
+
+- ✅ All journal entries stored locally in `journal_data.json`
+- ✅ No cloud sync or external storage
+- ✅ No analytics or telemetry
+- ✅ Export your data anytime in portable JSON format
+- ✅ Complete control over your personal reflections
+
+## Tech Stack
+
+### Backend
+- **Flask** - Python REST API
+- **NLTK VADER** - Sentiment analysis
+- **Groq API** - AI insights and text generation
+- **Python 3.9+**
+
+### Frontend
+- **Vanilla JavaScript** - No framework dependencies
+- **Chart.js** - Beautiful visualizations
+- **Custom CSS** - Theme support with CSS variables
+
+### Data Storage
+- **JSON** - Human-readable, portable format
+- **Local filesystem** - Complete privacy and control
+
+## Quick Links
+
+<CardGroup cols={3}>
+  <Card title="Get Started" icon="rocket" href="/quickstart">
+    Install and run Reflect AI in minutes
+  </Card>
+  <Card title="Core Features" icon="star" href="/features/journaling">
+    Explore what makes Reflect AI special
+  </Card>
+  <Card title="API Reference" icon="code" href="/api/overview">
+    Integrate with the Flask REST API
+  </Card>
+</CardGroup>

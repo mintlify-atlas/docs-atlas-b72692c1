@@ -1,0 +1,352 @@
+---
+title: 'Streaks & Achievements'
+description: 'Build consistency and celebrate milestones with streak tracking and badges'
+icon: 'fire'
+---
+
+## Understanding Streaks
+
+Your **streak** is the number of consecutive days you've written journal entries. Reflect AI tracks your streak automatically, giving you a clear metric for consistency.
+
+### How Streaks Are Calculated
+
+**Current Streak**:
+- Counts consecutive days with at least one journal entry
+- Must include either today or yesterday to be "active"
+- Breaks automatically if you miss two days in a row
+
+**Longest Streak**:
+- Your all-time record for consecutive journaling days
+- Preserved even if your current streak breaks
+- Serves as a personal best to aim for
+
+<Note>
+You have until midnight to maintain your streak. Streaks are based on dates, not 24-hour periods from your last entry.
+</Note>
+
+## Streak Visualization
+
+### The Streak Ring
+
+Your sidebar features a **circular progress ring** showing:
+
+- **Center Number**: Your current streak count
+- **Ring Progress**: Visual progress toward 7 days (one full circle = 7-day streak)
+- **Color**: Changes based on streak status
+- **Subtext**: Dynamic encouragement messages
+
+**Streak Subtext Messages**:
+- "Start today" (0 days)
+- "Keep going!" (1-6 days)
+- "On fire!" (7-29 days)
+- "Incredible!" (30+ days)
+
+### Week Chain Visualization
+
+See the last 7 days at a glance:
+
+- **Filled dots**: Days you've journaled
+- **Empty dots**: Days you missed
+- **Highlighted dot**: Today
+
+This visual chain makes it immediately clear whether you're maintaining momentum.
+
+<Frame>
+  <img src="/images/week-chain.png" alt="Week chain showing daily journaling status" />
+</Frame>
+
+## Streak Alerts
+
+### At-Risk Warning
+
+When your streak is in danger, Reflect AI shows an urgent alert:
+
+```
+⏰ Only 6h left to save your 14-day streak!
+```
+
+**Triggers**:
+- You haven't journaled today
+- Less than 6 hours remain until midnight
+- You have an active streak of at least 1 day
+
+### Gentle Reminders
+
+Before the urgent alert, you'll see friendly reminders:
+
+```
+Don't forget to write today! 12h remaining.
+```
+
+**Triggers**:
+- You haven't journaled today
+- 6-12 hours remain until midnight
+- You have an active streak
+
+<Tip>
+Set aside a consistent time each day (morning or evening) to journal. Routine reduces the chance you'll forget and break your streak.
+</Tip>
+
+## Write Today Button
+
+The prominent **Write Today** button in your sidebar:
+
+- Shows hours remaining until midnight
+- Turns green with a checkmark when you've journaled today
+- Opens the editor for today's date with one click
+
+**Button States**:
+
+<Tabs>
+  <Tab title="Not Written">
+    **Appearance**: Blue with pen icon
+    
+    **Text**: "Write Today"
+    
+    **Subtitle**: "8h left" (example)
+    
+    **Action**: Opens today's journal entry
+  </Tab>
+  <Tab title="Complete">
+    **Appearance**: Green with checkmark
+    
+    **Text**: "Today Complete ✓"
+    
+    **Subtitle**: None
+    
+    **Action**: Opens today's entry to edit/add more
+  </Tab>
+</Tabs>
+
+## Motivational Messages
+
+Reflect AI provides personalized encouragement based on your streak:
+
+### Streak-Based Messages
+
+| Streak Length | Example Message |
+|---------------|----------------|
+| 0 days | "Start your journaling journey today. Every story begins with one page." |
+| 1 day | "Great start! One day at a time builds lasting habits." |
+| 2-6 days | "5 days strong! You're building something meaningful." |
+| 7-29 days | "Amazing 12-day streak! Consistency is your superpower." |
+| 30-99 days | "Incredible 45 days! Your dedication to self-reflection inspires." |
+| 100+ days | "Legendary 128-day streak! You've mastered the art of daily reflection." |
+
+These messages appear:
+- In the streak card in your sidebar
+- In the stats API response
+- As toast notifications when you're building momentum
+
+## Weekly Goals
+
+Set and track weekly journaling targets.
+
+### Default Goal
+
+Reflect AI sets a default goal of **5 entries per week**—a sustainable pace that maintains consistency without overwhelming you.
+
+### Progress Tracking
+
+**Visual Progress Bar**:
+- Green bar fills as you complete entries
+- Shows current count / target (e.g., "3/5 days")
+- Turns gold when you hit your weekly goal
+
+**What Counts**:
+- Any entry written within the last 7 days
+- Entries must have text (empty entries don't count)
+- Editing an existing entry doesn't add to the count
+
+<Check>
+Completing your weekly goal triggers a celebration toast: "🎉 Weekly goal achieved! Great consistency!"
+</Check>
+
+## Milestones and Badges
+
+### Milestone Tracking
+
+Reflect AI tracks progress toward these major milestones:
+
+<Steps>
+  <Step title="7 Days 🔥">
+    **One Week Warrior**
+    
+    Your first major milestone—you've established a daily habit!
+  </Step>
+  <Step title="14 Days ⭐">
+    **Two-Week Champion**
+    
+    Consistency is becoming second nature.
+  </Step>
+  <Step title="30 Days 💎">
+    **Monthly Master**
+    
+    You've completed a full month of daily reflection.
+  </Step>
+  <Step title="60 Days 🏆">
+    **Commitment King/Queen**
+    
+    Two months of unbroken dedication.
+  </Step>
+  <Step title="100 Days 👑">
+    **Century Achiever**
+    
+    An elite milestone—most people never reach this.
+  </Step>
+  <Step title="365 Days 🌟">
+    **Yearly Legend**
+    
+    A full year of daily journaling. Legendary status.
+  </Step>
+</Steps>
+
+### Milestone Progress Display
+
+When you have an active streak, the sidebar shows:
+
+- **Next Milestone Target**: "30 Days"
+- **Progress Bar**: Visual representation of progress
+- **Days Remaining**: "8 days to go"
+- **Percentage**: Shown in the progress bar fill
+
+<Frame>
+  <img src="/images/milestone-progress.png" alt="Milestone progress indicator" />
+</Frame>
+
+### Achievement Badges
+
+Each milestone unlocks a permanent badge:
+
+**Badge Display**:
+- **Achieved badges**: Full color and prominent
+- **Locked badges**: Grayed out with visible target
+- **Badge icons**: Emoji representations of each milestone
+
+**Badge Grid** in the sidebar shows all 6 achievement levels, giving you clear visibility into what you've accomplished and what's next.
+
+<Tip>
+Badges are earned based on your **longest streak**, not just your current one. Once you've hit 30 days, you keep that badge forever—even if a future streak breaks.
+</Tip>
+
+## Milestone Celebrations
+
+When you hit a milestone, Reflect AI celebrates with you:
+
+### Celebration Experience
+
+1. **Special Toast Notification**
+   - Large, styled message with milestone title
+   - Subtitle with encouraging text
+   - Persists longer than regular toasts (5 seconds)
+
+2. **Confetti Animation**
+   - 50 colorful confetti pieces fall across the screen
+   - Multi-colored celebration effect
+   - Creates a moment of joy and accomplishment
+
+3. **Badge Unlock**
+   - Your badge grid immediately updates
+   - New badge appears in full color
+
+### Milestone Messages
+
+| Milestone | Title | Subtitle |
+|-----------|-------|----------|
+| 7 days | 🔥 One week streak! | You've built a habit! |
+| 14 days | ⭐ Two weeks strong! | Consistency is your superpower! |
+| 30 days | 💎 30-day milestone! | You're a journaling champion! |
+| 60 days | 🏆 60 days! | Incredible dedication! |
+| 100 days | 👑 100-DAY STREAK! | You're absolutely legendary! |
+| 365 days | 🌟 ONE YEAR! | A full year of reflection! |
+
+<Check>
+Celebrations only trigger when you actually write the entry that reaches the milestone—not just for crossing the threshold through the passage of time.
+</Check>
+
+## Statistics Dashboard
+
+Track your consistency metrics:
+
+### Quick Stats
+
+**This Week**: Number of entries in the last 7 days
+
+**This Month**: Number of entries since the 1st of the current month
+
+**Total**: All-time entry count
+
+These three metrics appear prominently in your streak card.
+
+### Detailed Analytics
+
+Navigate to **Insights** for deeper stats:
+- Entries per week over time (bar chart)
+- Day-of-week distribution (which days you write most)
+- Monthly entry counts
+- Average entries per week/month
+
+## Strategies for Building Streaks
+
+<AccordionGroup>
+  <Accordion title="Start with a micro-habit">
+    Don't aim for 1000-word entries daily. Start with 50-100 words. It's better to write a little every day than to write novels inconsistently.
+  </Accordion>
+  
+  <Accordion title="Set a daily reminder">
+    Use your phone or calendar to remind you at the same time each day. Consistency thrives on routine.
+  </Accordion>
+  
+  <Accordion title="Use the Quick Nudges feature">
+    On busy days, jot down quick nudges throughout the day, then generate a full entry later. This lowers the activation energy for journaling.
+  </Accordion>
+  
+  <Accordion title="Write early in the day">
+    Don't leave journaling until bedtime. You're more likely to forget or be too tired. Morning or lunch journaling protects your streak.
+  </Accordion>
+  
+  <Accordion title="Track your streak publicly (optional)">
+    Tell a friend or post about it on social media. External accountability can boost commitment.
+  </Accordion>
+  
+  <Accordion title="Focus on the streak, not perfection">
+    Some days your entry will be mediocre. That's okay! The habit of showing up matters more than every entry being profound.
+  </Accordion>
+</AccordionGroup>
+
+## What to Do If You Break Your Streak
+
+### It's Normal
+
+Life happens. Most people break streaks multiple times before building a long-lasting habit.
+
+### Recovery Strategy
+
+1. **Don't catastrophize**: One missed day doesn't erase your progress
+2. **Restart immediately**: Write today, right now
+3. **Analyze what happened**: Was it a schedule issue? Forgot? Too busy?
+4. **Adjust your routine**: Build in safeguards to prevent the same issue
+5. **Focus on longest streak**: Your personal record is still there to beat
+
+<Note>
+Your longest streak is preserved. Use it as motivation—you've done it before, you can do it again (and go further!).
+</Note>
+
+### The Fresh Start Effect
+
+Many users find renewed motivation after a break. Use it as a chance to:
+- Recommit with fresh energy
+- Refine your journaling time and approach
+- Aim for your next milestone with lessons learned
+
+## Privacy Note
+
+All streak and achievement data is stored locally:
+- No external tracking or leaderboards
+- No social comparison or pressure
+- Your progress is private and personal
+- Export your data anytime to preserve your records
+
+<Info>
+Reflect AI's approach to streaks is motivational, not punitive. The goal is to support your practice, not create anxiety.
+</Info>
