@@ -420,6 +420,142 @@ Based on your entry's mood, you'll receive an empathetic response:
 | Negative | "It seems like today had some challenges. Remember, it's okay to have difficult days." |
 | Very Negative | "I hear that today was tough. Writing about it is a brave step. Be gentle with yourself." |
 
+## Navigation Endpoints
+
+These endpoints power the year and month view navigation in the calendar UI.
+
+### Get Years with Entries
+
+```bash
+GET /api/years
+```
+
+Returns a list of years that have at least one journal entry.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/years
+```
+
+```javascript JavaScript
+const years = await fetch('http://127.0.0.1:5000/api/years')
+  .then(r => r.json());
+```
+
+```python Python
+import requests
+years = requests.get('http://127.0.0.1:5000/api/years').json()
+```
+</CodeGroup>
+
+**Response:**
+```json
+[2026, 2025, 2024]
+```
+
+Returns an array of years in descending order (newest first).
+
+### Get Months with Entries
+
+```bash
+GET /api/years/:year/months
+```
+
+Returns months (1-12) that have entries for the specified year.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/years/2026/months
+```
+
+```javascript JavaScript
+const months = await fetch('http://127.0.0.1:5000/api/years/2026/months')
+  .then(r => r.json());
+```
+
+```python Python
+import requests
+months = requests.get('http://127.0.0.1:5000/api/years/2026/months').json()
+```
+</CodeGroup>
+
+**Response:**
+```json
+[1, 2, 3]
+```
+
+Returns an array of month numbers in ascending order.
+
+### Get Days with Entries
+
+```bash
+GET /api/years/:year/months/:month/days
+```
+
+Returns detailed information about all days with entries in the specified month.
+
+<CodeGroup>
+```bash cURL
+curl http://127.0.0.1:5000/api/years/2026/months/3/days
+```
+
+```javascript JavaScript
+const days = await fetch('http://127.0.0.1:5000/api/years/2026/months/3/days')
+  .then(r => r.json());
+```
+
+```python Python
+import requests
+days = requests.get('http://127.0.0.1:5000/api/years/2026/months/3/days').json()
+```
+</CodeGroup>
+
+**Response:**
+```json
+[
+  {
+    "day": 5,
+    "key": "2026-03-05",
+    "preview": "Today was a good day. I felt productive and...",
+    "hasPhotos": false,
+    "mood": "positive",
+    "moodEmoji": "🙂"
+  },
+  {
+    "day": 12,
+    "key": "2026-03-12",
+    "preview": "Struggled a bit today with work deadlines...",
+    "hasPhotos": true,
+    "mood": "neutral",
+    "moodEmoji": "😐"
+  }
+]
+```
+
+<ResponseField name="day" type="integer">
+  Day of the month (1-31)
+</ResponseField>
+
+<ResponseField name="key" type="string">
+  Full date key in YYYY-MM-DD format
+</ResponseField>
+
+<ResponseField name="preview" type="string">
+  First 50 characters of the entry text
+</ResponseField>
+
+<ResponseField name="hasPhotos" type="boolean">
+  Whether the entry has attached photos
+</ResponseField>
+
+<ResponseField name="mood" type="string">
+  Detected mood: `very_positive`, `positive`, `neutral`, `negative`, or `very_negative`
+</ResponseField>
+
+<ResponseField name="moodEmoji" type="string">
+  Emoji representing the mood (😄, 🙂, 😐, 😔, 😢)
+</ResponseField>
+
 ## Next Steps
 
 <CardGroup cols={2}>

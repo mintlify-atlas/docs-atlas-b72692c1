@@ -1,0 +1,380 @@
+---
+title: 'AI Writing Tools'
+description: 'AI-powered text generation, polishing, and suggestions'
+icon: 'wand-magic-sparkles'
+---
+
+These endpoints provide AI-powered writing assistance using the Groq API with LLaMA 3.1.
+
+<Note>
+  All AI writing endpoints require a Groq API key configured in the `.env` file. See [Installation](/installation) for setup instructions.
+</Note>
+
+## Polish Writing
+
+Improve clarity and flow while preserving the original meaning and voice.
+
+```bash
+POST /api/rewrite
+```
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/rewrite \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Today was ok. Did some work stuff and felt kind of tired."
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/rewrite', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    text: 'Today was ok. Did some work stuff and felt kind of tired.'
+  })
+});
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'http://127.0.0.1:5000/api/rewrite',
+    json={'text': 'Today was ok. Did some work stuff and felt kind of tired.'}
+)
+data = response.json()
+```
+</CodeGroup>
+
+### Request Body
+
+<ParamField body="text" type="string" required>
+  The journal entry text to rewrite. Maximum 50,000 characters.
+</ParamField>
+
+### Response
+
+<ResponseField name="rewritten" type="string">
+  The improved version of the text
+</ResponseField>
+
+**Example Response:**
+```json
+{
+  "rewritten": "Today felt manageable, though energy was lower than usual. I spent most of my time focused on work tasks, and by the evening, fatigue had definitely set in. It was one of those steady but draining days."
+}
+```
+
+### How It Works
+
+The AI:
+- Keeps your first-person voice
+- Preserves original meaning and emotions
+- Maintains similar length
+- Does not add new facts or change the narrative
+- Improves clarity and flow
+
+## Generate from Nudges
+
+Transform quick notes or bullet points into a complete journal entry.
+
+```bash
+POST /api/generate-from-nudges
+```
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/generate-from-nudges \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nudges": [
+      "Morning walk in the park",
+      "Productive team meeting",
+      "Coffee with Sarah",
+      "Finished reading chapter 5"
+    ],
+    "date": "March 5, 2026"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/generate-from-nudges', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    nudges: [
+      'Morning walk in the park',
+      'Productive team meeting',
+      'Coffee with Sarah',
+      'Finished reading chapter 5'
+    ],
+    date: 'March 5, 2026'
+  })
+});
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'http://127.0.0.1:5000/api/generate-from-nudges',
+    json={
+        'nudges': [
+            'Morning walk in the park',
+            'Productive team meeting',
+            'Coffee with Sarah',
+            'Finished reading chapter 5'
+        ],
+        'date': 'March 5, 2026'
+    }
+)
+data = response.json()
+```
+</CodeGroup>
+
+### Request Body
+
+<ParamField body="nudges" type="array" required>
+  Array of strings containing quick notes or bullet points. Maximum 20 items.
+</ParamField>
+
+<ParamField body="date" type="string" optional>
+  The date context for the entry (e.g., "March 5, 2026" or "today"). Used for natural phrasing.
+</ParamField>
+
+### Response
+
+<ResponseField name="entry" type="string">
+  A complete, well-written journal entry generated from the nudges
+</ResponseField>
+
+**Example Response:**
+```json
+{
+  "entry": "I started my day with a refreshing walk through the park, which helped clear my mind before diving into work. The team meeting this morning was particularly productive—we made solid progress on the project timeline and everyone seemed aligned.\n\nIn the afternoon, I grabbed coffee with Sarah. It was great catching up and hearing about her recent travels. Later in the evening, I finally finished chapter 5 of my book, which had some fascinating insights into habit formation. Overall, it felt like a well-balanced day with a good mix of productivity and connection."
+}
+```
+
+### How It Works
+
+The AI:
+- Writes in first person
+- Creates natural flowing prose
+- Connects moments into a cohesive narrative
+- Adds appropriate transitions
+- Includes subtle emotional reflection
+- Generates 2-4 paragraphs
+- Does not invent facts
+
+## Get Writing Suggestions
+
+Get personalized suggestions to continue or deepen your journal entry.
+
+```bash
+POST /api/suggest
+```
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/suggest \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Today I felt overwhelmed at work. Too many deadlines."
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/suggest', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    text: 'Today I felt overwhelmed at work. Too many deadlines.'
+  })
+});
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'http://127.0.0.1:5000/api/suggest',
+    json={'text': 'Today I felt overwhelmed at work. Too many deadlines.'}
+)
+data = response.json()
+```
+</CodeGroup>
+
+### Request Body
+
+<ParamField body="text" type="string" optional>
+  Your current draft text. If empty, suggestions will be based on recent entries.
+</ParamField>
+
+### Response
+
+<ResponseField name="suggestions" type="array">
+  Array of 3 suggestion objects, each with `type` and `text` fields
+</ResponseField>
+
+**Example Response:**
+```json
+{
+  "suggestions": [
+    {
+      "type": "continue",
+      "text": "Which specific deadline is causing the most stress? Writing about it might help break down the problem into manageable steps."
+    },
+    {
+      "type": "reflect",
+      "text": "How does your body feel when you think about these deadlines? Are there patterns in when work stress shows up?"
+    },
+    {
+      "type": "gratitude",
+      "text": "Even on tough days, what's one small moment you appreciated? Maybe a coworker's help or a quiet break?"
+    }
+  ]
+}
+```
+
+### Suggestion Types
+
+- **continue**: Helps expand your current thought
+- **reflect**: Encourages deeper emotional reflection
+- **gratitude**: Offers a positive reframe
+
+The suggestions consider:
+- Your current draft
+- Recent entry patterns
+- Recent mood trends
+- Appropriately supportive tone
+
+## Summarize Text
+
+Get a concise summary of a longer journal entry.
+
+```bash
+POST /api/summarize
+```
+
+<CodeGroup>
+```bash cURL
+curl -X POST http://127.0.0.1:5000/api/summarize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Today was incredibly eventful. I started the morning..."
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('http://127.0.0.1:5000/api/summarize', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    text: 'Today was incredibly eventful. I started the morning...'
+  })
+});
+const data = await response.json();
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'http://127.0.0.1:5000/api/summarize',
+    json={'text': 'Today was incredibly eventful. I started the morning...'}
+)
+data = response.json()
+```
+</CodeGroup>
+
+### Request Body
+
+<ParamField body="text" type="string" required>
+  The text to summarize
+</ParamField>
+
+### Response
+
+<ResponseField name="summary" type="string">
+  A concise 1-2 sentence summary
+</ResponseField>
+
+**Example Response:**
+```json
+{
+  "summary": "Had a busy but fulfilling day with a productive morning at work followed by quality time with friends in the evening. Feeling grateful for the balance between professional achievements and personal connections."
+}
+```
+
+## Error Responses
+
+### AI Not Configured
+
+```json
+{
+  "error": "AI not configured. Add GROQ_API_KEY to .env"
+}
+```
+
+HTTP Status: `500`
+
+### Text Too Long
+
+```json
+{
+  "error": "Text too long"
+}
+```
+
+HTTP Status: `400`
+
+### No Data Provided
+
+```json
+{
+  "error": "No data provided"
+}
+```
+
+HTTP Status: `400`
+
+### Rate Limited
+
+If you exceed Groq's rate limits, you'll receive an error from the API. The free tier typically allows:
+- 30 requests per minute
+- 14,400 requests per day
+
+## Performance
+
+- Typical response time: less than 1 second
+- Uses LLaMA 3.1 8B Instant model
+- Fast inference optimized for real-time writing assistance
+
+## Privacy Considerations
+
+<Warning>
+  While Reflect AI stores all data locally, these AI endpoints send text to Groq's API for processing. Only the specific text you request to rewrite, generate, or analyze is sent—never your full journal.
+</Warning>
+
+- Text is sent to Groq API for processing
+- Groq processes text but does not store it long-term
+- No journal metadata is sent (dates, photos, tags remain local)
+- You can disable AI features by removing the GROQ_API_KEY
+
+See [Groq API Privacy](/privacy/groq-api) for detailed information.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="AI Insights" icon="lightbulb" href="/api/insights">
+    Pattern analysis and summaries
+  </Card>
+  <Card title="Using AI Features" icon="book" href="/guides/using-ai-features">
+    User guide for AI tools
+  </Card>
+</CardGroup>
