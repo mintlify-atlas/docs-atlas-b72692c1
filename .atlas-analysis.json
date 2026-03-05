@@ -1,0 +1,112 @@
+{
+  "projectType": "saas",
+  "projectName": "Reflect AI",
+  "projectDescription": "A privacy-first AI-powered journaling companion that helps you maintain a consistent reflection habit through personalized insights and beautiful visualizations.",
+  "theme": "almond",
+  "primaryColor": "#b95676",
+  "lightColor": "#b95676",
+  "darkColor": "#aeae95",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "installation"
+            ]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/journaling",
+              "features/mood-tracking",
+              "features/streaks-achievements",
+              "features/ai-insights",
+              "features/analytics"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/writing-your-first-entry",
+              "guides/understanding-moods",
+              "guides/using-ai-features",
+              "guides/export-import",
+              "guides/customization"
+            ]
+          },
+          {
+            "group": "Privacy & Security",
+            "pages": [
+              "privacy/data-storage",
+              "privacy/groq-api"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api/overview",
+              "api/authentication"
+            ]
+          },
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/entries",
+              "api/stats",
+              "api/insights",
+              "api/greeting",
+              "api/export-import"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Resources",
+        "groups": [
+          {
+            "group": "Support",
+            "pages": [
+              "resources/troubleshooting",
+              "resources/faq",
+              "resources/contributing"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Calendar-based entry management with mood tracking",
+    "Automatic sentiment analysis using VADER NLP",
+    "Streak tracking and achievement badges",
+    "AI-powered insights and summaries via Groq",
+    "Interactive dashboards with Chart.js visualizations",
+    "100% local data storage with JSON export/import",
+    "Dark/light theme support",
+    "Smart writing prompts and AI text polishing"
+  ],
+  "publicApiSurface": [
+    "GET /api/entries - Get all journal entries",
+    "POST /api/entries/<date> - Create or update entry",
+    "DELETE /api/entries/<date> - Delete entry",
+    "GET /api/stats - Get journaling statistics and streak data",
+    "GET /api/insights/charts - Get chart visualization data",
+    "GET /api/insights/summary - Get AI-generated monthly summary",
+    "GET /api/greeting - Get personalized greeting",
+    "POST /api/rewrite - AI text polishing",
+    "GET /api/weekly - Weekly insights",
+    "GET /api/monthly - Monthly summary",
+    "GET /api/export - Export journal data",
+    "POST /api/import - Import journal data"
+  ]
+}
